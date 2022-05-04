@@ -33,11 +33,12 @@ class Constants {
 //                put("backLeft", -135)
 //            }
 //        }
-        val twistAngleMap: MutableMap<String, Int> = mutableMapOf(
-            "frontRight" to 45,
-            "frontLeft" to 135,
-            "backRight" to -45,
-            "backLeft" to -135)
+        val twistAngleMap: Map<String, Double> = mapOf(
+            "frontRight" to 45.0,
+            "frontLeft" to 135.0,
+            "backRight" to -45.0,
+            "backLeft" to -135.0
+        )
 
         // TalonSRX Motors
         const val frontRightTurnMotor: Int = 1
