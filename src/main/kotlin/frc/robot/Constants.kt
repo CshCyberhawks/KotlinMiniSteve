@@ -102,23 +102,23 @@ class Constants {
         val blueBallPositions: Array<Vector2> = arrayOf<Vector2>(Vector2(1.5, -.1))
 
         val blueShootingPositions: Array<Vector2> = arrayOf<Vector2>(
-            Vector2(-0.41, -1.1), Vector2(0, 0)
+            Vector2(-0.41, -1.1), Vector2(0.0, 0.0)
         )
 
         val redShootingPositions: Array<Vector2> = arrayOf<Vector2>(
-            Vector2(0.41, 1.1), Vector2(0, 0)
+            Vector2(0.41, 1.1), Vector2(0.0, 0.0)
         )
 
         val blueStartingPositions = arrayOf<FieldPosition>(
-            FieldPosition(-0.41, -1.1, 111), FieldPosition(-2.8, 1, 0) // 111 is 0 angle
+            FieldPosition(-0.41, -1.1, 111.0), FieldPosition(-2.8, 1.0, 0.0) // 111 is 0 angle
         )
 
         val redStartingPositions = arrayOf<FieldPosition>(
-            FieldPosition(0.41, 1.1, 291), FieldPosition(2.8, -1, 0) // 291 is 0 angle
+            FieldPosition(0.41, 1.1, 291.0), FieldPosition(2.8, -1.0, 0.0) // 291 is 0 angle
         )
 
-        val blueTaxiPos: Vector2 = Vector2(-6, 0)
-        val redTaxiPos: Vector2 = Vector2(6, 0)
+        val blueTaxiPos: Vector2 = Vector2(-6.0, 0.0)
+        val redTaxiPos: Vector2 = Vector2(6.0, 0.0)
 
         // Break Beams
         const val frontBreakBeam = 6

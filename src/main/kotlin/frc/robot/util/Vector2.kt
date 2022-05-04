@@ -1,15 +1,15 @@
 package frc.robot.util
 
 class Vector2 {
-    var x: Number = 0.0
-    var y: Number = 0.0
+    var x: Double = 0.0
+    var y: Double = 0.0
 
     constructor() {
         x = 0.0
         y = 0.0
     }
 
-    constructor(inputX: Number, inputY: Number) {
+    constructor(inputX: Double, inputY: Double) {
         x = inputX
         y = inputY
     }
@@ -18,7 +18,7 @@ class Vector2 {
         return x == other.x && y == other.y
     }
 
-    fun set(x: Number, y: Number) {
+    fun set(x: Double, y: Double) {
         this.x = x
         this.y = y
     }
