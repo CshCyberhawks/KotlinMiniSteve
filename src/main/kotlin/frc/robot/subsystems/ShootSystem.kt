@@ -44,7 +44,7 @@ class ShootSystem : SubsystemBase {
     // top wheel encoder 19 for perfect shot
     // top wheel encoder 22 max
     // bottom wheel encoder -24 max
-    constructor() : super() {
+    constructor() {
         topMotor = CANSparkMax(Constants.topShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
         bottomLeftMotor = CANSparkMax(Constants.leftShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
         bottomRightMotor = CANSparkMax(Constants.rightShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
@@ -88,7 +88,7 @@ class ShootSystem : SubsystemBase {
         var power = power
         power = .23 * shootMult
         val bottomPIDOutput = bottomPIDController!!.calculate(
-            bottomEncoder.getRate(),
+            bottomEncoder!!.getRate(),
             Constants.bottomShootSetpoint * shootMult
         )
 
@@ -109,9 +109,9 @@ class ShootSystem : SubsystemBase {
     fun shoot(power: Double) {
         var power = power
         shootMultTable!!.setDouble(shootMult)
-        SmartDashboard.putNumber("Top Encoder", topEncoder.getRate())
-        SmartDashboard.putNumber("Bottom Encoder", bottomEncoder.getRate())
-        shootSpeedTable!!.setDouble(topEncoder.getRate())
+        SmartDashboard.putNumber("Top Encoder", topEncoder!!.getRate())
+        SmartDashboard.putNumber("Bottom Encoder", bottomEncoder!!.getRate())
+        shootSpeedTable!!.setDouble(topEncoder!!.getRate())
         SmartDashboard.putNumber("shootPower", power)
         if (power == 0.0) {
             topMotor!!.set(0.0)

@@ -39,7 +39,7 @@ class SwerveDriveTrain : SubsystemBase {
     var maxSwos = 13.9458
     var maxMeters = 3.777
 
-    constructor() : super() {
+    constructor() {
         // p = 10 gets oscillation
         xPID = PIDController(10.0, 0.0, 1.0)
         yPID = PIDController(10.0, 0.0, 1.0)
@@ -188,7 +188,7 @@ class SwerveDriveTrain : SubsystemBase {
         val backRightAngle = backRightVector[0]
         val backLeftAngle = backLeftVector[0]
         var wheelSpeeds: DoubleArray? = doubleArrayOf(frontRightSpeed, frontLeftSpeed, backRightSpeed, backLeftSpeed)
-        wheelSpeeds = MathClass.normalizeSpeeds(wheelSpeeds!!, 1, -1)
+        wheelSpeeds = MathClass.normalizeSpeeds(wheelSpeeds!!, 1.0, -1.0)
 
         // SmartDashboard.putNumber("frontRightAngle", frontRightAngle);
         // SmartDashboard.putNumber("frontLeftAngle", frontLeftAngle);

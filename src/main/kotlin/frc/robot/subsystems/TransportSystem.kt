@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import frc.robot.Constants.Companion.shootBreakBeam
 import frc.robot.Robot
 import frc.robot.util.MathClass
 
@@ -30,9 +31,9 @@ class TransportSystem : SubsystemBase {
         val shootDifference = MathClass.getCurrentTime() - lastCargoShootTime
         val pickupDifference = MathClass.getCurrentTime() - lastCargoPickupTime
         SmartDashboard.putNumber("pickupDiff", pickupDifference)
-        cargoPickedUp = !Robot.getFrontBreakBeam().get() && pickupDifference > 1
-        cargoShot = !Robot.getShootBreakBeam().get() && cargoAmount > 0 && shootDifference > .5
-        if (cargoPickedUp && Robot.getFrontBreakBeam().get() !== lastFrontBB) {
+        cargoPickedUp = !Robot.frontBreakBeam!!.get() && pickupDifference > 1
+        cargoShot = !Robot.shootBreakBeam!!.get() && cargoAmount > 0 && shootDifference > .5
+        if (cargoPickedUp && Robot.frontBreakBeam!!.get() != lastFrontBB) {
             lastCargoPickupTime = MathClass.getCurrentTime()
             cargoAmount++
         }
@@ -41,7 +42,7 @@ class TransportSystem : SubsystemBase {
             cargoAmount--
         }
         cargoAmountShuffle!!.setNumber(cargoAmount)
-        lastFrontBB = Robot.getFrontBreakBeam().get()
+        lastFrontBB = Robot.frontBreakBeam!!.get()
     }
 
     constructor() {

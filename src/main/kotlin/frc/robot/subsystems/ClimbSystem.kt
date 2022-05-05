@@ -15,7 +15,7 @@ class ClimbSystem : SubsystemBase {
     private val rightSolenoid: Solenoid? = null
     private val climbPidController: PIDController? = null
 
-    constructor() : super() {
+    constructor() {
         climbMotor = TalonFX(Constants.climbMotor)
         leftSolenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 2)
         // rightSolenoid = new Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 1);

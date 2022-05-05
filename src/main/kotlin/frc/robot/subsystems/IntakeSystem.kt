@@ -16,7 +16,7 @@ class IntakeSystem : SubsystemBase {
     // private final double powerMult = 1;
 
     // private final double powerMult = 1;
-    constructor() : super() {
+    constructor() {
         intakeMotor = VictorSPX(Constants.intakeMotor)
         intakeMotor!!.inverted = true
         intakeSolenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 0)
