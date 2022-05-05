@@ -25,3 +25,9 @@ pluginManagement {
         }
     }
 }
+
+sourceControl {
+    gitRepository("https://github.com/CshCyberhawks/SwoLib.git") {
+        producesModule("CshCyberhawks:SwoLib")
+    }
+}

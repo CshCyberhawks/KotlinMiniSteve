@@ -6,6 +6,15 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.6.10"
 }
 
+
+//allprojects {
+//    repositories {
+//        maven { url 'https://jitpack.io' }
+//    }
+//}
+
+final String STUYLIB_VERSION = 'v2022.4.1'
+
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
@@ -70,6 +79,10 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+//    implementation "com.github.Cyberhawks:SwoLib:0.1";
+
+    implementation 'CshCyberhawks:SwoLib'
 }
 
 // Simulation configuration (e.g. environment variables).
