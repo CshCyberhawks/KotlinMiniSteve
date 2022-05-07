@@ -15,7 +15,6 @@ import frc.robot.util.FieldPosition
 import frc.robot.util.IO
 import java.util.Map
 
-
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or

@@ -75,7 +75,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
-    implementation 'com.github.CshCyberhawks:SwoLib:main-SNAPSHOT'
+    implementation 'com.github.CshCyberhawks:SwoLib:0.3.3'
 
 }
 
