@@ -137,7 +137,7 @@ class Robot : TimedRobot() {
     override fun disabledPeriodic() {}
 
     /**
-     * This autonomou6s runs the autonomous command selected by your
+     * This autonomous runs the autonomous command selected by your
      * [RobotContainer] class.
      */
     override fun autonomousInit() {

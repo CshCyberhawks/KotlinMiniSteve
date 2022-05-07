@@ -89,6 +89,7 @@ class SwerveWheel {
             DriveState.AUTO -> 0.01
             else -> 0.05
         }
+
         val driveVelocity = driveEncoder!!.getVelocity()
         currentDriveSpeed = convertToMetersPerSecondFromSecond(driveVelocity)
         SmartDashboard.putNumber("$m_turnEncoderPort wheel rotations", driveVelocity)
