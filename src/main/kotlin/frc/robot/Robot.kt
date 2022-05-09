@@ -14,6 +14,7 @@ import frc.robot.subsystems.*
 import frc.robot.util.FieldPosition
 import frc.robot.util.IO
 import java.util.Map
+import com.cshcyberhawks.swolib.LogJeff
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -180,6 +181,7 @@ class Robot : TimedRobot() {
 
     /** This function is called periodically during operator control.  */
     override fun teleopPeriodic() {
+        LogJeff.log("hello")
         swo!!.updatePosition()
         transportSystem!!.cargoMonitor()
         SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam!!.get())
