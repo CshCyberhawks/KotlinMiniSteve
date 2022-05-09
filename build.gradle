@@ -5,8 +5,8 @@ plugins {
 }
 
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
@@ -75,8 +75,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
-    implementation 'com.github.CshCyberhawks:SwoLib:0.3.4'
-
+	    	        implementation 'com.github.CshCyberhawks:SwoLib:main-SNAPSHOT'
 }
 
 // Simulation configuration (e.g. environment variables).
