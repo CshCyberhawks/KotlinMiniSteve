@@ -181,7 +181,7 @@ class Robot : TimedRobot() {
 
     /** This function is called periodically during operator control.  */
     override fun teleopPeriodic() {
-        LogJeff.log("hello")
+        LogJeff.log(1.0)
         swo!!.updatePosition()
         transportSystem!!.cargoMonitor()
         SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam!!.get())
