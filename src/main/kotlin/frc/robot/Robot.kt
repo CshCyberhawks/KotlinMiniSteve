@@ -14,7 +14,6 @@ import frc.robot.subsystems.*
 import frc.robot.util.FieldPosition
 import frc.robot.util.IO
 import java.util.Map
-import com.cshcyberhawks.swolib.LogJeff
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -134,6 +133,10 @@ class Robot : TimedRobot() {
         // swerveSystem.resetPredictedOdometry();
     }
 
+    private fun wrapAroundAngles(input: Double): Double {
+        return if (input < 0) 360 + input else input
+    }
+
     override fun disabledPeriodic() {}
 
     /**
@@ -181,7 +184,6 @@ class Robot : TimedRobot() {
 
     /** This function is called periodically during operator control.  */
     override fun teleopPeriodic() {
-        LogJeff.log(1.0)
         swo!!.updatePosition()
         transportSystem!!.cargoMonitor()
         SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam!!.get())
@@ -196,5 +198,13 @@ class Robot : TimedRobot() {
     }
 
     /** This function is called periodically during test mode.  */
-    override fun testPeriodic() {}
+    override fun testPeriodic() {
+        val frontRightValue = wrapAroundAngles(swerveSystem!!.frontRight!!.turnEncoder!!.get())
+        val backRightValue = wrapAroundAngles(swerveSystem!!.backRight!!.turnEncoder!!.get())
+        val frontLeftValue = wrapAroundAngles(swerveSystem!!.frontLeft!!.turnEncoder!!.get())
+        val backLeftValue = wrapAroundAngles(swerveSystem!!.backLeft!!.turnEncoder!!.get())
+        val encoderValues: DoubleArray = doubleArrayOf(frontRightValue, frontLeftValue, backRightValue, backLeftValue)
+
+        SmartDashboard.putString("Encoder Values", encoderValues.joinToString(", "))
+    }
 }

@@ -134,8 +134,7 @@ class Constants {
         const val backLeftEncoder = 2
 
         val turnEncoderOffsets = doubleArrayOf(
-            294.785126064, 81.474601032, 69.16991479200001,
-            102.83202072000002
+            24.69726309600003, 0.26367184800001553, 358.857421992, 220.078102464
         )
     }
 }

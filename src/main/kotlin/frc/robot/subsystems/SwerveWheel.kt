@@ -17,7 +17,7 @@ import frc.robot.util.TurnEncoder
 class SwerveWheel {
     private var turnMotor: TalonSRX? = null
     private var driveMotor: TalonFX? = null
-    private var turnEncoder: TurnEncoder? = null
+    public var turnEncoder: TurnEncoder? = null
     private var driveEncoder: DriveEncoder? = null
 
     private var oldAngle = 0.0
