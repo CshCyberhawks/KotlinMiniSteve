@@ -1,6 +1,7 @@
 package frc.robot.util
 
 import edu.wpi.first.wpilibj.AnalogInput
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.robot.Constants
 
 class TurnEncoder {
@@ -23,6 +24,11 @@ class TurnEncoder {
         // return
         // (double)Math.floor(filter.calculate(voltageToDegrees(encoder.getVoltage())) *
         // 10d) / 10d;
+        SmartDashboard.putNumber("Turn Encoder " + encoderPort, voltageToDegrees(encoder!!.voltage) - Constants.turnEncoderOffsets[encoderPort])
         return voltageToDegrees(encoder!!.voltage) - Constants.turnEncoderOffsets[encoderPort]
+    }
+
+    fun getRaw(): Double {
+        return voltageToDegrees(encoder!!.voltage)
     }
 }

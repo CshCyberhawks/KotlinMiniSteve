@@ -199,10 +199,10 @@ class Robot : TimedRobot() {
 
     /** This function is called periodically during test mode.  */
     override fun testPeriodic() {
-        val frontRightValue = wrapAroundAngles(swerveSystem!!.frontRight!!.turnEncoder!!.get())
-        val backRightValue = wrapAroundAngles(swerveSystem!!.backRight!!.turnEncoder!!.get())
-        val frontLeftValue = wrapAroundAngles(swerveSystem!!.frontLeft!!.turnEncoder!!.get())
-        val backLeftValue = wrapAroundAngles(swerveSystem!!.backLeft!!.turnEncoder!!.get())
+        val frontRightValue = wrapAroundAngles(swerveSystem!!.frontRight!!.turnEncoder!!.getRaw())
+        val backRightValue = wrapAroundAngles(swerveSystem!!.backRight!!.turnEncoder!!.getRaw())
+        val frontLeftValue = wrapAroundAngles(swerveSystem!!.frontLeft!!.turnEncoder!!.getRaw())
+        val backLeftValue = wrapAroundAngles(swerveSystem!!.backLeft!!.turnEncoder!!.getRaw())
         val encoderValues: DoubleArray = doubleArrayOf(frontRightValue, frontLeftValue, backRightValue, backLeftValue)
 
         SmartDashboard.putString("Encoder Values", encoderValues.joinToString(", "))

@@ -53,7 +53,7 @@ class SwerveWheel {
         turnPidController!!.enableContinuousInput(0.0, 360.0)
         speedPID = PIDController(0.03, 0.0, 0.0)
         drivePidController = PIDController(0.01, 0.0, 0.0)
-        if (turnEncoderPort == 1 || turnEncoderPort == 2) {
+        if (turnEncoderPort == 1 || turnEncoderPort == 3) {
             driveMotor!!.setInverted(true)
         } else {
             driveMotor!!.setInverted(false)
