@@ -133,8 +133,9 @@ class Constants {
         const val backRightEncoder = 3
         const val backLeftEncoder = 2
 
+        // Tape faces inside
         val turnEncoderOffsets = doubleArrayOf(
-            318.60348300000004, 84.462881976, 102.39256764000002, 292.060516968
+            305.94723429600003, 87.27538168800001, 112.58787909600001, 279.140596416
         )
     }
 }

@@ -24,9 +24,9 @@ class SwerveAuto {
 
     private var byBall = false
     private val ballDistanceDeadzone = 1.0
-    private val normalDistanceDeadzone = .1
+    private val normalDistanceDeadzone = .05
 
-    private val positionStopRange = .1
+    private val positionStopRange = .05
     private val isAtPosition = false
     private val isAtAngle = false
 
@@ -42,8 +42,8 @@ class SwerveAuto {
     private var trapYDesiredState: TrapezoidProfile.State? = null
 
     // TODO: prob need to increase derivates
-    private val xPID = PIDController(1.0, 0.0, 0.0)
-    private val yPID = PIDController(1.0, 0.0, 0.0)
+    private val xPID = PIDController(1.0, 0.0, 0.05)
+    private val yPID = PIDController(1.0, 0.0, 0.05)
 
     private var prevTime = 0.0
 
@@ -132,10 +132,10 @@ class SwerveAuto {
             MathClass.swosToMeters(Robot.swo!!.getPosition()!!.positionCoord!!.y),
             trapYOutput.position
         )
-        val xVel = (trapXOutput.velocity
-                + xPIDOutput)
-        val yVel = (trapYOutput.velocity
-                + yPIDOutput)
+        val xVel = (trapXOutput.velocity + xPIDOutput)
+        val yVel = (trapYOutput.velocity + yPIDOutput)
+        // val xVel = xPIDOutput
+        // val yVel = yPIDOutput
         SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
         SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
         Robot.swerveSystem!!.drive(xVel / 3.777, yVel / 3.777, 0.0, 0.0, DriveState.AUTO)

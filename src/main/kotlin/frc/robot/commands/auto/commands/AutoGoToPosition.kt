@@ -14,13 +14,13 @@ class AutoGoToPosition : CommandBase {
     private var byBallNumber = false
     private var startTime = 0.0
 
-    constructor(desiredPosition: Vector2?, desiredVelocity: Double) {
+    constructor(desiredPosition: Vector2?, desiredVelocity: Double) : super() {
         this.desiredPosition = desiredPosition
         this.desiredVelocity = desiredVelocity
         startTime = MathClass.getCurrentTime()
     }
 
-    constructor(ballNumber: Int, desiredVelocity: Double) {
+    constructor(ballNumber: Int, desiredVelocity: Double) : super() {
         this.ballNumber = ballNumber
         this.desiredVelocity = desiredVelocity
         byBallNumber = true
