@@ -16,7 +16,7 @@ class ClimbCommand : CommandBase {
     }
 
     override fun execute() {
-        SmartDashboard.putNumber("climbControl", IO.climbControl())
+        // SmartDashboard.putNumber("climbControl", IO.climbControl())
         climbSystem!!.climb(IO.climbControl() * speedMult)
         if (IO.deployClimbSolenoid()) {
             climbSystem!!.controlPneumatics()

@@ -125,7 +125,7 @@ class SwerveDriveTrain : SubsystemBase {
         }
         throttleShuffle!!.setDouble(throttle)
         SmartDashboard.putNumber("throttle ", throttle)
-        SmartDashboard.putNumber("gyro val", gyroAngle)
+        // SmartDashboard.putNumber("gyro val", gyroAngle)
         if (inputX == 0.0 && inputY == 0.0 && inputTwist == 0.0) {
             backRight!!.preserveAngle()
             backLeft!!.preserveAngle()

@@ -7,6 +7,7 @@ import frc.robot.Robot
 import frc.robot.util.FieldPosition
 import frc.robot.util.Gyro
 import frc.robot.util.Vector2
+import frc.robot.util.MathClass
 
 
 class SwerveOdometry : SubsystemBase {
@@ -73,7 +74,9 @@ class SwerveOdometry : SubsystemBase {
         fieldPosition.positionCoord!!.y += velocities[1] * period
         fieldPosition.angle = Gyro.getAngle()
         SmartDashboard.putNumber("fieldPosX ", fieldPosition.positionCoord!!.x)
-        SmartDashboard.putNumber("fieldPosY ", fieldPosition.positionCoord!!.y)
+        SmartDashboard.putNumber("fieldPosY ", fieldPosition.positionCoord!!.y) 
+        SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord!!.x))
+        SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord!!.y))
         SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
         lastUpdateTime = timeNow
     }

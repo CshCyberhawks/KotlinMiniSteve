@@ -12,7 +12,7 @@ class IO {
         private val xbox = XboxController(2)
         private const val controllerDeadzone = 0.3
 
-        var hosas = true
+        var hosas = false;
 
         fun getPolarCoords(): DoubleArray? {
             return doubleArrayOf(
@@ -55,12 +55,12 @@ class IO {
         }
 
         fun moveRobotX(): Double {
-            SmartDashboard.putNumber("Jotstick X", joystick.y)
+            // SmartDashboard.putNumber("Jotstick X", joystick.y)
             return MathClass.calculateDeadzone(joystick.y, controllerDeadzone)
         }
 
         fun moveRobotY(): Double {
-            SmartDashboard.putNumber("Joystick Y", joystick.x)
+            // SmartDashboard.putNumber("Joystick Y", joystick.x)
             return MathClass.calculateDeadzone(joystick.x, controllerDeadzone)
         }
 

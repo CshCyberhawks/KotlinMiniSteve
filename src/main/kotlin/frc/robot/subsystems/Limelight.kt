@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 class Limelight : SubsystemBase() {
     override fun periodic() {
-        SmartDashboard.putBoolean("Limelight hasValidTarget", hasTarget())
-        SmartDashboard.putNumber("Limelight horrizontalOffset", getHorizontalOffset())
-        SmartDashboard.putNumber("Limelight verticalOffset", getVerticalOffset())
-        SmartDashboard.putNumber("Limelight distance", getBallDistance())
+        // SmartDashboard.putBoolean("Limelight hasValidTarget", hasTarget())
+        // SmartDashboard.putNumber("Limelight horrizontalOffset", getHorizontalOffset())
+        // SmartDashboard.putNumber("Limelight verticalOffset", getVerticalOffset())
+        // SmartDashboard.putNumber("Limelight distance", getBallDistance())
     }
 
     companion object {

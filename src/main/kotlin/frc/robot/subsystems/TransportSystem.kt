@@ -30,7 +30,7 @@ class TransportSystem : SubsystemBase {
     fun cargoMonitor() {
         val shootDifference = MathClass.getCurrentTime() - lastCargoShootTime
         val pickupDifference = MathClass.getCurrentTime() - lastCargoPickupTime
-        SmartDashboard.putNumber("pickupDiff", pickupDifference)
+        // SmartDashboard.putNumber("pickupDiff", pickupDifference)
         cargoPickedUp = !Robot.frontBreakBeam!!.get() && pickupDifference > 1
         cargoShot = !Robot.shootBreakBeam!!.get() && cargoAmount > 0 && shootDifference > .5
         if (cargoPickedUp && Robot.frontBreakBeam!!.get() != lastFrontBB) {
@@ -56,7 +56,7 @@ class TransportSystem : SubsystemBase {
     }
 
     fun move(speed: Double) {
-        SmartDashboard.putNumber("transportSpeed", speed * traversalMult)
+        // SmartDashboard.putNumber("transportSpeed", speed * traversalMult)
         transportMotor!![ControlMode.PercentOutput] = speed * traversalMult
     }
 }

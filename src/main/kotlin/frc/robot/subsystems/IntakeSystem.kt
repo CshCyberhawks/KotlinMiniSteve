@@ -27,7 +27,7 @@ class IntakeSystem : SubsystemBase {
         if (speed != 0.0) intakeSolenoid!!.set(true) else intakeSolenoid!!.set(false)
         // bottomFeedMotor.set(speed);
         // topFeedMotor.set(speed);
-        SmartDashboard.putNumber("Intake Motor Speed ", speed)
+        // SmartDashboard.putNumber("Intake Motor Speed ", speed)
     }
 
     fun kill() {

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import frc.robot.commands.auto.commands.AutoGoToPosition
+import frc.robot.commands.auto.commands.AutoGoToAngle
 import frc.robot.util.Vector2
 
 
@@ -31,8 +32,9 @@ class AutoCommandGroup : SequentialCommandGroup {
             // new AutoGoToCenterAndShoot(0, false),
             
             addCommands(
-                AutoGoToPosition(Vector2(4.0, 0.0), 0.0),
-                AutoGoToPosition(Vector2(0.0, -2.0), 0.0)
+                AutoGoToPosition(Vector2(4.0, -2.0), 0.0),
+                AutoGoToPosition(Vector2(4.0, 2.0), 0.0),
+                AutoGoToAngle(70.0),
                 );
             // new AutoGoToPosition(new Vector2(.7, 3.8), 0));
         // }
