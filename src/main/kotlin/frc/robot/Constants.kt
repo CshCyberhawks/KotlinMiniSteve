@@ -59,8 +59,10 @@ class Constants {
         const val traversalMotor: Int = 16
 
         // encoder values for perfect shots
-        const val bottomShootSetpoint: Double = -3.7
-        const val topShootSetpoint: Double = 19.0
+        //-3.7
+        const val bottomShootSetpoint: Double = -2.5
+        //19.0
+        const val topShootSetpoint: Double = 10.0
 
         // Intake System
         const val intakeMotor: Int = 15

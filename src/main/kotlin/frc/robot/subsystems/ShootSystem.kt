@@ -22,13 +22,13 @@ class ShootSystem : SubsystemBase {
     private var oldEncoder: RelativeEncoder? = null
     private var topPIDController: PIDController? = null
     private var bottomPIDController: PIDController? = null
-    private val topMotorMult = 2.0
+    private val topMotorMult = 1.0
     private val maxRPM = 5
     private var autoShootRunning = false
     var bottomWheelSpeed = 0.0
     var topWheelSpeed = 0.0
 
-    var shootMult = .9
+    var shootMult = .7
 
     private var shootSpeedTable: NetworkTableEntry? = null
     private var shootMultTable: NetworkTableEntry? = null

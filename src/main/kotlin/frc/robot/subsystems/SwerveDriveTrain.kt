@@ -1,5 +1,6 @@
 package frc.robot.subsystems
 
+import edu.wpi.first.math.MathUtil
 import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.util.WPIUtilJNI
@@ -7,10 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.Robot
-import frc.robot.util.DriveState
-import frc.robot.util.Gyro
-import frc.robot.util.MathClass
-import frc.robot.util.Vector2
+import frc.robot.util.*
 
 
 class SwerveDriveTrain : SubsystemBase {
@@ -118,7 +116,13 @@ class SwerveDriveTrain : SubsystemBase {
         val timeNow = WPIUtilJNI.now() * 1.0e-6
         val period = if (lastUpdateTime >= 0) timeNow - lastUpdateTime else 0.0
         val gyroAngle: Double = Gyro.getAngle()
-        throttle = throttleChange
+        if (IO.hosas) {
+            throttle += throttleChange
+            throttle = MathUtil.clamp(throttle, 0.0, 1.0)
+        }
+        else {
+            throttle = throttleChange
+        }
         throttleShuffle!!.setDouble(throttle)
         SmartDashboard.putNumber("throttle ", throttle)
         SmartDashboard.putNumber("gyro val", gyroAngle)

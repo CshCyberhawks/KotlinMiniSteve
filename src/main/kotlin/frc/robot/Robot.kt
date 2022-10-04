@@ -1,5 +1,7 @@
 package frc.robot
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX
+import com.ctre.phoenix.music.Orchestra
 import edu.wpi.first.cscore.HttpCamera
 import edu.wpi.first.util.net.PortForwarder
 import edu.wpi.first.wpilibj.DigitalInput
@@ -13,7 +15,9 @@ import frc.robot.commands.auto.groups.AutoCommandGroup
 import frc.robot.subsystems.*
 import frc.robot.util.FieldPosition
 import frc.robot.util.IO
+import java.util.*
 import java.util.Map
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -51,7 +55,6 @@ class Robot : TimedRobot() {
         private val startingPosition = 0
 
         private val autoConfiguration = SendableChooser<Int>()
-        private val driveConfiguration = SendableChooser<Boolean>()
 
         var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
     }
@@ -78,8 +81,6 @@ class Robot : TimedRobot() {
         PortForwarder.add(5800, "limelight.local", 5800)
         autoConfiguration.setDefaultOption("Auto 0", 0)
         autoConfiguration.addOption("Auto 1", 1)
-        driveConfiguration.setDefaultOption("Not HOSAS", false)
-        driveConfiguration.addOption("HOSAS", true)
         frontBreakBeam = DigitalInput(Constants.frontBreakBeam)
         backBreakBeam = DigitalInput(Constants.backBreakBeam)
         topBreakBeam = DigitalInput(Constants.topBreakBeam)
@@ -123,7 +124,6 @@ class Robot : TimedRobot() {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run()
-        IO.hosas = driveConfiguration.selected
         SmartDashboard.putNumber("cargoStored", transportSystem!!.cargoAmount.toDouble())
     }
 
@@ -192,9 +192,25 @@ class Robot : TimedRobot() {
         SmartDashboard.putBoolean("shootBreakBeam", shootBreakBeam!!.get())
     }
 
+    var orchestra: Orchestra? = null
+    var falcon: TalonFX? = null
+    var songs = arrayOf(
+            "africa",
+            "imperialmarch"
+    )
+
+    private fun loadSong(idx: Int) {
+        orchestra!!.loadMusic("music/" + songs[idx] + ".chrp")
+    }
+
     override fun testInit() {
+        CommandScheduler.getInstance().cancelAll()
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll()
+        val instruments = ArrayList(Arrays.asList(TalonFX(Constants.frontRightDriveMotor), TalonFX(Constants.frontLeftDriveMotor), TalonFX(Constants.backRightDriveMotor), TalonFX(Constants.backLeftDriveMotor)))
+        orchestra = Orchestra(instruments)
+        loadSong(1)
+        orchestra!!.play()
     }
 
     /** This function is called periodically during test mode.  */
