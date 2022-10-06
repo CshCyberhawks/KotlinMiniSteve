@@ -26,7 +26,7 @@ class AutoBall : CommandBase {
             desiredPosition.x - Robot.swo!!.getPosition()!!.positionCoord!!.x,
             desiredPosition.y - Robot.swo!!.getPosition()!!.positionCoord!!.y
         )!![0])
-        Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
+        // Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
         SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
         intakeSequence = IntakeSequence()
         autoPos = AutoGoToPosition(ballNumber, 0.0)

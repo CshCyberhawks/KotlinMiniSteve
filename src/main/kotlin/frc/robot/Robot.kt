@@ -98,7 +98,7 @@ class Robot : TimedRobot() {
         // autoConfiguration.getSelected()]);
         // }
         swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
-
+//
         // driveSystem = new DriveSystem();
         // CameraServer.startAutomaticCapture();
     }
@@ -144,8 +144,9 @@ class Robot : TimedRobot() {
      * [RobotContainer] class.
      */
     override fun autonomousInit() {
+        swo = SwerveOdometry(Constants.blueStartingPositions[0])
         if (swerveCommand != null) {
-            swerveCommand!!.cancel()
+            swerveCommand!!.cancel() 
         }
         Limelight.pipelineInit()
 
