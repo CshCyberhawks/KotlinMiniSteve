@@ -10,27 +10,27 @@ import frc.robot.Constants
 
 
 class ClimbSystem : SubsystemBase {
-    private var climbMotor: TalonFX? = null
-    private var leftSolenoid: Solenoid? = null
-    private val rightSolenoid: Solenoid? = null
-    private val climbPidController: PIDController? = null
+    private var climbMotor: TalonFX;
+    private var leftSolenoid: Solenoid;
+//    private val rightSolenoid: Solenoid;
+//    private val climbPidController: PIDController;
 
     constructor() {
-        climbMotor = TalonFX(Constants.climbMotor)
-        leftSolenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 2)
+        climbMotor = TalonFX(Constants.climbMotor);
+        leftSolenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 2);
         // rightSolenoid = new Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 1);
-        climbMotor!!.config_kF(0, 0.0)
-        climbMotor!!.config_kP(0, .01)
-        climbMotor!!.config_kI(0, 0.0)
-        climbMotor!!.config_kD(0, 0.0)
+        climbMotor.config_kI(0, 0.0);
+        climbMotor.config_kF(0, 0.0);
+        climbMotor.config_kP(0, .01);
+        climbMotor.config_kD(0, 0.0);
     }
 
     fun climb(speed: Double) {
-        climbMotor!![ControlMode.PercentOutput] = speed
+        climbMotor[ControlMode.PercentOutput] = speed;
     }
 
     fun controlPneumatics() {
-        leftSolenoid!!.toggle()
+        leftSolenoid.toggle();
         // rightSolenoid.set(control);
     }
 }
