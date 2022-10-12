@@ -42,14 +42,14 @@ class ShootSystem : SubsystemBase {
     // top wheel encoder 22 max
     // bottom wheel encoder -24 max
     constructor() {
-        topMotor = CANSparkMax(Constants.topShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
-        bottomLeftMotor = CANSparkMax(Constants.leftShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
-        bottomRightMotor = CANSparkMax(Constants.rightShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
-        oldEncoder = topMotor!!.encoder
+        topMotor = CANSparkMax(Constants.topShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+        bottomLeftMotor = CANSparkMax(Constants.leftShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+        bottomRightMotor = CANSparkMax(Constants.rightShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+        oldEncoder = topMotor!!.encoder;
 
         // traversalEncoder = traversalMotor.getEncoder();
-        topEncoder = Encoder(2, 3)
-        bottomEncoder = Encoder(0, 1)
+        topEncoder = Encoder(2, 3);
+        bottomEncoder = Encoder(0, 1);
 
         // Set distance to pulse to distance in rotation (makes get rate return
         // rotations)
@@ -63,20 +63,20 @@ class ShootSystem : SubsystemBase {
         isAtSpeedTable = Robot.driveShuffleboardTab.add("At Desired Speed", false).getEntry()
     }
 
-    fun getTopEncoder(): Encoder? {
-        return topEncoder
+    fun getTopEncoder(): Encoder {
+        return topEncoder!!;
     }
 
-    fun getBottomEncoder(): Encoder? {
-        return bottomEncoder
+    fun getBottomEncoder(): Encoder {
+        return bottomEncoder!!;
     }
 
     fun getAutoShootState(): Boolean {
-        return autoShootRunning
+        return autoShootRunning;
     }
 
     fun setAutoShootState(state: Boolean) {
-        autoShootRunning = state
+        autoShootRunning = state;
     }
 
     // Syncing of bottom 2 motors
@@ -108,19 +108,19 @@ class ShootSystem : SubsystemBase {
         shootSpeedTable!!.setDouble(topEncoder!!.getRate())
         SmartDashboard.putNumber("shootPower", power)
         if (power == 0.0) {
-            topMotor!!.set(0.0)
-            bottomLeftMotor!!.set(0.0)
-            bottomRightMotor!!.set(0.0)
-            isAtSpeedTable!!.setBoolean(false)
+            topMotor!!.set(0.0);
+            bottomLeftMotor!!.set(0.0);
+            bottomRightMotor!!.set(0.0);
+            isAtSpeedTable!!.setBoolean(false);
             return
         }
 
         var power = .6
 
         // SmartDashboard.putNumber("Old Encoder", oldEncoder.getVelocity());
-        bottomWheelSpeed = bottomEncoder!!.getRate()
-        topWheelSpeed = topEncoder!!.getRate()
-        isAtSpeedTable!!.setBoolean(topWheelSpeed >= 19)
+        bottomWheelSpeed = bottomEncoder!!.rate;
+        topWheelSpeed = topEncoder!!.rate;
+        isAtSpeedTable!!.setBoolean(topWheelSpeed >= 19);
         // power *= maxRPM; // Convert to RPM
         val topPIDOut = topPIDController!!.calculate(topWheelSpeed, Constants.topShootSetpoint)
         topMotor!!.set(MathUtil.clamp(-(power), -1.0, 1.0))

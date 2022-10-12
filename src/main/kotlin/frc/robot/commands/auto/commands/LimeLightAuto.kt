@@ -21,15 +21,15 @@ class LimeLightAuto : CommandBase {
     override fun initialize() {
         // Use addRequirements() here to declare subsystem dependencies.
         swerveAuto = Robot.swerveAuto
-        swerveAuto!!.setDesiredAngle(Limelight.getHorizontalOffset() + Robot.swo!!.getPosition()!!.angle, false)
+        swerveAuto!!.setDesiredAngle(Robot.limelight!!.getHorizontalOffset() + Robot.swo!!.getPosition()!!.angle, false)
     }
     override fun execute() {
-        SmartDashboard.putNumber("limeLightDistance", Limelight.getBallDistance())
+        SmartDashboard.putNumber("limeLightDistance", Robot.limelight!!.getBallDistance())
         if (!isAtAngle) {
             swerveAuto!!.twist() 
         }
         else if (isAtAngle && !isAtPosition && firstTimeAtAngle) {
-            swerveAuto!!.setDesiredPositionDistance(Limelight.getBallDistance())
+            swerveAuto!!.setDesiredPositionDistance(Robot.limelight!!.getBallDistance())
         } else if (!isAtPosition && isAtAngle) {
             swerveAuto!!.translate()
         }

@@ -32,6 +32,7 @@ class Robot : TimedRobot() {
         var swerveSystem: SwerveDriveTrain? = null
         var swo: SwerveOdometry? = null
         var swerveCommand: SwerveCommand? = null
+        var limelight: Limelight? = null;
 
         // public Alliance teamColor;
         // public OldSwerveDriveTrain swerveSystem;
@@ -90,6 +91,7 @@ class Robot : TimedRobot() {
         transportSystem = TransportSystem()
         climbSystem = ClimbSystem()
         swerveSystem = SwerveDriveTrain()
+        limelight = Limelight();
         // if (DriverStation.getAlliance() == Alliance.Blue) {
         // swo = new SwerveOdometry(Constants.blueStartingPositions[0]);//
         // autoConfiguration.getSelected()]);
@@ -149,7 +151,7 @@ class Robot : TimedRobot() {
         if (swerveCommand != null) {
             swerveCommand!!.cancel()
         }
-        Limelight.pipelineInit()
+        limelight!!.pipelineInit()
 
         // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
         swerveAuto = SwerveAuto()
@@ -175,7 +177,7 @@ class Robot : TimedRobot() {
         climbSystem!!.defaultCommand = ClimbCommand(climbSystem)
         swerveCommand = SwerveCommand(swerveSystem)
         swerveCommand!!.schedule()
-        Limelight.pipelineInit()
+        limelight!!.pipelineInit()
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to

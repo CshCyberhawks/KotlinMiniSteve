@@ -31,7 +31,7 @@ class SwerveCommand : CommandBase {
         if (IO.limelightLockOn()) swerveDriveTrain!!.drive(
             -IO.moveRobotX(),
             -IO.moveRobotY(),
-            -MathClass.calculateDeadzone(Limelight.getHorizontalOffset(), .5) / 27,
+            -MathClass.calculateDeadzone(Robot.limelight!!.getHorizontalOffset(), .5) / 27,
             IO.getJoyThrottle(),
             DriveState.TELE
         ) else swerveDriveTrain!!.drive(
