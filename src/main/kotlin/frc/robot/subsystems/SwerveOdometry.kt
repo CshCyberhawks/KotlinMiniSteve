@@ -18,7 +18,9 @@ class SwerveOdometry : SubsystemBase {
 
     constructor(fieldPosition: FieldPosition) {
         this.fieldPosition = fieldPosition
-        Gyro.offset = fieldPosition.angle
+//        Gyro.offset = fieldPosition.angle
+        //TODO: remove this at some point and figure out field position angle
+        Gyro.setOffset()
     }
 
     fun getPosition(): FieldPosition? {
@@ -38,8 +40,8 @@ class SwerveOdometry : SubsystemBase {
         var totalX = 0.0
         var totalY = 0.0
         for (i in 0..3) {
-            var wheelAngle: Double = Robot.swerveSystem!!.wheelArr[i]!!.turnValue
-            var wheelSpeed: Double = Robot.swerveSystem!!.wheelArr[i]!!.currentDriveSpeed
+            var wheelAngle: Double = Robot.swerveSystem!!.wheelArr[i]!!.getTurnValue()
+            var wheelSpeed: Double = Robot.swerveSystem!!.wheelArr[i]!!.getCurrentDriveSpeed()
 
             // if (i == 0 || i == 2) {
             // wheelSpeed = -wheelSpeed;

@@ -18,8 +18,8 @@ class ShootCommand : CommandBase {
     }
 
     override fun execute() {
-        if (IO.raiseShootSpeed()) shootSystem!!.shootMult += 0.05
-        if (IO.lowerShootSpeed()) shootSystem!!.shootMult -= 0.05
+        // if (IO.raiseShootSpeed()) shootSystem!!.shootMult += 0.05
+        // if (IO.lowerShootSpeed()) shootSystem!!.shootMult -= 0.05
         if (IO.autoShoot()) {
             shootCommand = AutoShootCommand(shootSystem)
             shootCommand!!.schedule()

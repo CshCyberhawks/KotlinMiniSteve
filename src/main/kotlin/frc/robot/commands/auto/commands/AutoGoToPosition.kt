@@ -17,7 +17,6 @@ class AutoGoToPosition : CommandBase {
     constructor(desiredPosition: Vector2?, desiredVelocity: Double) : super() {
         this.desiredPosition = desiredPosition
         this.desiredVelocity = desiredVelocity
-        startTime = MathClass.getCurrentTime()
     }
 
     constructor(ballNumber: Int, desiredVelocity: Double) : super() {
@@ -38,6 +37,7 @@ class AutoGoToPosition : CommandBase {
     // and y position, and then it will stop and twist until it reaches desired
     // angle
     override fun initialize() {
+        startTime = MathClass.getCurrentTime()
         // desired position = x in swos
         // (https://www.notion.so/Odometry-baacd114086e4218a5eedb5ef45a223f) (.27
         // meters), y in swos, and twist in degrees
@@ -61,7 +61,7 @@ class AutoGoToPosition : CommandBase {
     }
 
     override fun isFinished(): Boolean {
-        SmartDashboard.putBoolean("auto translate command finsihed", Robot.swerveAuto!!.isAtDesiredPosition())
+        SmartDashboard.putBoolean("posCmdFin", Robot.swerveAuto!!.isAtDesiredPosition())
         return Robot.swerveAuto!!.isAtDesiredPosition() // || MathClass.getCurrentTime() - startTime > 5;
     }
 }

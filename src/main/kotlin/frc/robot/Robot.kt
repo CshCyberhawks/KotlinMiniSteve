@@ -144,9 +144,10 @@ class Robot : TimedRobot() {
      * [RobotContainer] class.
      */
     override fun autonomousInit() {
-        swo = SwerveOdometry(Constants.blueStartingPositions[0])
+//        swo = SwerveOdometry(Constants.blueStartingPositions[0])
+        swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
         if (swerveCommand != null) {
-            swerveCommand!!.cancel() 
+            swerveCommand!!.cancel()
         }
         Limelight.pipelineInit()
 
@@ -168,6 +169,8 @@ class Robot : TimedRobot() {
     override fun teleopInit() {
         shootSystem!!.defaultCommand = ShootCommand(shootSystem)
         intakeSystem!!.defaultCommand = ManualIntakeCommand(intakeSystem)
+        //TODO: remove this before the competition and leave the leftover cargo stored from auto
+        transportSystem!!.cargoAmount = 0;
         transportSystem!!.defaultCommand = ManualTransportCommand(transportSystem)
         climbSystem!!.defaultCommand = ClimbCommand(climbSystem)
         swerveCommand = SwerveCommand(swerveSystem)

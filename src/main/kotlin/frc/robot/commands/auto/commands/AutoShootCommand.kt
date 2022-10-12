@@ -7,12 +7,13 @@ import frc.robot.subsystems.ShootSystem
 import frc.robot.subsystems.TransportSystem
 import frc.robot.util.IO
 import frc.robot.util.MathClass
+import frc.robot.Constants
 
 
 class AutoShootCommand : CommandBase {
     private var shootSystem: ShootSystem? = null
     private var transportSystem: TransportSystem? = null
-    private val desiredShootSpeed = 19.0
+    private val desiredShootSpeed = Constants.topShootSetpoint
     private var startTime = 0.0
     private var lastShootTime = 0.0
 

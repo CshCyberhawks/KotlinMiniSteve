@@ -24,7 +24,7 @@ class TurnEncoder {
         // return
         // (double)Math.floor(filter.calculate(voltageToDegrees(encoder.getVoltage())) *
         // 10d) / 10d;
-        SmartDashboard.putNumber("Turn Encoder " + encoderPort, voltageToDegrees(encoder!!.voltage) - Constants.turnEncoderOffsets[encoderPort])
+//        SmartDashboard.putNumber("Turn Encoder " + encoderPort, voltageToDegrees(encoder!!.voltage) - Constants.turnEncoderOffsets[encoderPort])
         return voltageToDegrees(encoder!!.voltage) - Constants.turnEncoderOffsets[encoderPort]
     }
 

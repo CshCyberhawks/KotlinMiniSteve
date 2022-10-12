@@ -15,7 +15,7 @@ import frc.robot.util.MathClass
 class TransportSystem : SubsystemBase {
     private var transportMotor: VictorSPX? = null
     private val traversalMult = 2.0
-    var cargoAmount: Int = 1
+    var cargoAmount: Int = 0
     var isRunningSequence: Boolean = false
     private var lastCargoPickupTime = 0.0
     private var lastCargoShootTime = 0.0
@@ -50,7 +50,7 @@ class TransportSystem : SubsystemBase {
         transportMotor = VictorSPX(Constants.traversalMotor)
         transportMotor!!.setNeutralMode(NeutralMode.Brake)
         isRunningSequence = false
-        cargoAmount = 1
+        cargoAmount = 0
         // lastCargoPickupTime = MathClass.getCurrentTime();
         // lastCargoShootTime = MathClass.getCurrentTime();
     }

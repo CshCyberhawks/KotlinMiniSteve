@@ -28,8 +28,8 @@ class SwerveWheel {
     private var maxAcceleration = .01
     private var lastSpeed = 0.0
 
-    var turnValue = 0.0
-    var currentDriveSpeed = 0.0
+    internal var turnValue = 0.0
+    internal var currentDriveSpeed = 0.0
     var rawTurnValue = 0.0
 
     private var turnPidController: PIDController? = null
@@ -80,6 +80,16 @@ class SwerveWheel {
         return 7 * meters / wheelConstant
     }
 
+    fun getCurrentDriveSpeed(): Double {
+        val driveVelocity = driveEncoder!!.getVelocity()
+        return convertToMetersPerSecondFromSecond(driveVelocity)
+    }
+
+    fun getTurnValue(): Double {
+        return wrapAroundAngles(turnEncoder!!.get())
+    }
+
+
     fun drive(speed: Double, angle: Double, mode: DriveState?) {
         var speed = speed
         var angle = angle
@@ -90,10 +100,10 @@ class SwerveWheel {
             else -> 0.05
         }
 
-        val driveVelocity = driveEncoder!!.getVelocity()
-        currentDriveSpeed = convertToMetersPerSecondFromSecond(driveVelocity)
+        currentDriveSpeed = getCurrentDriveSpeed()
+        turnValue = getTurnValue()
+
         // SmartDashboard.putNumber("$m_turnEncoderPort wheel rotations", driveVelocity)
-        turnValue = wrapAroundAngles(turnEncoder!!.get())
         rawTurnValue = turnEncoder!!.get()
         angle = wrapAroundAngles(angle)
 

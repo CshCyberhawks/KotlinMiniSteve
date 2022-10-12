@@ -22,13 +22,10 @@ class ShootSystem : SubsystemBase {
     private var oldEncoder: RelativeEncoder? = null
     private var topPIDController: PIDController? = null
     private var bottomPIDController: PIDController? = null
-    private val topMotorMult = 1.0
     private val maxRPM = 5
     private var autoShootRunning = false
     var bottomWheelSpeed = 0.0
     var topWheelSpeed = 0.0
-
-    var shootMult = .7
 
     private var shootSpeedTable: NetworkTableEntry? = null
     private var shootMultTable: NetworkTableEntry? = null
@@ -63,7 +60,6 @@ class ShootSystem : SubsystemBase {
         bottomPIDController = PIDController(.01, 0.0, 0.0)
         autoShootRunning = false
         shootSpeedTable = Robot.driveShuffleboardTab.add("Shoot Speed", topEncoder!!.getRate()).getEntry()
-        shootMultTable = Robot.driveShuffleboardTab.add("Shoot Mult", shootMult).getEntry()
         isAtSpeedTable = Robot.driveShuffleboardTab.add("At Desired Speed", false).getEntry()
     }
 
@@ -84,12 +80,11 @@ class ShootSystem : SubsystemBase {
     }
 
     // Syncing of bottom 2 motors
-    private fun setBottom(power: Double) {
-        var power = power
-        power = .23 * shootMult
+    private fun setBottom() {
+        var power = .28
         val bottomPIDOutput = bottomPIDController!!.calculate(
             bottomEncoder!!.getRate(),
-            Constants.bottomShootSetpoint * shootMult
+            Constants.bottomShootSetpoint
         )
 
         // SmartDashboard.putNumber("rightBottomPID", bottomRightPIDOutput);
@@ -102,13 +97,12 @@ class ShootSystem : SubsystemBase {
         // SmartDashboard.putNumber("leftSet", leftSet);
 
         // SmartDashboard.putNumber("bottomMotorSets", MathUtil.clamp(power, -1, 1));
-        bottomRightMotor!!.set(-MathUtil.clamp(power + bottomPIDOutput, -1.0, 1.0))
-        bottomLeftMotor!!.set(MathUtil.clamp(power + bottomPIDOutput, -1.0, 1.0))
+        bottomRightMotor!!.set(-MathUtil.clamp(power, -1.0, 1.0))
+        bottomLeftMotor!!.set(MathUtil.clamp(power, -1.0, 1.0))
     }
 
     fun shoot(power: Double) {
-        var power = power
-        shootMultTable!!.setDouble(shootMult)
+        
         SmartDashboard.putNumber("Top Encoder", topEncoder!!.getRate())
         SmartDashboard.putNumber("Bottom Encoder", bottomEncoder!!.getRate())
         shootSpeedTable!!.setDouble(topEncoder!!.getRate())
@@ -120,19 +114,16 @@ class ShootSystem : SubsystemBase {
             isAtSpeedTable!!.setBoolean(false)
             return
         }
-        power = .95 * shootMult
 
-        // double traversalPIDOUt =
-        // motorController.calculate(traverseEncoder.getVelocity(), power *
-        // traversalMult);
+        var power = .6
 
         // SmartDashboard.putNumber("Old Encoder", oldEncoder.getVelocity());
         bottomWheelSpeed = bottomEncoder!!.getRate()
         topWheelSpeed = topEncoder!!.getRate()
         isAtSpeedTable!!.setBoolean(topWheelSpeed >= 19)
         // power *= maxRPM; // Convert to RPM
-        val topPIDOut = topPIDController!!.calculate(topWheelSpeed, Constants.topShootSetpoint * shootMult)
-        topMotor!!.set(MathUtil.clamp(-(power + topPIDOut), -1.0, 1.0))
-        setBottom(power)
+        val topPIDOut = topPIDController!!.calculate(topWheelSpeed, Constants.topShootSetpoint)
+        topMotor!!.set(MathUtil.clamp(-(power), -1.0, 1.0))
+        setBottom()
     }
 }

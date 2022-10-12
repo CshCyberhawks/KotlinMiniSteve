@@ -19,7 +19,8 @@ class AutoCommandGroup : SequentialCommandGroup {
          if (configuration == 0 && DriverStation.getAlliance() == Alliance.Blue) {
              addCommands(
                     // AutoGoToPosition(Constants.blueBallPositions[0], 0.0)
-                    // AutoBall(1)
+//             AutoGoToPosition(Vector2(3.0, 0.0), 0.0)
+              AutoBall(0)
              )
              // new AutoGoToCenterAndShoot(0, true),
          } else if (configuration == 0 && DriverStation.getAlliance() == Alliance.Red) {
@@ -32,11 +33,11 @@ class AutoCommandGroup : SequentialCommandGroup {
             // new AutoGoToCenterAndShoot(0, true));
             // new AutoGoToCenterAndShoot(0, false),
             
-           addCommands(
-               AutoGoToPosition(Vector2(4.0, -2.0), 0.0),
-               AutoGoToPosition(Vector2(4.0, 2.0), 0.0),
-               AutoGoToAngle(70.0),
-               );
+//           addCommands(
+//               AutoGoToPosition(Vector2(4.0, -2.0), 0.0),
+//               AutoGoToPosition(Vector2(4.0, 2.0), 0.0),
+//               AutoGoToAngle(70.0),
+//               );
             // new AutoGoToPosition(new Vector2(.7, 3.8), 0));
         // }
     }

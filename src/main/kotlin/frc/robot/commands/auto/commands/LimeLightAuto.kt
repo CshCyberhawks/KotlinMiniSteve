@@ -14,18 +14,21 @@ class LimeLightAuto : CommandBase {
     var isAtPosition = false
     var pickedUpBall = false
     var firstTimeAtAngle = false
-    var intakeSequence: IntakeSequence? = null
 
     constructor() {
-        // Use addRequirements() here to declare subsystem dependencies.
-        swerveAuto = Robot.swerveAuto
-        swerveAuto!!.setDesiredAngle(Limelight.getHorizontalOffset(), true)
     }
 
+    override fun initialize() {
+        // Use addRequirements() here to declare subsystem dependencies.
+        swerveAuto = Robot.swerveAuto
+        swerveAuto!!.setDesiredAngle(Limelight.getHorizontalOffset() + Robot.swo!!.getPosition()!!.angle, false)
+    }
     override fun execute() {
         SmartDashboard.putNumber("limeLightDistance", Limelight.getBallDistance())
-        if (!isAtAngle) swerveAuto!!.twist() else if (isAtAngle && !isAtPosition && firstTimeAtAngle) {
-            intakeSequence = IntakeSequence()
+        if (!isAtAngle) {
+            swerveAuto!!.twist() 
+        }
+        else if (isAtAngle && !isAtPosition && firstTimeAtAngle) {
             swerveAuto!!.setDesiredPositionDistance(Limelight.getBallDistance())
         } else if (!isAtPosition && isAtAngle) {
             swerveAuto!!.translate()
@@ -39,9 +42,13 @@ class LimeLightAuto : CommandBase {
     override fun isFinished(): Boolean {
         if (!isAtAngle) {
             isAtAngle = swerveAuto!!.isAtDesiredAngle()
-            firstTimeAtAngle = if (isAtAngle) true else false
-        } else if (isAtAngle && !isAtPosition) isAtPosition = swerveAuto!!.isAtDesiredPosition()
-        pickedUpBall = intakeSequence!!.isFinished()
-        return pickedUpBall
+            firstTimeAtAngle = isAtAngle
+        } else if (!isAtPosition && isAtAngle) {
+            isAtPosition = swerveAuto!!.isAtDesiredPosition()
+        }
+
+//        pickedUpBall = intakeSequence!!.isFinished()
+//        return pickedUpBall
+        return isAtPosition
     }
 }

@@ -23,8 +23,8 @@ class SwerveAuto {
     var ballPositions: Array<Vector2>
 
     private var byBall = false
-    private val ballDistanceDeadzone = 1.0
-    private val normalDistanceDeadzone = .1
+    private val ballDistanceDeadzone = 0.05
+    private val normalDistanceDeadzone = .5
 
     private val positionStopRange = .1
     private val isAtPosition = false
@@ -61,6 +61,7 @@ class SwerveAuto {
     fun setDesiredPosition(desiredPosition: Vector2) { // , double desiredVelocity) {
         byBall = false
         this.desiredPosition = desiredPosition
+        // SmartDashboard.putNumber("Desired pos input", desiredPosition.x)
         val polarPosition = MathClass.cartesianToPolar(desiredPosition.x, desiredPosition.y)
         // double[] desiredVelocities = MathClass.polarToCartesian(polarPosition[0],
         // desiredVelocity);
@@ -69,12 +70,13 @@ class SwerveAuto {
     }
 
     fun setDesiredPositionBall(ballNumber: Int) { // , double desiredVelocity) {
+        // SmartDashboard.putNumber("desired pos from ball fun", ballPositions[ballNumber].x)
         setDesiredPosition(ballPositions[ballNumber]) // , desiredVelocity);
         byBall = true
     }
 
     fun setDesiredPositionDistance(distance: Double) {
-        val desiredPositionCart = MathClass.polarToCartesian(Gyro.getAngle(), distance)
+        val desiredPositionCart = MathClass.polarToCartesian(Robot.swo!!.getPosition()!!.angle, distance)
         setDesiredPosition(Vector2(desiredPositionCart!![0], desiredPositionCart[1])) // , 0);
     }
 
@@ -87,6 +89,7 @@ class SwerveAuto {
     }
 
     fun isAtDesiredPosition(): Boolean {
+        // SmartDashboard.putNumber("Desired position distance x", desiredPosition!!.x - MathClass.swosToMeters(Robot.swo!!.getPosition()!!.positionCoord!!.x))
         return if (byBall) {
             (MathClass.calculateDeadzone(
                 desiredPosition!!.x - MathClass.swosToMeters(Robot.swo!!.getPosition()!!.positionCoord!!.x),
@@ -97,7 +100,7 @@ class SwerveAuto {
                 ballDistanceDeadzone
             ) == 0.0)
         } else {
-            (MathClass.calculateDeadzone(
+             (MathClass.calculateDeadzone(
                 desiredPosition!!.x - MathClass.swosToMeters(Robot.swo!!.getPosition()!!.positionCoord!!.x),
                 normalDistanceDeadzone
             ) == 0.0
@@ -111,7 +114,7 @@ class SwerveAuto {
     fun isAtDesiredAngle(): Boolean {
         return MathClass.calculateDeadzone(
             MathClass.wrapAroundAngles(Robot.swo!!.getPosition()!!.angle) - MathClass.wrapAroundAngles(desiredAngle),
-            10.0
+            20.0
         ) == 0.0
     }
 
@@ -124,8 +127,8 @@ class SwerveAuto {
         trapYFinsihed = trapYProfile.isFinished(trapTime)
         val trapXOutput = trapXProfile.calculate(trapTime)
         val trapYOutput = trapYProfile.calculate(trapTime)
-        SmartDashboard.putNumber("TrapY", trapYOutput.position);
-        SmartDashboard.putNumber("TrapX", trapXOutput.position);
+        // SmartDashboard.putNumber("TrapY", trapYOutput.position);
+        // SmartDashboard.putNumber("TrapX", trapXOutput.position);
         val xPIDOutput = xPID.calculate(
             MathClass.swosToMeters(Robot.swo!!.getPosition()!!.positionCoord!!.x),
             trapXOutput.position
@@ -138,8 +141,8 @@ class SwerveAuto {
         val yVel = (trapYOutput.velocity + yPIDOutput)
         // val xVel = xPIDOutput
         // val yVel = yPIDOutput
-        SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
-        SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
+        // SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
+        // SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
         Robot.swerveSystem!!.drive(xVel / 3.777, yVel / 3.777, 0.0, 0.0, DriveState.AUTO)
         trapXCurrentState = trapXOutput
         trapYCurrentState = trapYOutput
@@ -149,7 +152,7 @@ class SwerveAuto {
     fun twist() {
         val twistValue: Double = MathUtil.clamp(Robot.swo!!.getPosition()!!.angle - desiredAngle, -1.0, 1.0)
         val twistInput = twistValue * .3
-        SmartDashboard.putNumber(" auto twistVal ", twistInput)
+        // SmartDashboard.putNumber(" auto twistVal ", twistInput)
         Robot.swerveSystem!!.drive(0.0, 0.0, twistInput, 0.0, DriveState.AUTO)
     }
 
