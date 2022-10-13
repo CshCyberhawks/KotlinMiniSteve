@@ -15,14 +15,14 @@ class MathClass {
             return g / 9.8066
         }
 
-        fun cartesianToPolar(x: Double, y: Double): DoubleArray? {
+        fun cartesianToPolar(x: Double, y: Double): DoubleArray {
             // math to turn cartesian into polar
             val r = Math.sqrt(Math.pow(x, 2.0) + Math.pow(y, 2.0))
             val theta = Math.toDegrees(Math.atan2(y, x))
             return doubleArrayOf(theta, r)
         }
 
-        fun polarToCartesian(theta: Double, r: Double): DoubleArray? {
+        fun polarToCartesian(theta: Double, r: Double): DoubleArray {
             // math to turn polar coordinate into cartesian
             var theta = theta
             theta = Math.toRadians(theta)
@@ -45,7 +45,7 @@ class MathClass {
             speeds: DoubleArray,
             maxSpeed: Double,
             minSpeed: Double
-        ): DoubleArray? {
+        ): DoubleArray {
             val minMax = getMinMax(speeds)
             val divSpeed = if (Math.abs(minMax[0]) > minMax[1]) Math.abs(minMax[0]) else minMax[1]
             val highestSpeed = if (minMax[1] > maxSpeed) maxSpeed else minMax[1]

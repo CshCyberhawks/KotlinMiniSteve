@@ -28,29 +28,29 @@ import java.util.Map
 class Robot : TimedRobot() {
     companion object {
         var swerveAuto: SwerveAuto? = null
-        var limelightFeed: HttpCamera? = null
-        var swerveSystem: SwerveDriveTrain? = null
-        var swo: SwerveOdometry? = null
+        lateinit var limelightFeed: HttpCamera
+        lateinit var swerveSystem: SwerveDriveTrain
+        lateinit var swo: SwerveOdometry
         var swerveCommand: SwerveCommand? = null
-        var limelight: Limelight? = null;
+        lateinit var limelight: Limelight
 
         // public Alliance teamColor;
         // public OldSwerveDriveTrain swerveSystem;
         // public OldSwerveDriveTrain swerveSystem;
         // public SwerveDriveTrain swerveSystem;
-        var shootSystem: ShootSystem? = null
-        var frontBreakBeam: DigitalInput? = null
-        var backBreakBeam: DigitalInput? = null
-        var topBreakBeam: DigitalInput? = null
-        var shootBreakBeam: DigitalInput? = null
+        lateinit var shootSystem: ShootSystem
+        lateinit var frontBreakBeam: DigitalInput
+        lateinit var backBreakBeam: DigitalInput
+        lateinit var topBreakBeam: DigitalInput
+        lateinit var shootBreakBeam: DigitalInput
 
         var isSpitting = false
 
         // public OldSwerveDriveTrain swerveSystem;
         // public SwerveDriveTrain swerveSystem;
-        var intakeSystem: IntakeSystem? = null
-        var transportSystem: TransportSystem? = null
-        var climbSystem: ClimbSystem? = null
+        lateinit var intakeSystem: IntakeSystem
+        lateinit var transportSystem: TransportSystem
+        lateinit var climbSystem: ClimbSystem
 
         var autoCommands: AutoCommandGroup? = null
         private val startingPosition = 0
@@ -126,12 +126,12 @@ class Robot : TimedRobot() {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run()
-        SmartDashboard.putNumber("cargoStored", transportSystem!!.cargoAmount.toDouble())
+        SmartDashboard.putNumber("cargoStored", transportSystem.cargoAmount.toDouble())
     }
 
     /** This function is called once each time the robot enters Disabled mode.  */
     override fun disabledInit() {
-        swo!!.resetPos()
+        swo.resetPos()
         // swerveSystem.resetPredictedOdometry();
     }
 
@@ -148,14 +148,12 @@ class Robot : TimedRobot() {
     override fun autonomousInit() {
 //        swo = SwerveOdometry(Constants.blueStartingPositions[0])
         swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
-        if (swerveCommand != null) {
-            swerveCommand!!.cancel()
-        }
-        limelight!!.pipelineInit()
+        swerveCommand?.cancel()
+        limelight.pipelineInit()
 
         // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
         swerveAuto = SwerveAuto()
-        transportSystem!!.cargoAmount = 1
+        transportSystem.cargoAmount = 1
         autoCommands = AutoCommandGroup(0) // autoConfiguration.getSelected());
 
         // schedule the autonomous command (example)
@@ -164,20 +162,20 @@ class Robot : TimedRobot() {
 
     /** This function is called periodically during autonomous.  */
     override fun autonomousPeriodic() {
-        swo!!.updatePosition()
-        transportSystem!!.cargoMonitor()
+        swo.updatePosition()
+        transportSystem.cargoMonitor()
     }
 
     override fun teleopInit() {
-        shootSystem!!.defaultCommand = ShootCommand(shootSystem)
-        intakeSystem!!.defaultCommand = ManualIntakeCommand(intakeSystem)
+        shootSystem.defaultCommand = ShootCommand(shootSystem)
+        intakeSystem.defaultCommand = ManualIntakeCommand(intakeSystem)
         //TODO: remove this before the competition and leave the leftover cargo stored from auto
-        transportSystem!!.cargoAmount = 0;
-        transportSystem!!.defaultCommand = ManualTransportCommand(transportSystem)
-        climbSystem!!.defaultCommand = ClimbCommand(climbSystem)
+        transportSystem.cargoAmount = 0;
+        transportSystem.defaultCommand = ManualTransportCommand(transportSystem)
+        climbSystem.defaultCommand = ClimbCommand(climbSystem)
         swerveCommand = SwerveCommand(swerveSystem)
         swerveCommand!!.schedule()
-        limelight!!.pipelineInit()
+        limelight.pipelineInit()
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
@@ -190,12 +188,12 @@ class Robot : TimedRobot() {
 
     /** This function is called periodically during operator control.  */
     override fun teleopPeriodic() {
-        swo!!.updatePosition()
-        transportSystem!!.cargoMonitor()
-        SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam!!.get())
-        SmartDashboard.putBoolean("backBreakBeam", backBreakBeam!!.get())
-        SmartDashboard.putBoolean("topBreakBeam", topBreakBeam!!.get())
-        SmartDashboard.putBoolean("shootBreakBeam", shootBreakBeam!!.get())
+        swo.updatePosition()
+        transportSystem.cargoMonitor()
+        SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam.get())
+        SmartDashboard.putBoolean("backBreakBeam", backBreakBeam.get())
+        SmartDashboard.putBoolean("topBreakBeam", topBreakBeam.get())
+        SmartDashboard.putBoolean("shootBreakBeam", shootBreakBeam.get())
     }
 
     var orchestra: Orchestra? = null
@@ -221,10 +219,10 @@ class Robot : TimedRobot() {
 
     /** This function is called periodically during test mode.  */
     override fun testPeriodic() {
-        val frontRightValue = wrapAroundAngles(swerveSystem!!.frontRight!!.turnEncoder!!.getRaw())
-        val backRightValue = wrapAroundAngles(swerveSystem!!.backRight!!.turnEncoder!!.getRaw())
-        val frontLeftValue = wrapAroundAngles(swerveSystem!!.frontLeft!!.turnEncoder!!.getRaw())
-        val backLeftValue = wrapAroundAngles(swerveSystem!!.backLeft!!.turnEncoder!!.getRaw())
+        val frontRightValue = wrapAroundAngles(swerveSystem.frontRight!!.turnEncoder!!.getRaw())
+        val backRightValue = wrapAroundAngles(swerveSystem.backRight!!.turnEncoder!!.getRaw())
+        val frontLeftValue = wrapAroundAngles(swerveSystem.frontLeft!!.turnEncoder!!.getRaw())
+        val backLeftValue = wrapAroundAngles(swerveSystem.backLeft!!.turnEncoder!!.getRaw())
         val encoderValues: DoubleArray = doubleArrayOf(frontRightValue, frontLeftValue, backRightValue, backLeftValue)
 
         SmartDashboard.putString("Encoder Values", encoderValues.joinToString(", "))

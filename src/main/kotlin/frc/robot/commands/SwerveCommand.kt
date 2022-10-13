@@ -10,12 +10,10 @@ import frc.robot.util.IO
 import frc.robot.util.MathClass
 
 
-class SwerveCommand : CommandBase {
-    private var swerveDriveTrain: SwerveDriveTrain? = null
+class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBase() {
 
-    constructor(subsystem: SwerveDriveTrain?) {
-        swerveDriveTrain = subsystem
-        addRequirements(subsystem)
+    init {
+        addRequirements(swerveDriveTrain)
     }
 
     // Called when the command is initially scheduled.
@@ -25,29 +23,21 @@ class SwerveCommand : CommandBase {
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        if (IO.getSWOReset()) Robot.swo!!.resetPos()
-        Robot.swo!!.getPosition()
+        if (IO.getSWOReset()) Robot.swo.resetPos()
+        Robot.swo.getPosition()
         if (IO.resetGyro()) Gyro.setOffset()
-        if (IO.limelightLockOn()) swerveDriveTrain!!.drive(
+        if (IO.limelightLockOn()) swerveDriveTrain.drive(
             -IO.moveRobotX(),
             -IO.moveRobotY(),
-            -MathClass.calculateDeadzone(Robot.limelight!!.getHorizontalOffset(), .5) / 27,
+            -MathClass.calculateDeadzone(Robot.limelight.getHorizontalOffset(), .5) / 27,
             IO.getJoyThrottle(),
             DriveState.TELE
-        ) else swerveDriveTrain!!.drive(
+        ) else swerveDriveTrain.drive(
             -IO.moveRobotX(),
             -IO.moveRobotY(),
             -IO.turnControl(),
             IO.getJoyThrottle(),
             DriveState.TELE
         )
-    }
-
-    // Called once the command ends or is interrupted.
-    override fun end(interrupted: Boolean) {}
-
-    // Returns true when the command should end.
-    override fun isFinished(): Boolean {
-        return false
     }
 }

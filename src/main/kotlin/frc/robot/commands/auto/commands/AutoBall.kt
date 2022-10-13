@@ -10,61 +10,47 @@ import frc.robot.util.MathClass
 import frc.robot.util.Vector2
 
 
-class AutoBall : CommandBase {
-    private var startTime = 0.0
-    private var intakeSequence: IntakeSequence? = null
-    private var autoPos: AutoGoToPosition? = null
-    private var autoLimeLight: LimeLightAuto? = null
-    private var autoAngle: AutoGoToAngle? = null
+class AutoBall(ballNumber: Int) : CommandBase() {
+    val desiredPosition: Vector2 = Robot.swerveAuto!!.ballPositions.get(ballNumber)
+
+    private var startTime = MathClass.getCurrentTime()
+    private var intakeSequence: IntakeSequence = IntakeSequence()
+    private var autoPos: AutoGoToPosition = AutoGoToPosition(ballNumber, 0.0)
+    private var autoLimeLight: LimeLightAuto = LimeLightAuto()
+    private var desiredAngle: Double = MathClass.cartesianToPolar(
+        desiredPosition.x - Robot.swo.getPosition().positionCoord.x,
+        desiredPosition.y - Robot.swo.getPosition().positionCoord.y
+    )[0]
+    private var autoAngle: AutoGoToAngle = AutoGoToAngle(desiredAngle)
     private var autoAngleScheduled: Boolean = false
     private var autoLimeLightScheduled: Boolean = false
-    private var desiredAngle: Double = 0.0
 
-    constructor(ballNumber: Int) {
-        startTime = MathClass.getCurrentTime()
-        Robot.swo!!.resetPos()
-        // add your autonomous commands below
-        // example: below will move robot 2 meters on the x and rotate to 90 degrees
-        // then it will wait 1 second before moving the robot back to its starting
-        // position
-        val desiredPosition: Vector2 = Robot.swerveAuto!!.ballPositions.get(ballNumber)
-        desiredAngle =  MathClass.cartesianToPolar(
-            desiredPosition.x - Robot.swo!!.getPosition()!!.positionCoord!!.x,
-            desiredPosition.y - Robot.swo!!.getPosition()!!.positionCoord!!.y
-        )!![0]
-        // Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
-        // SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
-        intakeSequence = IntakeSequence()
-        autoPos = AutoGoToPosition(ballNumber, 0.0)
-        // new AutoGoToAngle((desiredAngle + 180) % 360), // desiredAngle),
-        // new LimeLightAuto());
-        autoAngle = AutoGoToAngle(desiredAngle)
-        autoLimeLight = LimeLightAuto()
+    init {
+        Robot.swo.resetPos()
         SmartDashboard.putBoolean("auto2", false)
-
     }
 
     override fun initialize() {
-        autoPos!!.schedule()
-        intakeSequence!!.schedule()
+        autoPos.schedule()
+        intakeSequence.schedule()
     }
 
     override fun execute() {
         SmartDashboard.putBoolean("aub aua", Robot.swerveAuto!!.isAtDesiredAngle())
 
-        if (autoPos!!.isFinished && autoAngleScheduled == false) {
+        if (autoPos.isFinished && !autoAngleScheduled) {
             CommandScheduler.getInstance().schedule(autoAngle)
             autoAngleScheduled = true
         }
-        if (Robot.swerveAuto!!.isAtDesiredAngle() && autoAngleScheduled && autoLimeLightScheduled == false) {
+        if (Robot.swerveAuto!!.isAtDesiredAngle() && autoAngleScheduled && !autoLimeLightScheduled) {
             SmartDashboard.putBoolean("auto2", true)
             CommandScheduler.getInstance().schedule(autoLimeLight)
-            autoAngle?.end(true)
+            autoAngle.end(true)
             autoLimeLightScheduled = true
         }
     }
  
     override fun isFinished(): Boolean {
-        return intakeSequence!!.isFinished() // || MathClass.getCurrentTime() - startTime > 5;
+        return intakeSequence.isFinished() // || MathClass.getCurrentTime() - startTime > 5;
     }
 }

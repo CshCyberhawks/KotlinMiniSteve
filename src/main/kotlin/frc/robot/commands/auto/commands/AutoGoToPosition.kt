@@ -8,13 +8,13 @@ import frc.robot.util.Vector2
 
 
 class AutoGoToPosition : CommandBase {
-    private var desiredPosition: Vector2? = null
+    private var desiredPosition: Vector2 = Vector2(0.0, 0.0)
     private var desiredVelocity = 0.0
     private var ballNumber = 0
     private var byBallNumber = false
     private var startTime = 0.0
 
-    constructor(desiredPosition: Vector2?, desiredVelocity: Double) : super() {
+    constructor(desiredPosition: Vector2, desiredVelocity: Double) : super() {
         this.desiredPosition = desiredPosition
         this.desiredVelocity = desiredVelocity
     }
@@ -44,7 +44,7 @@ class AutoGoToPosition : CommandBase {
         // (based on
         // robot staring position)
         if (!byBallNumber) {
-            Robot.swerveAuto!!.setDesiredPosition(desiredPosition!!) // , desiredVelocity);
+            Robot.swerveAuto!!.setDesiredPosition(desiredPosition) // , desiredVelocity);
         } else {
             Robot.swerveAuto!!.setDesiredPositionBall(ballNumber) // , desiredVelocity);
         }

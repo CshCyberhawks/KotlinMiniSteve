@@ -14,49 +14,41 @@ import frc.robot.util.DriveState
 import frc.robot.util.TurnEncoder
 
 
-class SwerveWheel {
-    private var turnMotor: TalonSRX? = null
-    private var driveMotor: TalonFX? = null
-    public var turnEncoder: TurnEncoder? = null
-    private var driveEncoder: DriveEncoder? = null
+class SwerveWheel(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
+    private var turnMotor: TalonSRX = TalonSRX(turnPort)
+    private var driveMotor: TalonFX = TalonFX(drivePort)
+    var turnEncoder: TurnEncoder = TurnEncoder(turnEncoderPort)
+    private var driveEncoder: DriveEncoder = DriveEncoder(driveMotor)
 
     private var oldAngle = 0.0
 
-    private var m_turnEncoderPort = 0
+    private var m_turnEncoderPort = turnEncoderPort
 
     // below is in m / 20 ms
     private var maxAcceleration = .01
     private var lastSpeed = 0.0
 
-    internal var turnValue = 0.0
-    internal var currentDriveSpeed = 0.0
+    private var turnValue = 0.0
+    private var currentDriveSpeed = 0.0
     var rawTurnValue = 0.0
 
-    private var turnPidController: PIDController? = null
-    private var drivePidController: PIDController? = null
-    private var speedPID: PIDController? = null
+    private var turnPidController: PIDController = PIDController(.01, 0.0, 0.0)
+    private var drivePidController: PIDController = PIDController(0.01, 0.0, 0.0)
+    private var speedPID: PIDController = PIDController(0.03, 0.0, 0.0)
 
-    constructor(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
-        turnMotor = TalonSRX(turnPort)
-        driveMotor = TalonFX(drivePort)
-        driveEncoder = DriveEncoder(driveMotor!!)
-        turnEncoder = TurnEncoder(turnEncoderPort)
-        driveMotor!!.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0)
-        driveMotor!!.config_kF(0, 0.0)
-        driveMotor!!.config_kP(0, 0.01)
-        driveMotor!!.config_kI(0, 0.0)
-        driveMotor!!.config_kD(0, 0.0)
-        driveMotor!!.setNeutralMode(NeutralMode.Brake)
-        m_turnEncoderPort = turnEncoderPort
-        turnPidController = PIDController(.01, 0.0, 0.0)
-        turnPidController!!.setTolerance(4.0)
-        turnPidController!!.enableContinuousInput(0.0, 360.0)
-        speedPID = PIDController(0.03, 0.0, 0.0)
-        drivePidController = PIDController(0.01, 0.0, 0.0)
+    init {
+        driveMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0)
+        driveMotor.config_kF(0, 0.0)
+        driveMotor.config_kP(0, 0.01)
+        driveMotor.config_kI(0, 0.0)
+        driveMotor.config_kD(0, 0.0)
+        driveMotor.setNeutralMode(NeutralMode.Brake)
+        turnPidController.setTolerance(4.0)
+        turnPidController.enableContinuousInput(0.0, 360.0)
         if (turnEncoderPort == 1 || turnEncoderPort == 3) {
-            driveMotor!!.setInverted(true)
+            driveMotor.setInverted(true)
         } else {
-            driveMotor!!.setInverted(false)
+            driveMotor.setInverted(false)
         }
     }
 
@@ -81,12 +73,12 @@ class SwerveWheel {
     }
 
     fun getCurrentDriveSpeed(): Double {
-        val driveVelocity = driveEncoder!!.getVelocity()
+        val driveVelocity = driveEncoder.getVelocity()
         return convertToMetersPerSecondFromSecond(driveVelocity)
     }
 
     fun getTurnValue(): Double {
-        return wrapAroundAngles(turnEncoder!!.get())
+        return wrapAroundAngles(turnEncoder.get())
     }
 
 
@@ -104,7 +96,7 @@ class SwerveWheel {
         turnValue = getTurnValue()
 
         // SmartDashboard.putNumber("$m_turnEncoderPort wheel rotations", driveVelocity)
-        rawTurnValue = turnEncoder!!.get()
+        rawTurnValue = turnEncoder.get()
         angle = wrapAroundAngles(angle)
 
         // Optimization Code stolen from
@@ -126,20 +118,21 @@ class SwerveWheel {
         lastSpeed = speed
         speed = convertToMetersPerSecond(speed * 5000) // Converting the speed to m/s with a max rpm of 5000 (GEar
         // ratio is 7:1)
-        val turnPIDOutput = turnPidController!!.calculate(turnValue, angle)
+        val turnPIDOutput = turnPidController.calculate(turnValue, angle)
 
         // maybe reason why gradual deecleration isn't working is because the PID
         // controller is trying to slow down by going opposite direction in stead of
         // just letting wheels turn? maybe we need to skip the PID for slowing down?
         // maybe needs more tuning?
-        val drivePIDOutput = drivePidController!!.calculate(currentDriveSpeed, speed)
+        val drivePIDOutput = drivePidController.calculate(currentDriveSpeed, speed)
 
         // SmartDashboard.putNumber(m_turnEncoderPort + " pid value", drivePIDOutput);
 
         // double driveFeedForwardOutput = driveFeedforward.calculate(currentDriveSpeed,
         // speed);
 
-        SmartDashboard.putNumber(m_turnEncoderPort.toString() + " currentDriveSpeed",
+        SmartDashboard.putNumber(
+            "$m_turnEncoderPort currentDriveSpeed",
         currentDriveSpeed);
         // SmartDashboard.putNumber(m_turnEncoderPort + " turn set", turnPIDOutput);
 
@@ -147,9 +140,9 @@ class SwerveWheel {
         // drivePIDOutput);
         // SmartDashboard.putNumber(m_turnEncoderPort + " turnSet", turnPIDOutput);
         // 70% speed is about 5.6 feet/second
-        driveMotor!![ControlMode.PercentOutput] = MathUtil.clamp(speed / 3.777 /* + drivePIDOutput */, -1.0, 1.0)
-        if (!turnPidController!!.atSetpoint()) {
-            turnMotor!![ControlMode.PercentOutput] = MathUtil.clamp(turnPIDOutput, -1.0, 1.0)
+        driveMotor[ControlMode.PercentOutput] = MathUtil.clamp(speed / 3.777 /* + drivePIDOutput */, -1.0, 1.0)
+        if (!turnPidController.atSetpoint()) {
+            turnMotor[ControlMode.PercentOutput] = MathUtil.clamp(turnPIDOutput, -1.0, 1.0)
         }
     }
 
@@ -158,7 +151,7 @@ class SwerveWheel {
     }
 
     fun kill() {
-        driveMotor!![ControlMode.PercentOutput] = 0.0
-        turnMotor!![ControlMode.PercentOutput] = 0.0
+        driveMotor[ControlMode.PercentOutput] = 0.0
+        turnMotor[ControlMode.PercentOutput] = 0.0
     }
 }

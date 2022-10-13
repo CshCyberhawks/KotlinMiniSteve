@@ -11,20 +11,32 @@ import frc.robot.Robot
 import frc.robot.util.*
 
 
-class SwerveDriveTrain : SubsystemBase {
-    var backLeft: SwerveWheel? = null
-    var backRight: SwerveWheel? = null
-    var frontLeft: SwerveWheel? = null
-    var frontRight: SwerveWheel? = null
+class SwerveDriveTrain() : SubsystemBase() { // p = 10 gets oscillation
+    var backLeft: SwerveWheel = SwerveWheel(
+        Constants.backLeftTurnMotor, Constants.backLeftDriveMotor,
+        Constants.backLeftEncoder
+    )
+    var backRight: SwerveWheel = SwerveWheel(
+        Constants.backRightTurnMotor, Constants.backRightDriveMotor,
+        Constants.backRightEncoder
+    )
+    var frontLeft: SwerveWheel = SwerveWheel(
+        Constants.frontLeftTurnMotor, Constants.frontLeftDriveMotor,
+        Constants.frontLeftEncoder
+    )
+    var frontRight: SwerveWheel = SwerveWheel(
+        Constants.frontRightTurnMotor, Constants.frontRightDriveMotor,
+        Constants.frontRightEncoder
+    )
     var gyro: Gyro? = null
     var throttle = 0.35
 
-    var xPID: PIDController? = null
-    var yPID: PIDController? = null
+    var xPID: PIDController = PIDController(10.0, 0.0, 1.0)
+    var yPID: PIDController = PIDController(10.0, 0.0, 1.0)
 
-    var predictedVelocity: Vector2? = null
+    var predictedVelocity: Vector2 = Vector2(0.0, 0.0)
 
-    var wheelArr: Array<SwerveWheel?> = arrayOfNulls<SwerveWheel>(4)
+    var wheelArr: Array<SwerveWheel> = arrayOf(backLeft, backRight, frontLeft, frontRight)
 
     var isTwisting = false
 
@@ -32,37 +44,12 @@ class SwerveDriveTrain : SubsystemBase {
     // odometry
     private var lastUpdateTime = -1.0
 
-    private var throttleShuffle: NetworkTableEntry? = null
+    private var throttleShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("throttle", throttle).getEntry()
 
     var maxSwos = 13.9458
     var maxMeters = 3.777
 
-    constructor() {
-        // p = 10 gets oscillation
-        xPID = PIDController(10.0, 0.0, 1.0)
-        yPID = PIDController(10.0, 0.0, 1.0)
-        backLeft = SwerveWheel(
-            Constants.backLeftTurnMotor, Constants.backLeftDriveMotor,
-            Constants.backLeftEncoder
-        )
-        backRight = SwerveWheel(
-            Constants.backRightTurnMotor, Constants.backRightDriveMotor,
-            Constants.backRightEncoder
-        )
-        frontLeft = SwerveWheel(
-            Constants.frontLeftTurnMotor, Constants.frontLeftDriveMotor,
-            Constants.frontLeftEncoder
-        )
-        frontRight = SwerveWheel(
-            Constants.frontRightTurnMotor, Constants.frontRightDriveMotor,
-            Constants.frontRightEncoder
-        )
-        wheelArr[0] = backLeft
-        wheelArr[1] = backRight
-        wheelArr[2] = frontLeft
-        wheelArr[3] = frontRight
-        predictedVelocity = Vector2(0.0, 0.0)
-        throttleShuffle = Robot.driveShuffleboardTab.add("throttle", throttle).getEntry()
+    init {
         Gyro.setOffset()
     }
 
@@ -123,14 +110,14 @@ class SwerveDriveTrain : SubsystemBase {
         else {
             throttle = throttleChange
         }
-        throttleShuffle!!.setDouble(throttle)
+        throttleShuffle.setDouble(throttle)
         SmartDashboard.putNumber("throttle ", throttle)
         // SmartDashboard.putNumber("gyro val", gyroAngle)
         if (inputX == 0.0 && inputY == 0.0 && inputTwist == 0.0) {
-            backRight!!.preserveAngle()
-            backLeft!!.preserveAngle()
-            frontRight!!.preserveAngle()
-            frontLeft!!.preserveAngle()
+            backRight.preserveAngle()
+            backLeft.preserveAngle()
+            frontRight.preserveAngle()
+            frontLeft.preserveAngle()
             lastUpdateTime = timeNow
             return
         }
@@ -144,12 +131,10 @@ class SwerveDriveTrain : SubsystemBase {
         // random decimal below is the max speed of robot in swos
         // double constantScaler = 13.9458 * highestSpeed;
         SmartDashboard.putNumber("drive inputTwist ", inputTwist)
-        when (mode) {
-            DriveState.TELE -> {
-                inputX *= throttle
-                inputY *= throttle
-                inputTwist *= throttle // (throttle * 3);
-            }
+        if (mode == DriveState.TELE) {
+            inputX *= throttle
+            inputY *= throttle
+            inputTwist *= throttle // (throttle * 3);
         }
         SmartDashboard.putNumber("drive inputX ", inputX)
         SmartDashboard.putNumber("drive inputY ", inputY)
@@ -191,8 +176,8 @@ class SwerveDriveTrain : SubsystemBase {
         val frontLeftAngle = frontLeftVector[0]
         val backRightAngle = backRightVector[0]
         val backLeftAngle = backLeftVector[0]
-        var wheelSpeeds: DoubleArray? = doubleArrayOf(frontRightSpeed, frontLeftSpeed, backRightSpeed, backLeftSpeed)
-        wheelSpeeds = MathClass.normalizeSpeeds(wheelSpeeds!!, 1.0, -1.0)
+        var wheelSpeeds: DoubleArray = doubleArrayOf(frontRightSpeed, frontLeftSpeed, backRightSpeed, backLeftSpeed)
+        wheelSpeeds = MathClass.normalizeSpeeds(wheelSpeeds, 1.0, -1.0)
 
         // SmartDashboard.putNumber("frontRightAngle", frontRightAngle);
         // SmartDashboard.putNumber("frontLeftAngle", frontLeftAngle);
@@ -200,10 +185,10 @@ class SwerveDriveTrain : SubsystemBase {
         // SmartDashboard.putNumber("backLeftAngle", backLeftAngle);
 
         // sets the speed and angle of each motor
-        backRight!!.drive(wheelSpeeds!![2], backRightAngle, mode)
-        backLeft!!.drive(wheelSpeeds[3], backLeftAngle, mode)
-        frontRight!!.drive(wheelSpeeds[0], frontRightAngle, mode)
-        frontLeft!!.drive(wheelSpeeds[1], frontLeftAngle, mode)
+        backRight.drive(wheelSpeeds[2], backRightAngle, mode)
+        backLeft.drive(wheelSpeeds[3], backLeftAngle, mode)
+        frontRight.drive(wheelSpeeds[0], frontRightAngle, mode)
+        frontLeft.drive(wheelSpeeds[1], frontLeftAngle, mode)
 
         // predictedVelocity.x = inputX * maxSwos * period;
         // predictedVelocity.y = inputY * maxSwos * period;
