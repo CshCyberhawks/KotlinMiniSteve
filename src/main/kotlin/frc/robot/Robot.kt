@@ -170,7 +170,7 @@ class Robot : TimedRobot() {
         shootSystem.defaultCommand = ShootCommand(shootSystem)
         intakeSystem.defaultCommand = ManualIntakeCommand(intakeSystem)
         //TODO: remove this before the competition and leave the leftover cargo stored from auto
-        transportSystem.cargoAmount = 0;
+        transportSystem.cargoAmount = 0
         transportSystem.defaultCommand = ManualTransportCommand(transportSystem)
         climbSystem.defaultCommand = ClimbCommand(climbSystem)
         swerveCommand = SwerveCommand(swerveSystem)
@@ -219,10 +219,10 @@ class Robot : TimedRobot() {
 
     /** This function is called periodically during test mode.  */
     override fun testPeriodic() {
-        val frontRightValue = wrapAroundAngles(swerveSystem.frontRight!!.turnEncoder!!.getRaw())
-        val backRightValue = wrapAroundAngles(swerveSystem.backRight!!.turnEncoder!!.getRaw())
-        val frontLeftValue = wrapAroundAngles(swerveSystem.frontLeft!!.turnEncoder!!.getRaw())
-        val backLeftValue = wrapAroundAngles(swerveSystem.backLeft!!.turnEncoder!!.getRaw())
+        val frontRightValue = wrapAroundAngles(swerveSystem.frontRight.turnEncoder.getRaw())
+        val backRightValue = wrapAroundAngles(swerveSystem.backRight.turnEncoder.getRaw())
+        val frontLeftValue = wrapAroundAngles(swerveSystem.frontLeft.turnEncoder.getRaw())
+        val backLeftValue = wrapAroundAngles(swerveSystem.backLeft.turnEncoder.getRaw())
         val encoderValues: DoubleArray = doubleArrayOf(frontRightValue, frontLeftValue, backRightValue, backLeftValue)
 
         SmartDashboard.putString("Encoder Values", encoderValues.joinToString(", "))
