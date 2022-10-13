@@ -22,6 +22,10 @@ class LimeLightAuto : CommandBase() {
         }
     }
 
+    override fun end(interrupted: Boolean) {
+        swerveAuto.kill()
+    }
+
     override fun isFinished(): Boolean {
         return swerveAuto.isFinsihedMoving()
     }
