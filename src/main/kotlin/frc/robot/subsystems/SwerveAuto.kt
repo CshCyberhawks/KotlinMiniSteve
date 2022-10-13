@@ -2,9 +2,11 @@ package frc.robot.subsystems
 
 import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.math.trajectory.TrapezoidProfile
+import edu.wpi.first.math.MathUtil
 import edu.wpi.first.util.WPIUtilJNI
 import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.robot.Constants
 import frc.robot.Robot
 import frc.robot.util.DriveState
@@ -20,8 +22,8 @@ class SwerveAuto {
     var ballPositions: Array<Vector2>
 
     private var byBall = false
-    private val ballDistanceDeadzone = 0.05
-    private val normalDistanceDeadzone = .5
+    private val ballDistanceDeadzone = 0.1
+    private val normalDistanceDeadzone = .1
 
     private val positionStopRange = .1
     private val isAtPosition = false
@@ -131,7 +133,7 @@ class SwerveAuto {
         return MathClass.calculateDeadzone(
                 MathClass.wrapAroundAngles(Robot.swo!!.getPosition()!!.angle) -
                         MathClass.wrapAroundAngles(desiredAngle),
-                20.0
+                5.0
         ) == 0.0
     }
 
@@ -181,8 +183,10 @@ class SwerveAuto {
     }
 
     fun calculateTwist(): Double {
-        val twistValue: Double = MathClass.optimize(desiredAngle, Robot.swo!!.getPosition()!!.angle)
-        val twistInput = twistValue * Robot.swerveSystem!!.throttle
+        val targetVal = MathUtil.clamp(MathClass.calculateDeadzone(desiredAngle - Robot.swo!!.getPosition()!!.angle, 10.0), -1.0, 1.0)
+
+        // val twistValue: Double = desiredAngle, Robot.swo!!.getPosition()!!.angle
+        val twistInput = (targetVal / 10) * Robot.swerveSystem!!.throttle
         return twistInput
     }
 

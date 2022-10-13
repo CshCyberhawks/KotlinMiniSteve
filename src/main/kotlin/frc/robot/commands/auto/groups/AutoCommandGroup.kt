@@ -7,6 +7,7 @@ import frc.robot.Constants
 import frc.robot.commands.auto.commands.AutoBall
 import frc.robot.commands.auto.commands.AutoGoToPosition
 import frc.robot.commands.auto.commands.AutoGoToAngle
+import frc.robot.commands.auto.commands.AutoGoToPositionAndAngle
 import frc.robot.util.Vector2
 
 
@@ -21,6 +22,7 @@ class AutoCommandGroup : SequentialCommandGroup {
                     // AutoGoToPosition(Constants.blueBallPositions[0], 0.0)
 //             AutoGoToPosition(Vector2(3.0, 0.0), 0.0)
               AutoBall(0)
+              // AutoGoToPositionAndAngle(Vector2(5.0, 0.0), 0.0, 0.0)
              )
              // new AutoGoToCenterAndShoot(0, true),
          } else if (configuration == 0 && DriverStation.getAlliance() == Alliance.Red) {

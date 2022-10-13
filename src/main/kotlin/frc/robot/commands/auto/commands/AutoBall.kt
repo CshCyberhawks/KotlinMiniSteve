@@ -12,12 +12,9 @@ import frc.robot.util.Vector2
 class AutoBall : CommandBase {
     private var startTime = 0.0
     private var intakeSequence: IntakeSequence? = null
-    private var autoPos: AutoGoToPosition? = null
-    private var autoLimeLight: OldLimeLightAuto? = null
-    private var autoAngle: AutoGoToAngle? = null
-    private var autoAngleScheduled: Boolean = false
-    private var autoLimeLightScheduled: Boolean = false
     private var desiredAngle: Double = 0.0
+    private var autoMove: AutoGoToPositionAndAngle
+    private var autoLimeLight: LimeLightAuto
 
     constructor(ballNumber: Int) {
         startTime = MathClass.getCurrentTime()
@@ -34,33 +31,29 @@ class AutoBall : CommandBase {
         // Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
         // SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
         intakeSequence = IntakeSequence()
-        autoPos = AutoGoToPosition(ballNumber, 0.0)
-        // new AutoGoToAngle((desiredAngle + 180) % 360), // desiredAngle),
-        // new LimeLightAuto());
-        autoAngle = AutoGoToAngle(desiredAngle)
-        autoLimeLight = OldLimeLightAuto()
-        SmartDashboard.putBoolean("auto2", false)
-
+        autoMove = AutoGoToPositionAndAngle(ballNumber, 0.0, 0.0)
+        autoLimeLight = LimeLightAuto()
     }
 
     override fun initialize() {
-        autoPos!!.schedule()
+        CommandScheduler.getInstance().schedule(autoMove)
         intakeSequence!!.schedule()
     }
 
     override fun execute() {
-        SmartDashboard.putBoolean("aub aua", Robot.swerveAuto!!.isAtDesiredAngle())
-
-        if (autoPos!!.isFinished && autoAngleScheduled == false) {
-            CommandScheduler.getInstance().schedule(autoAngle)
-            autoAngleScheduled = true
-        }
-        if (Robot.swerveAuto!!.isAtDesiredAngle() && autoAngleScheduled && autoLimeLightScheduled == false) {
-            SmartDashboard.putBoolean("auto2", true)
+        // if (Robot.swerveAuto!!.isAtDesiredAngle() && autoAngleScheduled && autoLimeLightScheduled == false) {
+        //     SmartDashboard.putBoolean("auto2", true)
+        //     // CommandScheduler.getInstance().schedule(autoLimeLight)
+        //     autoAngle?.end(true)
+        //     autoLimeLightScheduled = true
+        // }
+        var limeLightScheduled: Boolean = false;
+        if (autoMove.isFinished()) {
+            println("scheduling limelight")
             CommandScheduler.getInstance().schedule(autoLimeLight)
-            autoAngle?.end(true)
-            autoLimeLightScheduled = true
+            limeLightScheduled = true;
         }
+        SmartDashboard.putBoolean("limelight scheduled", limeLightScheduled)
     }
  
     override fun isFinished(): Boolean {
