@@ -183,8 +183,7 @@ class SwerveAuto {
     }
 
     fun calculateTwist(): Double {
-        val targetVal = MathUtil.clamp(MathClass.calculateDeadzone(desiredAngle - Robot.swo!!.getPosition()!!.angle, 10.0), -1.0, 1.0)
-
+        val targetVal = MathUtil.clamp(MathClass.calculateDeadzone(desiredAngle - Robot.swo!!.getPosition()!!.angle, .5), -1.0, 1.0)
         // val twistValue: Double = desiredAngle, Robot.swo!!.getPosition()!!.angle
         val twistInput = (targetVal / 10) * Robot.swerveSystem!!.throttle
         return twistInput

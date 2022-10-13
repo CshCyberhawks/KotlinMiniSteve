@@ -15,6 +15,7 @@ class AutoBall : CommandBase {
     private var desiredAngle: Double = 0.0
     private var autoMove: AutoGoToPositionAndAngle
     private var autoLimeLight: LimeLightAuto
+    private var limeLightScheduled: Boolean = false;
 
     constructor(ballNumber: Int) {
         startTime = MathClass.getCurrentTime()
@@ -47,8 +48,7 @@ class AutoBall : CommandBase {
         //     autoAngle?.end(true)
         //     autoLimeLightScheduled = true
         // }
-        var limeLightScheduled: Boolean = false;
-        if (autoMove.isFinished()) {
+        if (Robot.swerveAuto!!.isFinsihedMoving() && !limeLightScheduled) {
             println("scheduling limelight")
             CommandScheduler.getInstance().schedule(autoLimeLight)
             limeLightScheduled = true;

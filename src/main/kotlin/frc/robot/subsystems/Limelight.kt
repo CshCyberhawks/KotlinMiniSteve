@@ -77,7 +77,7 @@ class Limelight() : SubsystemBase() {
     fun getBallDistance(): Double {
         val cameraHeight = .711; // Height of camera (meters)
         val ballHeight = 0.24; // Height of target (meters) measured perfectly
-        val mountAngle = -40.0; // Angle that the limelight is mounted
-        return (ballHeight - cameraHeight) / Math.tan(mountAngle + getVerticalOffset());
+        val mountAngle = 40.0; // Angle that the limelight is mounted
+        return (ballHeight - cameraHeight) * Math.tan(mountAngle + getVerticalOffset());
     }
 }
