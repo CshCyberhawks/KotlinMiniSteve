@@ -211,7 +211,7 @@ class Robot : TimedRobot() {
         CommandScheduler.getInstance().cancelAll()
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll()
-        val instruments = listOf(TalonFX(Constants.frontRightDriveMotor), TalonFX(Constants.frontLeftDriveMotor), TalonFX(Constants.backRightDriveMotor), TalonFX(Constants.backLeftDriveMotor)))
+        val instruments = listOf(TalonFX(Constants.frontRightDriveMotor), TalonFX(Constants.frontLeftDriveMotor), TalonFX(Constants.backRightDriveMotor), TalonFX(Constants.backLeftDriveMotor))
         orchestra = Orchestra(instruments)
         loadSong(1)
         orchestra!!.play()
