@@ -2,7 +2,6 @@ package frc.robot.commands.auto.commands
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
-import edu.wpi.first.wpilibj2.command.ScheduleCommand
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import frc.robot.Robot
 import frc.robot.commands.sequences.IntakeSequence
@@ -14,7 +13,7 @@ class AutoBall : CommandBase {
     private var startTime = 0.0
     private var intakeSequence: IntakeSequence? = null
     private var autoPos: AutoGoToPosition? = null
-    private var autoLimeLight: LimeLightAuto? = null
+    private var autoLimeLight: OldLimeLightAuto? = null
     private var autoAngle: AutoGoToAngle? = null
     private var autoAngleScheduled: Boolean = false
     private var autoLimeLightScheduled: Boolean = false
@@ -39,7 +38,7 @@ class AutoBall : CommandBase {
         // new AutoGoToAngle((desiredAngle + 180) % 360), // desiredAngle),
         // new LimeLightAuto());
         autoAngle = AutoGoToAngle(desiredAngle)
-        autoLimeLight = LimeLightAuto()
+        autoLimeLight = OldLimeLightAuto()
         SmartDashboard.putBoolean("auto2", false)
 
     }

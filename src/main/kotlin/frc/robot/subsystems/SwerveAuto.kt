@@ -87,6 +87,7 @@ class SwerveAuto {
     }
 
     fun setDesiredAngle(angle: Double, robotRelative: Boolean) {
+        //TODO: Make robot relative not wrong
         if (robotRelative) {
             desiredAngle = MathClass.wrapAroundAngles(angle - Gyro.getAngle())
         } else {
