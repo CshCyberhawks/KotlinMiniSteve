@@ -6,21 +6,24 @@ import frc.robot.Robot
 import frc.robot.util.MathClass
 import frc.robot.util.Vector2
 
-class AutoGoToPosition : CommandBase {
+
+class AutoGoToPositionAndAngle : CommandBase {
     private var desiredPosition: Vector2 = Vector2(0.0, 0.0)
     private var desiredVelocity = 0.0
+    private var desiredAngle = 0.0
     private var ballNumber = 0
     private var byBallNumber = false
-    private var startTime = 0.0
 
-    constructor(desiredPosition: Vector2, desiredVelocity: Double) : super() {
+    constructor(desiredPosition: Vector2, desiredAngle: Double, desiredVelocity: Double) : super() {
         this.desiredPosition = desiredPosition
         this.desiredVelocity = desiredVelocity
+        this.desiredAngle = desiredAngle
     }
 
-    constructor(ballNumber: Int, desiredVelocity: Double) : super() {
+    constructor(ballNumber: Int, desiredAngle: Double, desiredVelocity: Double) : super() {
         this.ballNumber = ballNumber
         this.desiredVelocity = desiredVelocity
+        this.desiredAngle = desiredAngle
         byBallNumber = true
     }
 
@@ -36,7 +39,6 @@ class AutoGoToPosition : CommandBase {
     // and y position, and then it will stop and twist until it reaches desired
     // angle
     override fun initialize() {
-        startTime = MathClass.getCurrentTime()
         // desired position = x in swos
         // (https://www.notion.so/Odometry-baacd114086e4218a5eedb5ef45a223f) (.27
         // meters), y in swos, and twist in degrees
@@ -47,10 +49,11 @@ class AutoGoToPosition : CommandBase {
         } else {
             Robot.swerveAuto.setDesiredPositionBall(ballNumber) // , desiredVelocity);
         }
+        Robot.swerveAuto.setDesiredAngle(desiredAngle, false)
     }
 
     override fun execute() {
-        Robot.swerveAuto.translate()
+        Robot.swerveAuto.move()
     }
 
     override fun end(interrupted: Boolean) {
@@ -60,7 +63,7 @@ class AutoGoToPosition : CommandBase {
     }
 
     override fun isFinished(): Boolean {
-        SmartDashboard.putBoolean("posCmdFin", Robot.swerveAuto.isAtDesiredPosition())
-        return Robot.swerveAuto.isAtDesiredPosition() // || MathClass.getCurrentTime() - startTime > 5;
+        SmartDashboard.putBoolean("moveCmdFin", Robot.swerveAuto.isFinsihedMoving())
+        return Robot.swerveAuto.isFinsihedMoving() // || MathClass.getCurrentTime() - startTime > 5;
     }
 }

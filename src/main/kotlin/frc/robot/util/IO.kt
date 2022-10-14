@@ -92,10 +92,12 @@ class IO {
         }
 
         fun getJoyThrottle(): Double {
-            return if (hosas) MathClass.calculateDeadzone(
-                -(joystick2.y / 50),
-                .01
-            ) else MathClass.calculateDeadzone((-joystick.throttle + 1) / 2, .05)
+            if (hosas) {
+            return MathClass.calculateDeadzone((-joystick2.throttle + 1) / 2, .05)
+            }
+            else {
+            return MathClass.calculateDeadzone((-joystick.throttle + 1) / 2, .05)
+            }
         }
 
         fun getResetCargo(): Boolean {

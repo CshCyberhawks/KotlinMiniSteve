@@ -1,8 +1,8 @@
 package frc.robot.subsystems
 
-import edu.wpi.first.math.MathUtil
 import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.math.trajectory.TrapezoidProfile
+import edu.wpi.first.math.MathUtil
 import edu.wpi.first.util.WPIUtilJNI
 import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
@@ -14,7 +14,6 @@ import frc.robot.util.Gyro
 import frc.robot.util.MathClass
 import frc.robot.util.Vector2
 
-
 class SwerveAuto() {
     private var desiredPosition: Vector2 = Vector2(0.0, 0.0)
     private var desiredAngle = 0.0
@@ -23,8 +22,8 @@ class SwerveAuto() {
     var ballPositions: Array<Vector2> = if (team == Alliance.Blue) Constants.blueBallPositions else Constants.redBallPositions
 
     private var byBall = false
-    private val ballDistanceDeadzone = 0.05
-    private val normalDistanceDeadzone = .5
+    private val ballDistanceDeadzone = 0.1
+    private val normalDistanceDeadzone = .1
 
     private val positionStopRange = .1
     private val isAtPosition = false
@@ -55,9 +54,10 @@ class SwerveAuto() {
         byBall = false
         this.desiredPosition = desiredPosition
         // SmartDashboard.putNumber("Desired pos input", desiredPosition.x)
-        val polarPosition = MathClass.cartesianToPolar(desiredPosition.x, desiredPosition.y)
+        // val polarPosition = MathClass.cartesianToPolar(desiredPosition.x, desiredPosition.y)
         // double[] desiredVelocities = MathClass.polarToCartesian(polarPosition[0],
         // desiredVelocity);
+
         trapXDesiredState = TrapezoidProfile.State(this.desiredPosition.x, 0.0) // desiredVelocities[0]);
         trapYDesiredState = TrapezoidProfile.State(this.desiredPosition.y, 0.0) // desiredVelocities[0]);
     }
@@ -70,19 +70,20 @@ class SwerveAuto() {
 
     fun setDesiredPositionDistance(distance: Double) {
         val desiredPositionCart = MathClass.polarToCartesian(Robot.swo.getPosition().angle, distance)
-        setDesiredPosition(Vector2(desiredPositionCart!![0], desiredPositionCart[1])) // , 0);
+        setDesiredPosition(Vector2(desiredPositionCart[0], desiredPositionCart[1])) // , 0);
     }
 
     fun setDesiredAngle(angle: Double, robotRelative: Boolean) {
-        desiredAngle = if (robotRelative) {
-            MathClass.wrapAroundAngles(angle - Gyro.getAngle())
+        //TODO: Make robot relative not wrong
+        if (robotRelative) {
+            desiredAngle = MathClass.wrapAroundAngles(angle + Gyro.getAngle())
         } else {
-            angle
+            desiredAngle = angle
         }
     }
 
     fun isAtDesiredPosition(): Boolean {
-        // SmartDashboard.putNumber("Desired position distance x", desiredPosition!!.x - MathClass.swosToMeters(Robot.swo!!.getPosition()!!.positionCoord!!.x))
+        // SmartDashboard.putNumber("Desired position distance x", desiredPosition.x - MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x))
         val deadzone = if (byBall) ballDistanceDeadzone else normalDistanceDeadzone
         return (MathClass.calculateDeadzone(
                 desiredPosition.x - MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x),
@@ -97,11 +98,23 @@ class SwerveAuto() {
     fun isAtDesiredAngle(): Boolean {
         return MathClass.calculateDeadzone(
             MathClass.wrapAroundAngles(Robot.swo.getPosition().angle) - MathClass.wrapAroundAngles(desiredAngle),
-            20.0
+            2.0
         ) == 0.0
     }
 
-    fun translate() {
+    fun isFinsihedMoving(): Boolean {
+        return isAtDesiredAngle() && isAtDesiredPosition()
+    }
+
+    // twists and translates
+    fun move() {
+        val translation: Vector2 = calculateTranslation()
+        val twist: Double = calculateTwist()
+
+        Robot.swerveSystem.drive(translation.x, translation.y, twist, 0.0, DriveState.AUTO)
+    }
+
+    fun calculateTranslation(): Vector2 {
         val timeNow = WPIUtilJNI.now() * 1.0e-6
         val trapTime: Double = if (prevTime == 0.0) 0.0 else timeNow - prevTime
         val trapXProfile = TrapezoidProfile(trapConstraints, trapXDesiredState, trapXCurrentState)
@@ -126,16 +139,29 @@ class SwerveAuto() {
         // val yVel = yPIDOutput
         // SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
         // SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
-        Robot.swerveSystem.drive(xVel / 3.777, yVel / 3.777, 0.0, 0.0, DriveState.AUTO)
         trapXCurrentState = trapXOutput
         trapYCurrentState = trapYOutput
         prevTime = timeNow
+        return Vector2(xVel / 3.777, yVel / 3.777)
+    }
+
+    fun calculateTwist(): Double {
+        val targetVal = MathUtil.clamp(MathClass.calculateDeadzone(desiredAngle - Robot.swo.getPosition().angle, .5), -1.0, 1.0)
+        // val twistValue: Double = desiredAngle, Robot.swo.getPosition().angle
+        val twistInput = (targetVal / 10) * Robot.swerveSystem.throttle
+        return twistInput
+    }
+
+    fun translate() {
+        val driveInputs: Vector2 = calculateTranslation()
+        Robot.swerveSystem.drive(driveInputs.x, driveInputs.y, 0.0, 0.0, DriveState.AUTO)
     }
 
     fun twist() {
-        val twistValue: Double = MathUtil.clamp(Robot.swo.getPosition().angle - desiredAngle, -1.0, 1.0)
-        val twistInput = twistValue * .3
+        // val twistValue: Double = MathUtil.clamp(Robot.swo.getPosition().angle - desiredAngle,
+        // -1.0, 1.0)
         // SmartDashboard.putNumber(" auto twistVal ", twistInput)
+        val twistInput = calculateTwist()
         Robot.swerveSystem.drive(0.0, 0.0, twistInput, 0.0, DriveState.AUTO)
     }
 
@@ -146,3 +172,4 @@ class SwerveAuto() {
         Robot.swerveSystem.frontLeft.kill()
     }
 }
+

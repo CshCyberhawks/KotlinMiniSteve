@@ -103,14 +103,10 @@ class SwerveDriveTrain() : SubsystemBase() { // p = 10 gets oscillation
         val timeNow = WPIUtilJNI.now() * 1.0e-6
         val period = if (lastUpdateTime >= 0) timeNow - lastUpdateTime else 0.0
         val gyroAngle: Double = Gyro.getAngle()
-        if (IO.hosas) {
-            throttle += throttleChange
-            throttle = MathUtil.clamp(throttle, 0.0, 1.0)
-        }
-        else {
-            throttle = throttleChange
-        }
+
+        throttle = throttleChange
         throttleShuffle.setDouble(throttle)
+
         SmartDashboard.putNumber("throttle ", throttle)
         // SmartDashboard.putNumber("gyro val", gyroAngle)
         if (inputX == 0.0 && inputY == 0.0 && inputTwist == 0.0) {

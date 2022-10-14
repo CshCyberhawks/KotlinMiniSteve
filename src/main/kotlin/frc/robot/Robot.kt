@@ -27,7 +27,7 @@ import java.util.Map
  */
 class Robot : TimedRobot() {
     companion object {
-        var swerveAuto: SwerveAuto? = null
+        lateinit var swerveAuto: SwerveAuto
         lateinit var limelightFeed: HttpCamera
         lateinit var swerveSystem: SwerveDriveTrain
         lateinit var swo: SwerveOdometry
@@ -146,13 +146,13 @@ class Robot : TimedRobot() {
      * [RobotContainer] class.
      */
     override fun autonomousInit() {
+        swerveAuto = SwerveAuto()
 //        swo = SwerveOdometry(Constants.blueStartingPositions[0])
         swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
         swerveCommand?.cancel()
         limelight.pipelineInit()
 
         // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-        swerveAuto = SwerveAuto()
         transportSystem.cargoAmount = 1
         autoCommands = AutoCommandGroup(0) // autoConfiguration.getSelected());
 
