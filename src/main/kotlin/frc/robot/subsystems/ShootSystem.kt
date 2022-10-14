@@ -13,23 +13,31 @@ import frc.robot.Constants
 import frc.robot.Robot
 
 
-class ShootSystem : SubsystemBase {
-    private var topMotor: CANSparkMax? = null
-    private var bottomRightMotor: CANSparkMax? = null
-    private var bottomLeftMotor: CANSparkMax? = null
-    private var topEncoder: Encoder? = null
-    private var bottomEncoder: Encoder? = null
-    private var oldEncoder: RelativeEncoder? = null
-    private var topPIDController: PIDController? = null
-    private var bottomPIDController: PIDController? = null
+class ShootSystem() : SubsystemBase() {
+// traversalEncoder = traversalMotor.getEncoder();
+
+// Set distance to pulse to distance in rotation (makes get rate return
+// rotations)
+// Why write readable code when I can write this 1/8192
+// bottom wheel encoder -3.7 for perfect shot
+// top wheel encoder 19 for perfect shot
+// top wheel encoder 22 max
+// bottom wheel encoder -24 max
+    private var topMotor: CANSparkMax = CANSparkMax(Constants.topShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private var bottomRightMotor: CANSparkMax = CANSparkMax(Constants.rightShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private var bottomLeftMotor: CANSparkMax = CANSparkMax(Constants.leftShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private var topEncoder: Encoder = Encoder(2, 3)
+    private var bottomEncoder: Encoder = Encoder(0, 1)
+    private var oldEncoder: RelativeEncoder = topMotor.encoder
+    private var topPIDController: PIDController = PIDController(.01, 0.0, 0.0)
+    private var bottomPIDController: PIDController = PIDController(.01, 0.0, 0.0)
     private val maxRPM = 5
     private var autoShootRunning = false
     var bottomWheelSpeed = 0.0
     var topWheelSpeed = 0.0
 
-    private var shootSpeedTable: NetworkTableEntry? = null
-    private var shootMultTable: NetworkTableEntry? = null
-    private var isAtSpeedTable: NetworkTableEntry? = null
+    private var shootSpeedTable: NetworkTableEntry = Robot.driveShuffleboardTab.add("Shoot Speed", topEncoder.getRate()).getEntry()
+    private var isAtSpeedTable: NetworkTableEntry = Robot.driveShuffleboardTab.add("At Desired Speed", false).getEntry()
 
     // bottom wheel encoder -3.7 for perfect shot
     // top wheel encoder 19 for perfect shot
@@ -37,38 +45,17 @@ class ShootSystem : SubsystemBase {
     // top wheel encoder 22 max
     // bottom wheel encoder -24 max
 
-    // bottom wheel encoder -3.7 for perfect shot
-    // top wheel encoder 19 for perfect shot
-    // top wheel encoder 22 max
-    // bottom wheel encoder -24 max
-    constructor() {
-        topMotor = CANSparkMax(Constants.topShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-        bottomLeftMotor = CANSparkMax(Constants.leftShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-        bottomRightMotor = CANSparkMax(Constants.rightShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-        oldEncoder = topMotor!!.encoder;
-
-        // traversalEncoder = traversalMotor.getEncoder();
-        topEncoder = Encoder(2, 3);
-        bottomEncoder = Encoder(0, 1);
-
-        // Set distance to pulse to distance in rotation (makes get rate return
-        // rotations)
-        // Why write readable code when I can write this 1/8192
-        topEncoder!!.setDistancePerPulse(0.00012207031)
-        bottomEncoder!!.setDistancePerPulse(0.00012207031)
-        topPIDController = PIDController(.01, 0.0, 0.0)
-        bottomPIDController = PIDController(.01, 0.0, 0.0)
-        autoShootRunning = false
-        shootSpeedTable = Robot.driveShuffleboardTab.add("Shoot Speed", topEncoder!!.getRate()).getEntry()
-        isAtSpeedTable = Robot.driveShuffleboardTab.add("At Desired Speed", false).getEntry()
+    init {
+        topEncoder.setDistancePerPulse(1.0/8192.0)
+        bottomEncoder.setDistancePerPulse(1.0/8192.0)
     }
 
     fun getTopEncoder(): Encoder {
-        return topEncoder!!;
+        return topEncoder;
     }
 
     fun getBottomEncoder(): Encoder {
-        return bottomEncoder!!;
+        return bottomEncoder;
     }
 
     fun getAutoShootState(): Boolean {
@@ -81,9 +68,9 @@ class ShootSystem : SubsystemBase {
 
     // Syncing of bottom 2 motors
     private fun setBottom() {
-        var power = .28
-        val bottomPIDOutput = bottomPIDController!!.calculate(
-            bottomEncoder!!.getRate(),
+        val power = .28
+        val bottomPIDOutput = bottomPIDController.calculate(
+            bottomEncoder.getRate(),
             Constants.bottomShootSetpoint
         )
 
@@ -97,33 +84,31 @@ class ShootSystem : SubsystemBase {
         // SmartDashboard.putNumber("leftSet", leftSet);
 
         // SmartDashboard.putNumber("bottomMotorSets", MathUtil.clamp(power, -1, 1));
-        bottomRightMotor!!.set(-MathUtil.clamp(power, -1.0, 1.0))
-        bottomLeftMotor!!.set(MathUtil.clamp(power, -1.0, 1.0))
+        bottomRightMotor.set(-MathUtil.clamp(power, -1.0, 1.0))
+        bottomLeftMotor.set(MathUtil.clamp(power, -1.0, 1.0))
     }
 
-    fun shoot(power: Double) {
-        
-        SmartDashboard.putNumber("Top Encoder", topEncoder!!.getRate())
-        SmartDashboard.putNumber("Bottom Encoder", bottomEncoder!!.getRate())
-        shootSpeedTable!!.setDouble(topEncoder!!.getRate())
-        SmartDashboard.putNumber("shootPower", power)
-        if (power == 0.0) {
-            topMotor!!.set(0.0);
-            bottomLeftMotor!!.set(0.0);
-            bottomRightMotor!!.set(0.0);
-            isAtSpeedTable!!.setBoolean(false);
+    fun shoot(shooting: Boolean) {
+        SmartDashboard.putNumber("Top Encoder", topEncoder.getRate())
+        SmartDashboard.putNumber("Bottom Encoder", bottomEncoder.getRate())
+        shootSpeedTable.setDouble(topEncoder.getRate())
+        if (shooting) {
+            topMotor.set(0.0);
+            bottomLeftMotor.set(0.0);
+            bottomRightMotor.set(0.0);
+            isAtSpeedTable.setBoolean(false);
             return
         }
 
-        var power = .6
+        val power = .6
 
         // SmartDashboard.putNumber("Old Encoder", oldEncoder.getVelocity());
-        bottomWheelSpeed = bottomEncoder!!.rate;
-        topWheelSpeed = topEncoder!!.rate;
-        isAtSpeedTable!!.setBoolean(topWheelSpeed >= 19);
+        bottomWheelSpeed = bottomEncoder.rate;
+        topWheelSpeed = topEncoder.rate;
+        isAtSpeedTable.setBoolean(topWheelSpeed >= 19);
         // power *= maxRPM; // Convert to RPM
-        val topPIDOut = topPIDController!!.calculate(topWheelSpeed, Constants.topShootSetpoint)
-        topMotor!!.set(MathUtil.clamp(-(power), -1.0, 1.0))
+        val topPIDOut = topPIDController.calculate(topWheelSpeed, Constants.topShootSetpoint)
+        topMotor.set(MathUtil.clamp(-(power), -1.0, 1.0))
         setBottom()
     }
 }

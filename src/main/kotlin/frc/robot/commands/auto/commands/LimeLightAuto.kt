@@ -8,43 +8,39 @@ import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveAuto
 
 
-class LimeLightAuto : CommandBase {
-    var swerveAuto: SwerveAuto? = null
+class LimeLightAuto() : CommandBase() {
+    var swerveAuto: SwerveAuto = Robot.swerveAuto!!
     var isAtAngle = false
     var isAtPosition = false
     var pickedUpBall = false
     var firstTimeAtAngle = false
 
-    constructor() {
-    }
-
     override fun initialize() {
         // Use addRequirements() here to declare subsystem dependencies.
-        swerveAuto = Robot.swerveAuto
-        swerveAuto!!.setDesiredAngle(Robot.limelight!!.getHorizontalOffset() + Robot.swo!!.getPosition()!!.angle, false)
+        swerveAuto.setDesiredAngle(Robot.limelight.getHorizontalOffset() + Robot.swo.getPosition().angle, false)
     }
     override fun execute() {
-        SmartDashboard.putNumber("limeLightDistance", Robot.limelight!!.getBallDistance())
+        SmartDashboard.putNumber("limeLightDistance", Robot.limelight.getBallDistance())
         if (!isAtAngle) {
-            swerveAuto!!.twist() 
+            swerveAuto.twist()
         }
-        else if (isAtAngle && !isAtPosition && firstTimeAtAngle) {
-            swerveAuto!!.setDesiredPositionDistance(Robot.limelight!!.getBallDistance())
-        } else if (!isAtPosition && isAtAngle) {
-            swerveAuto!!.translate()
+        else if (!isAtPosition && firstTimeAtAngle) {
+            swerveAuto.setDesiredPositionDistance(Robot.limelight.getBallDistance())
+        } else if (!isAtPosition) {
+            swerveAuto.translate()
         }
     }
 
     override fun end(interrupted: Boolean) {
-        Robot.swerveAuto!!.kill()
+        swerveAuto.kill()
     }
 
     override fun isFinished(): Boolean {
         if (!isAtAngle) {
-            isAtAngle = swerveAuto!!.isAtDesiredAngle()
+            isAtAngle = swerveAuto.isAtDesiredAngle()
             firstTimeAtAngle = isAtAngle
-        } else if (!isAtPosition && isAtAngle) {
-            isAtPosition = swerveAuto!!.isAtDesiredPosition()
+        } else if (!isAtPosition) {
+            isAtPosition = swerveAuto.isAtDesiredPosition()
         }
 
 //        pickedUpBall = intakeSequence!!.isFinished()
