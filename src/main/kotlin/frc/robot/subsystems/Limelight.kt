@@ -10,34 +10,23 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 
 class Limelight() : SubsystemBase() {
-    private val table: NetworkTable;
-    private val tv: NetworkTableEntry; // 0 or 1 whether it has a valid target
+    private val table: NetworkTable = NetworkTableInstance.getDefault().getTable("limelight");
+    private val tv: NetworkTableEntry = table.getEntry("tv"); // 0 or 1 whether it has a valid target
 
-    private val tx: NetworkTableEntry; // The horizontal offset between the crosshair and
+    private val tx: NetworkTableEntry = table.getEntry("tx"); // The horizontal offset between the crosshair and
 
     // target in degrees
-    private val ty: NetworkTableEntry; // The vertical offset between the crosshair and target
+    private val ty: NetworkTableEntry = table.getEntry("ty"); // The vertical offset between the crosshair and target
 
     // in degrees
-    private val ta: NetworkTableEntry; // Percentage of image
+    private val ta: NetworkTableEntry = table.getEntry("ta"); // Percentage of image
 
-    private val tc: NetworkTableEntry; // HSV color underneath the crosshair region as a
+    private val tc: NetworkTableEntry = table.getEntry("tc"); // HSV color underneath the crosshair region as a
 
     // NumberArray
-    private val pipeline: NetworkTableEntry; // Pipeline
+    private val pipeline: NetworkTableEntry = table.getEntry("pipeline"); // Pipeline
 
-    private val team: DriverStation.Alliance;
-
-    init {
-        table = NetworkTableInstance.getDefault().getTable("limelight")
-        tv = table.getEntry("tv")
-        tx = table.getEntry("tx")
-        ty = table.getEntry("ty")
-        ta = table.getEntry("ta")
-        tc = table.getEntry("tc")
-        pipeline = table.getEntry("pipeline")
-        team = DriverStation.getAlliance()
-    }
+    private val team: DriverStation.Alliance = DriverStation.getAlliance();
 
     override fun periodic() {
         // SmartDashboard.putBoolean("Limelight hasValidTarget", hasTarget())

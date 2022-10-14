@@ -7,14 +7,12 @@ import frc.robot.subsystems.ShootSystem
 import frc.robot.util.IO
 
 
-class ShootCommand : CommandBase {
-    private var shootSystem: ShootSystem? = null
+class ShootCommand(private val shootSystem: ShootSystem) : CommandBase() {
     private var shootCommand: AutoShootCommand? = null
     private val speedMult = .55
 
-    constructor(subsystem: ShootSystem?) {
-        shootSystem = subsystem
-        addRequirements(subsystem)
+    init {
+        addRequirements(shootSystem)
     }
 
     override fun execute() {
@@ -23,9 +21,9 @@ class ShootCommand : CommandBase {
         if (IO.autoShoot()) {
             shootCommand = AutoShootCommand(shootSystem)
             shootCommand!!.schedule()
-        } else if (!shootSystem!!.getAutoShootState()) {
+        } else if (!shootSystem.getAutoShootState()) {
             SmartDashboard.putNumber("Speed Mult", speedMult)
-            shootSystem!!.shoot(IO.shootBall())
+            shootSystem.shoot(IO.shootBall() != 0.0)
         }
     }
 }

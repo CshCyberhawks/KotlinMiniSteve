@@ -10,15 +10,17 @@ import frc.robot.commands.auto.commands.AutoShootCommand
 import frc.robot.util.Vector2
 
 
-class AutoGoToCenterAndShoot : SequentialCommandGroup {
+class AutoGoToCenterAndShoot(shootPosition: Int, move: Boolean) : SequentialCommandGroup() {
+    // new AutoGoToAngle(111),
+// shootPositions[shootPosition], 0),
+// add your autonomous commands below
+// example: below will move robot 2 meters on the x and rotate to 90 degrees
+// then it will wait 1 second before moving the robot back to its starting
+// position
     private var shootPositions: Array<Vector2> =
         if (DriverStation.getAlliance() == Alliance.Blue) Constants.blueShootingPositions else Constants.redShootingPositions
 
-    constructor(shootPosition: Int, move: Boolean) {
-        // add your autonomous commands below
-        // example: below will move robot 2 meters on the x and rotate to 90 degrees
-        // then it will wait 1 second before moving the robot back to its starting
-        // position
+    init {
         if (move) {
             addCommands( // new AutoGoToAngle(111),
                 AutoGoToPosition(Vector2(0.0, 0.0), 0.0), // shootPositions[shootPosition], 0),

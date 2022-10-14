@@ -10,34 +10,25 @@ import frc.robot.util.TurnEncoder
 import kotlin.math.abs
 
 
-class AutoSwerveWheel {
-    private var turnMotor: TalonSRX;
-    private var driveMotor: TalonFX;
+class AutoSwerveWheel(turnPort: Int, drivePort: Int, private var turnEncoderPort: Int) {
+    private var turnMotor: TalonSRX = TalonSRX(turnPort)
+    private var driveMotor: TalonFX = TalonFX(drivePort)
 
-    private var turnEncoder: TurnEncoder;
-    private var driveEncoder: DriveEncoder;
+    private var turnEncoder: TurnEncoder = TurnEncoder(turnEncoderPort)
+    private var driveEncoder: DriveEncoder = DriveEncoder(driveMotor)
 
     private val oldAngle = 0.0;
-
-    private var turnEncoderPort = 0;
 
     var turnValue = 0.0;
     var currentDriveSpeed = 0.0;
     var rawTurnValue = 0.0;
 
-    private var speedPID: PIDController;
-    private var turnPID: PIDController;
+    private var speedPID: PIDController = PIDController(0.03, 0.0, 0.0)
+    private var turnPID: PIDController= PIDController(0.01, 0.0, 0.0)
 
-    constructor(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
-        turnMotor = TalonSRX(turnPort);
-        driveMotor = TalonFX(drivePort);
-        turnEncoder = TurnEncoder(turnEncoderPort);
-        driveEncoder = DriveEncoder(driveMotor);
-        this.turnEncoderPort = turnEncoderPort;
-        speedPID = PIDController(0.03, 0.0, 0.0);
-        turnPID = PIDController(0.01, 0.0, 0.0);
-        turnPID.setTolerance(4.0);
-        turnPID.enableContinuousInput(0.0, 360.0);
+    init {
+        turnPID.setTolerance(4.0)
+        turnPID.enableContinuousInput(0.0, 360.0)
     }
 
     private fun wrapAroundAngles(input: Double): Double {

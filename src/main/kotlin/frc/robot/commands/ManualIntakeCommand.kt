@@ -8,31 +8,29 @@ import frc.robot.subsystems.IntakeSystem
 import frc.robot.util.IO
 
 
-class ManualIntakeCommand : CommandBase {
-    private var intakeSystem: IntakeSystem? = null
+class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase() {
+    // private double speedMult;
     // private double speedMult;
 
-    // private double speedMult;
-    constructor(subsystem: IntakeSystem?) {
-        intakeSystem = subsystem
-        addRequirements(subsystem)
+    init {
+        addRequirements(intakeSystem)
     }
 
     override fun execute() {
         val speed = IO.intakeBall()
-        SmartDashboard.putBoolean("intakeSequenceBool", Robot.transportSystem!!.isRunningSequence)
+        SmartDashboard.putBoolean("intakeSequenceBool", Robot.transportSystem.isRunningSequence)
         if (IO.autoIntake()) {
             Robot.isSpitting = false
             val intakeCommandSequence = IntakeSequence()
             intakeCommandSequence.schedule()
             SmartDashboard.putBoolean("intakeSequenceBegan", true)
-        } else if (!Robot.transportSystem!!.isRunningSequence) if (IO.removeBall()) {
+        } else if (!Robot.transportSystem.isRunningSequence) if (IO.removeBall()) {
             Robot.isSpitting = true
-            intakeSystem!!.intake(-1.0)
-            Robot.transportSystem!!.move(-1.0)
+            intakeSystem.intake(-1.0)
+            Robot.transportSystem.move(-1.0)
         } else {
             Robot.isSpitting = false
-            intakeSystem!!.intake(speed)
+            intakeSystem.intake(speed)
         }
     }
 }

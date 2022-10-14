@@ -6,20 +6,18 @@ import frc.robot.subsystems.ClimbSystem
 import frc.robot.util.IO
 
 
-class ClimbCommand : CommandBase {
-    private var climbSystem: ClimbSystem? = null
+class ClimbCommand(private val climbSystem: ClimbSystem) : CommandBase() {
     private val speedMult = 1.0
 
-    constructor(subsystem: ClimbSystem?) {
-        climbSystem = subsystem
-        addRequirements(subsystem)
+    init {
+        addRequirements(climbSystem)
     }
 
     override fun execute() {
         // SmartDashboard.putNumber("climbControl", IO.climbControl())
-        climbSystem!!.climb(IO.climbControl() * speedMult)
+        climbSystem.climb(IO.climbControl() * speedMult)
         if (IO.deployClimbSolenoid()) {
-            climbSystem!!.controlPneumatics()
+            climbSystem.controlPneumatics()
         }
     }
 }

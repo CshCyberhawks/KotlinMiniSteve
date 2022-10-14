@@ -8,8 +8,8 @@ import frc.robot.subsystems.SwerveAuto
 import frc.robot.util.Gyro
 
 class LimeLightAuto : CommandBase() {
-    private val swerveAuto: SwerveAuto = Robot.swerveAuto!!
-    private val limelight: Limelight = Robot.limelight!!
+    private val swerveAuto: SwerveAuto = Robot.swerveAuto
+    private val limelight: Limelight = Robot.limelight
 
     override fun initialize() {
         val ballAngle = limelight.getHorizontalOffset()

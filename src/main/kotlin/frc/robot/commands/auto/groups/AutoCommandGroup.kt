@@ -30,17 +30,5 @@ class AutoCommandGroup : SequentialCommandGroup {
                  AutoGoToCenterAndShoot(0, false),
                  AutoGoToPosition(Vector2(3.0, 0.0), 0.0)
              )}
-            // new AutoBall(0));
-            // new AutoGoToCenterAndShoot(0, true),
-            // new AutoGoToCenterAndShoot(0, true));
-            // new AutoGoToCenterAndShoot(0, false),
-            
-//           addCommands(
-//               AutoGoToPosition(Vector2(4.0, -2.0), 0.0),
-//               AutoGoToPosition(Vector2(4.0, 2.0), 0.0),
-//               AutoGoToAngle(70.0),
-//               );
-            // new AutoGoToPosition(new Vector2(.7, 3.8), 0));
-        // }
-    }
+             }
 }

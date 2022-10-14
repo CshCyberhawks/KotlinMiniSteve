@@ -10,24 +10,20 @@ import frc.robot.util.Vector2
 import frc.robot.util.MathClass
 
 
-class SwerveOdometry : SubsystemBase {
-    private var fieldPosition: FieldPosition = FieldPosition(0.0, 0.0, 0.0)
+class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase() {
 
     private var lastUpdateTime = 1.0
     private var robotVelocities = doubleArrayOf(0.0, 0.0)
 
-    constructor(fieldPosition: FieldPosition) {
-        this.fieldPosition = fieldPosition
-//        Gyro.offset = fieldPosition.angle
-        //TODO: remove this at some point and figure out field position angle
+    init {
         Gyro.setOffset()
     }
 
-    fun getPosition(): FieldPosition? {
+    fun getPosition(): FieldPosition {
         return fieldPosition
     }
 
-    fun getVelocities(): DoubleArray? {
+    fun getVelocities(): DoubleArray {
         return robotVelocities
     }
 
@@ -40,8 +36,8 @@ class SwerveOdometry : SubsystemBase {
         var totalX = 0.0
         var totalY = 0.0
         for (i in 0..3) {
-            var wheelAngle: Double = Robot.swerveSystem!!.wheelArr[i]!!.getTurnValue()
-            var wheelSpeed: Double = Robot.swerveSystem!!.wheelArr[i]!!.getCurrentDriveSpeed()
+            var wheelAngle: Double = Robot.swerveSystem.wheelArr[i]!!.getTurnValue()
+            var wheelSpeed: Double = Robot.swerveSystem.wheelArr[i]!!.getCurrentDriveSpeed()
 
             // if (i == 0 || i == 2) {
             // wheelSpeed = -wheelSpeed;
@@ -53,16 +49,16 @@ class SwerveOdometry : SubsystemBase {
                 wheelSpeed = -wheelSpeed
                 wheelAngle = (wheelAngle + 180) % 360
             }
-            val cartCoords: DoubleArray = Robot.swerveSystem!!.polarToCartesian(wheelAngle, wheelSpeed)
+            val cartCoords: DoubleArray = Robot.swerveSystem.polarToCartesian(wheelAngle, wheelSpeed)
             wheelCoords[i] = Vector2(cartCoords[0], cartCoords[1])
             totalX += cartCoords[0]
             totalY += cartCoords[1]
         }
-        val robotPolar: DoubleArray = Robot.swerveSystem!!.cartesianToPolar(totalX, totalY)
+        val robotPolar: DoubleArray = Robot.swerveSystem.cartesianToPolar(totalX, totalY)
         // maybe below is done incorrectly / is unnecessary? also possible that it
         // should be subtracting gyro not adding
         robotPolar[0] -= Gyro.getAngle()
-        robotVelocities = Robot.swerveSystem!!.polarToCartesian(robotPolar[0], robotPolar[1])
+        robotVelocities = Robot.swerveSystem.polarToCartesian(robotPolar[0], robotPolar[1])
 
         // return new double[] { totalX, totalY };
         return doubleArrayOf(robotVelocities[0], robotVelocities[1])
@@ -72,13 +68,13 @@ class SwerveOdometry : SubsystemBase {
         val timeNow = WPIUtilJNI.now() * 1.0e-6
         val period = if (lastUpdateTime >= 0) timeNow - lastUpdateTime else 0.0
         val velocities = calculateVelocities()
-        fieldPosition.positionCoord!!.x += velocities[0] * period
-        fieldPosition.positionCoord!!.y += velocities[1] * period
+        fieldPosition.positionCoord.x += velocities[0] * period
+        fieldPosition.positionCoord.y += velocities[1] * period
         fieldPosition.angle = Gyro.getAngle()
-        SmartDashboard.putNumber("fieldPosX ", fieldPosition.positionCoord!!.x)
-        SmartDashboard.putNumber("fieldPosY ", fieldPosition.positionCoord!!.y) 
-        SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord!!.x))
-        SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord!!.y))
+        SmartDashboard.putNumber("fieldPosX ", fieldPosition.positionCoord.x)
+        SmartDashboard.putNumber("fieldPosY ", fieldPosition.positionCoord.y)
+        SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
+        SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
         SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
         lastUpdateTime = timeNow
     }

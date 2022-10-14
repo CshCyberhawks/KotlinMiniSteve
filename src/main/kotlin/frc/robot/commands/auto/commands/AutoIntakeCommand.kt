@@ -5,27 +5,25 @@ import frc.robot.Robot
 import frc.robot.subsystems.IntakeSystem
 
 
-class AutoIntakeCommand : CommandBase {
-    private var intakeSystem: IntakeSystem? = null
+class AutoIntakeCommand(private var intakeSystem: IntakeSystem) : CommandBase() {
     private var storedCargoAtStart = 0
 
-    constructor(subsystem: IntakeSystem?) {
-        intakeSystem = subsystem
-        storedCargoAtStart = Robot.transportSystem!!.cargoAmount
-        addRequirements(subsystem)
+    init {
+        storedCargoAtStart = Robot.transportSystem.cargoAmount
+        addRequirements(intakeSystem)
     }
 
     override fun execute() {
-        intakeSystem!!.intake(1.0)
+        intakeSystem.intake(1.0)
     }
 
     override fun end(interrupted: Boolean) {
         println("frontBrokeIntake")
-        Robot.transportSystem!!.move(0.0)
-        Robot.intakeSystem!!.kill()
+        Robot.transportSystem.move(0.0)
+        Robot.intakeSystem.kill()
     }
 
     override fun isFinished(): Boolean {
-        return !Robot.frontBreakBeam!!.get()
+        return !Robot.frontBreakBeam.get()
     }
 }

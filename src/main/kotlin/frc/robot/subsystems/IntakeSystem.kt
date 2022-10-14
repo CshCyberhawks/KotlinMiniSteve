@@ -9,29 +9,27 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 
 
-class IntakeSystem : SubsystemBase {
-    private var intakeMotor: VictorSPX? = null
-    private var intakeSolenoid: Solenoid? = null
+class IntakeSystem() : SubsystemBase() {
+// private final double powerMult = 1;
+    private var intakeMotor: VictorSPX = VictorSPX(Constants.intakeMotor)
+    private var intakeSolenoid: Solenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 0)
 
     // private final double powerMult = 1;
 
-    // private final double powerMult = 1;
-    constructor() {
-        intakeMotor = VictorSPX(Constants.intakeMotor)
-        intakeMotor!!.inverted = true
-        intakeSolenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 0)
+    init {
+        intakeMotor.inverted = true
     }
 
     fun intake(speed: Double) {
-        intakeMotor!![ControlMode.PercentOutput] = -speed
-        if (speed != 0.0) intakeSolenoid!!.set(true) else intakeSolenoid!!.set(false)
+        intakeMotor[ControlMode.PercentOutput] = -speed
+        intakeSolenoid.set(speed != 0.0)
         // bottomFeedMotor.set(speed);
         // topFeedMotor.set(speed);
         // SmartDashboard.putNumber("Intake Motor Speed ", speed)
     }
 
     fun kill() {
-        intakeMotor!![ControlMode.PercentOutput] = 0.0
-        intakeSolenoid!!.set(false)
+        intakeMotor[ControlMode.PercentOutput] = 0.0
+        intakeSolenoid.set(false)
     }
 }
