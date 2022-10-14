@@ -8,13 +8,13 @@ import frc.robot.util.Vector2
 
 
 class AutoGoToPositionAndAngle : CommandBase {
-    private var desiredPosition: Vector2? = null
+    private var desiredPosition: Vector2 = Vector2(0.0, 0.0)
     private var desiredVelocity = 0.0
     private var desiredAngle = 0.0
     private var ballNumber = 0
     private var byBallNumber = false
 
-    constructor(desiredPosition: Vector2?, desiredAngle: Double, desiredVelocity: Double) : super() {
+    constructor(desiredPosition: Vector2, desiredAngle: Double, desiredVelocity: Double) : super() {
         this.desiredPosition = desiredPosition
         this.desiredVelocity = desiredVelocity
         this.desiredAngle = desiredAngle
@@ -45,25 +45,25 @@ class AutoGoToPositionAndAngle : CommandBase {
         // (based on
         // robot staring position)
         if (!byBallNumber) {
-            Robot.swerveAuto!!.setDesiredPosition(desiredPosition!!) // , desiredVelocity);
+            Robot.swerveAuto.setDesiredPosition(desiredPosition) // , desiredVelocity);
         } else {
-            Robot.swerveAuto!!.setDesiredPositionBall(ballNumber) // , desiredVelocity);
+            Robot.swerveAuto.setDesiredPositionBall(ballNumber) // , desiredVelocity);
         }
-        Robot.swerveAuto!!.setDesiredAngle(desiredAngle, false)
+        Robot.swerveAuto.setDesiredAngle(desiredAngle, false)
     }
 
     override fun execute() {
-        Robot.swerveAuto!!.move()
+        Robot.swerveAuto.move()
     }
 
     override fun end(interrupted: Boolean) {
         // commented below code out so that robot will maintain desired autonomous
         // velocities
-        Robot.swerveAuto!!.kill()
+        Robot.swerveAuto.kill()
     }
 
     override fun isFinished(): Boolean {
-        SmartDashboard.putBoolean("moveCmdFin", Robot.swerveAuto!!.isFinsihedMoving())
-        return Robot.swerveAuto!!.isFinsihedMoving() // || MathClass.getCurrentTime() - startTime > 5;
+        SmartDashboard.putBoolean("moveCmdFin", Robot.swerveAuto.isFinsihedMoving())
+        return Robot.swerveAuto.isFinsihedMoving() // || MathClass.getCurrentTime() - startTime > 5;
     }
 }

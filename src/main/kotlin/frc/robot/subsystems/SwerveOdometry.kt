@@ -36,8 +36,8 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         var totalX = 0.0
         var totalY = 0.0
         for (i in 0..3) {
-            var wheelAngle: Double = Robot.swerveSystem.wheelArr[i]!!.getTurnValue()
-            var wheelSpeed: Double = Robot.swerveSystem.wheelArr[i]!!.getCurrentDriveSpeed()
+            var wheelAngle: Double = Robot.swerveSystem.wheelArr[i].getTurnValue()
+            var wheelSpeed: Double = Robot.swerveSystem.wheelArr[i].getCurrentDriveSpeed()
 
             // if (i == 0 || i == 2) {
             // wheelSpeed = -wheelSpeed;

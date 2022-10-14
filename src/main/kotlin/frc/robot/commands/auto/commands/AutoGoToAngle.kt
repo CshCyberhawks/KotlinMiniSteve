@@ -23,19 +23,19 @@ class AutoGoToAngle(private var desiredAngle: Double) : CommandBase() {
         // meters), y in swos, and twist in degrees
         // (based on
         // robot staring position)
-        Robot.swerveAuto!!.setDesiredAngle(desiredAngle, false)
+        Robot.swerveAuto.setDesiredAngle(desiredAngle, false)
     }
 
     override fun execute() {
-        Robot.swerveAuto!!.twist()
+        Robot.swerveAuto.twist()
     }
 
     override fun end(interrupted: Boolean) {
-        SmartDashboard.putBoolean("auto angle command finsihed", Robot.swerveAuto!!.isAtDesiredAngle())
-        Robot.swerveAuto!!.kill()
+        SmartDashboard.putBoolean("auto angle command finsihed", Robot.swerveAuto.isAtDesiredAngle())
+        Robot.swerveAuto.kill()
     }
 
     override fun isFinished(): Boolean {
-        return Robot.swerveAuto!!.isAtDesiredAngle()
+        return Robot.swerveAuto.isAtDesiredAngle()
     }
 }

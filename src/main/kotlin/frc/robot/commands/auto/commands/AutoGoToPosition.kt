@@ -43,24 +43,24 @@ class AutoGoToPosition : CommandBase {
         // (based on
         // robot staring position)
         if (!byBallNumber) {
-            Robot.swerveAuto!!.setDesiredPosition(desiredPosition) // , desiredVelocity);
+            Robot.swerveAuto.setDesiredPosition(desiredPosition) // , desiredVelocity);
         } else {
-            Robot.swerveAuto!!.setDesiredPositionBall(ballNumber) // , desiredVelocity);
+            Robot.swerveAuto.setDesiredPositionBall(ballNumber) // , desiredVelocity);
         }
     }
 
     override fun execute() {
-        Robot.swerveAuto!!.translate()
+        Robot.swerveAuto.translate()
     }
 
     override fun end(interrupted: Boolean) {
         // commented below code out so that robot will maintain desired autonomous
         // velocities
-        Robot.swerveAuto!!.kill()
+        Robot.swerveAuto.kill()
     }
 
     override fun isFinished(): Boolean {
-        SmartDashboard.putBoolean("posCmdFin", Robot.swerveAuto!!.isAtDesiredPosition())
-        return Robot.swerveAuto!!.isAtDesiredPosition() // || MathClass.getCurrentTime() - startTime > 5;
+        SmartDashboard.putBoolean("posCmdFin", Robot.swerveAuto.isAtDesiredPosition())
+        return Robot.swerveAuto.isAtDesiredPosition() // || MathClass.getCurrentTime() - startTime > 5;
     }
 }
