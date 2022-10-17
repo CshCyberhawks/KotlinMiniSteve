@@ -101,7 +101,7 @@ class Constants {
         // new Vector2(-0.9, 3.8),
         // new Vector2(3.8, 0.9),
         // new Vector2(2.3, -3.2), new Vector2(-0.6, -3.8), new Vector2(-3.2, -2.2) };
-        val redBallPositions: Array<Vector2> = arrayOf<Vector2>(Vector2(1.5, .1))
+        val redBallPositions: Array<Vector2> = arrayOf<Vector2>(Vector2(3.0, 0.0))
         val blueBallPositions: Array<Vector2> = arrayOf<Vector2>(Vector2(3.0, 0.0), Vector2(2.0, -.8), Vector2(3.65, 1.9), Vector2(6.5, -2.2))
 
         val blueShootingPositions: Array<Vector2> = arrayOf<Vector2>(

@@ -47,12 +47,13 @@ class AutoBall : CommandBase {
         //     autoAngle?.end(true)
         //     autoLimeLightScheduled = true
         // }
+
+        SmartDashboard.putBoolean("limelight scheduled", limeLightScheduled)
         if (Robot.swerveAuto.isFinsihedMoving() && !limeLightScheduled) {
             println("scheduling limelight")
             CommandScheduler.getInstance().schedule(autoLimeLight)
             limeLightScheduled = true;
         }
-        SmartDashboard.putBoolean("limelight scheduled", limeLightScheduled)
     }
  
     override fun isFinished(): Boolean {

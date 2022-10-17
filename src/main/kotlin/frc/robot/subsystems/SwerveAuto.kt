@@ -32,6 +32,8 @@ class SwerveAuto() {
     private var trapXFinished = false
     private var trapYFinsihed = false
 
+    private var angleDeadzone: Double = 2.0
+
     // both below args are in m/s - first is velocity (35% of max robot velocity of
     // 3.77), and a max accel of .05 m/s
     private val trapConstraints = TrapezoidProfile.Constraints(2.0, .8)
@@ -98,7 +100,7 @@ class SwerveAuto() {
     fun isAtDesiredAngle(): Boolean {
         return MathClass.calculateDeadzone(
             MathClass.wrapAroundAngles(Robot.swo.getPosition().angle) - MathClass.wrapAroundAngles(desiredAngle),
-            2.0
+            angleDeadzone
         ) == 0.0
     }
 
@@ -137,8 +139,8 @@ class SwerveAuto() {
         val yVel = (trapYOutput.velocity + yPIDOutput)
         // val xVel = xPIDOutput
         // val yVel = yPIDOutput
-        // SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
-        // SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
+        SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
+        SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
         trapXCurrentState = trapXOutput
         trapYCurrentState = trapYOutput
         prevTime = timeNow
@@ -146,9 +148,11 @@ class SwerveAuto() {
     }
 
     fun calculateTwist(): Double {
-        val targetVal = MathUtil.clamp(MathClass.calculateDeadzone(desiredAngle - Robot.swo.getPosition().angle, .5), -1.0, 1.0)
+        SmartDashboard.putNumber("desiredTwistAngle", desiredAngle)
+        val targetVal = MathUtil.clamp(MathClass.calculateDeadzone(desiredAngle - Robot.swo.getPosition().angle, angleDeadzone), -1.0, 1.0)
         // val twistValue: Double = desiredAngle, Robot.swo.getPosition().angle
-        val twistInput = (targetVal / 10) * Robot.swerveSystem.throttle
+        val twistInput = (targetVal / 5)
+        SmartDashboard.putNumber("auto twistVal", twistInput)
         return twistInput
     }
 
@@ -160,7 +164,6 @@ class SwerveAuto() {
     fun twist() {
         // val twistValue: Double = MathUtil.clamp(Robot.swo.getPosition().angle - desiredAngle,
         // -1.0, 1.0)
-        // SmartDashboard.putNumber(" auto twistVal ", twistInput)
         val twistInput = calculateTwist()
         Robot.swerveSystem.drive(0.0, 0.0, twistInput, 0.0, DriveState.AUTO)
     }
