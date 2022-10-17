@@ -71,8 +71,9 @@ class SwerveAuto() {
     }
 
     fun setDesiredPositionDistance(distance: Double) {
-        val desiredPositionCart = MathClass.polarToCartesian(Robot.swo.getPosition().angle, distance)
-        setDesiredPosition(Vector2(desiredPositionCart[0], desiredPositionCart[1])) // , 0);
+        val pos = Robot.swo.getPosition()
+        val desiredPositionCart = MathClass.polarToCartesian(pos.angle, distance)
+        setDesiredPosition(Vector2(desiredPositionCart[0] + pos.positionCoord.x, desiredPositionCart[1] + pos.positionCoord.y)) // , 0);
     }
 
     fun setDesiredAngle(angle: Double, robotRelative: Boolean) {
