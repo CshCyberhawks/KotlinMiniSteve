@@ -12,7 +12,7 @@ class IO {
         private val xbox = XboxController(2)
         private const val controllerDeadzone = 0.3
 
-        var hosas = true;
+        var hosas = false;
 
         fun getPolarCoords(): DoubleArray? {
             return doubleArrayOf(

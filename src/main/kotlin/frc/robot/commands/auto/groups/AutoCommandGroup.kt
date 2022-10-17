@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import frc.robot.commands.auto.commands.AutoBall
+import frc.robot.commands.auto.commands.LimeLightAuto
 
 class AutoCommandGroup : SequentialCommandGroup {
     constructor(configuration: Int) : super() {
@@ -20,7 +21,12 @@ class AutoCommandGroup : SequentialCommandGroup {
                     )
             // new AutoGoToCenterAndShoot(0, true),
         } else if (configuration == 0 && DriverStation.getAlliance() == Alliance.Red) {
-            addCommands(AutoBall(0))
+            addCommands(
+
+            AutoBall(1)
+            // LimeLightAuto()
+
+            )
         }
     }
 }

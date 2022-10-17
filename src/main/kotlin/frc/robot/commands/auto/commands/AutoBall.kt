@@ -48,15 +48,19 @@ class AutoBall : CommandBase {
         //     autoLimeLightScheduled = true
         // }
 
-        SmartDashboard.putBoolean("limelight scheduled", limeLightScheduled)
         if (Robot.swerveAuto.isFinsihedMoving() && !limeLightScheduled) {
-            println("scheduling limelight")
             CommandScheduler.getInstance().schedule(autoLimeLight)
             limeLightScheduled = true;
         }
     }
- 
+
+    override fun end(interrupted: Boolean) {
+        autoLimeLight.cancel()
+    }
+
+
     override fun isFinished(): Boolean {
-        return intakeSequence.isFinished() // || MathClass.getCurrentTime() - startTime > 5;
+        SmartDashboard.putBoolean("autoBallDone", intakeSequence.autoIntakeCommand.isFinished())
+        return intakeSequence.autoIntakeCommand.isFinished() // || MathClass.getCurrentTime() - startTime > 5;
     }
 }

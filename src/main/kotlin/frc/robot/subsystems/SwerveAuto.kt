@@ -23,8 +23,8 @@ class SwerveAuto() {
             if (team == Alliance.Blue) Constants.blueBallPositions else Constants.redBallPositions
 
     private var byBall = false
-    private val ballDistanceDeadzone = 0.1
-    private val normalDistanceDeadzone = .1
+    private val ballDistanceDeadzone = 0.02
+    private val normalDistanceDeadzone = .02
 
     private val positionStopRange = .1
     private val isAtPosition = false
@@ -81,9 +81,9 @@ class SwerveAuto() {
         byBall = true
     }
 
-    fun setDesiredPositionDistance(distance: Double) {
+    fun setDesiredPositionDistance(distance: Double, limeLightAngle: Double) {
         val pos = Robot.swo.getPosition()
-        val desiredPositionCart = MathClass.polarToCartesian(pos.angle, distance)
+        val desiredPositionCart = MathClass.polarToCartesian(pos.angle + limeLightAngle, distance)
         setDesiredPosition(Vector2(desiredPositionCart[0] + pos.positionCoord.x, desiredPositionCart[1] + pos.positionCoord.y)) // , 0);
     }
 
