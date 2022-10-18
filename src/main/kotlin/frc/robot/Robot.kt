@@ -103,6 +103,7 @@ class Robot : TimedRobot() {
 //
         // driveSystem = new DriveSystem();
         // CameraServer.startAutomaticCapture();
+        swerveAuto = SwerveAuto()
     }
 
     /**
@@ -146,7 +147,6 @@ class Robot : TimedRobot() {
      * [RobotContainer] class.
      */
     override fun autonomousInit() {
-        swerveAuto = SwerveAuto()
 //        swo = SwerveOdometry(Constants.blueStartingPositions[0])
         swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
         swerveCommand?.cancel()

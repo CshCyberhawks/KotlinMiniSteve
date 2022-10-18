@@ -48,6 +48,6 @@ class LimeLightAuto : CommandBase() {
 
     override fun isFinished(): Boolean {
         // SmartDashboard.putBoolean("isLimelightDone", swerveAuto.isFinsihedMoving())
-        return swerveAuto.isFinsihedMoving()
+        return swerveAuto.isFinishedMoving()
     }
 }
