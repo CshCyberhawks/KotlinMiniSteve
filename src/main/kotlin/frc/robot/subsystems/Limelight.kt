@@ -110,7 +110,7 @@ class Limelight() : SubsystemBase() {
         var angle: Double = Math.toRadians(getHorizontalOffset())
 
         var x: Double = distance * (Math.cos(angle))
-        var y: Double = -(distance * (Math.sin(angle)))
+        var y: Double = distance * (Math.sin(angle))
 
         // SmartDashboard.putNumber("limeLightDistance", distance)
         // SmartDashboard.putNumber("limeLightAngle", angle)
