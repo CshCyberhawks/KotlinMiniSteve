@@ -29,7 +29,7 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
         Robot.swo.getPosition()
         if (IO.resetGyro()) Gyro.setOffset()
         SmartDashboard.putBoolean("Limelight Auto Finished", limeLightAuto.isFinished())
-        if (IO.limelightLockOn() && Robot.swerveAuto.isFinsihedMoving()) {
+        if (IO.limelightLockOn() && Robot.swerveAuto.isFinishedMoving()) {
             CommandScheduler.getInstance().schedule(limeLightAuto)
         }
         swerveDriveTrain.drive(

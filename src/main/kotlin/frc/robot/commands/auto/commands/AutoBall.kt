@@ -48,7 +48,7 @@ class AutoBall : CommandBase {
         //     autoLimeLightScheduled = true
         // }
 
-        if (Robot.swerveAuto.isFinsihedMoving() && !limeLightScheduled) {
+        if (Robot.swerveAuto.isFinishedMoving() && !limeLightScheduled) {
             CommandScheduler.getInstance().schedule(autoLimeLight)
             limeLightScheduled = true;
         }

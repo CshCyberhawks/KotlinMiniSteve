@@ -119,7 +119,7 @@ class SwerveAuto() {
         ) == 0.0
     }
 
-    fun isFinsihedMoving(): Boolean {
+    fun isFinishedMoving(): Boolean {
         return isAtDesiredAngle() && isAtDesiredPosition()
     }
 
