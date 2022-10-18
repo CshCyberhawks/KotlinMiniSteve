@@ -73,7 +73,7 @@ class IO {
         }
 
         fun resetGyro(): Boolean {
-            return joystick.getRawButtonPressed(8)
+            return joystick.getRawButtonPressed(2)
         }
 
         fun shootBall(): Double {
@@ -104,13 +104,13 @@ class IO {
             return xbox.bButtonPressed
         }
 
-        fun raiseShootSpeed(): Boolean {
-            return xbox.rightBumperPressed
-        }
-
-        fun lowerShootSpeed(): Boolean {
-            return xbox.leftBumperPressed
-        }
+//        fun raiseShootSpeed(): Boolean {
+//            return xbox.rightBumperPressed
+//        }
+//
+//        fun lowerShootSpeed(): Boolean {
+//            return xbox.leftBumperPressed
+//        }
 
         // public static boolean getXboxRightBumper() {
         // return xbox.getRightBumper();
