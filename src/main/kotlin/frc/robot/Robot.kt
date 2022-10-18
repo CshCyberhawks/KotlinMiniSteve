@@ -91,7 +91,7 @@ class Robot : TimedRobot() {
         transportSystem = TransportSystem()
         climbSystem = ClimbSystem()
         swerveSystem = SwerveDriveTrain()
-        limelight = Limelight();
+        limelight = Limelight(0.711, 0.24, 40.0);
         // if (DriverStation.getAlliance() == Alliance.Blue) {
         // swo = new SwerveOdometry(Constants.blueStartingPositions[0]);//
         // autoConfiguration.getSelected()]);

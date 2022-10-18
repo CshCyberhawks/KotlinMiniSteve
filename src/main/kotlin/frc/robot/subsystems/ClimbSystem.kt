@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 
 
-class ClimbSystem() : SubsystemBase() {
+class ClimbSystem : SubsystemBase() {
 // rightSolenoid = new Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 1);
     private var climbMotor: TalonFX = TalonFX(Constants.climbMotor);
     private var leftSolenoid: Solenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 2);
@@ -17,10 +17,10 @@ class ClimbSystem() : SubsystemBase() {
 //    private val climbPidController: PIDController;
 
     init {
-        climbMotor.config_kI(0, 0.0)
-        climbMotor.config_kF(0, 0.0)
-        climbMotor.config_kP(0, .01)
-        climbMotor.config_kD(0, 0.0)
+        climbMotor.config_kI(0, 0.0);
+        climbMotor.config_kF(0, 0.0);
+        climbMotor.config_kP(0, .01);
+        climbMotor.config_kD(0, 0.0);
     }
 
     fun climb(speed: Double) {
