@@ -3,8 +3,6 @@ package frc.robot.util
 import edu.wpi.first.util.WPIUtilJNI
 
 
-
-
 class MathClass {
     companion object {
         fun calculateDeadzone(input: Double, deadzone: Double): Double {

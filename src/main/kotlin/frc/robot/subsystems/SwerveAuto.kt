@@ -17,7 +17,7 @@ class SwerveAuto() {
 
     private var team: Alliance = DriverStation.getAlliance()
     var ballPositions: Array<Vector2> =
-            if (team == Alliance.Blue) Constants.blueBallPositions else Constants.redBallPositions
+        if (team == Alliance.Blue) Constants.blueBallPositions else Constants.redBallPositions
 
     private var byBall = false
     private val ballDistanceDeadzone = 0.02
@@ -36,19 +36,19 @@ class SwerveAuto() {
     // 3.77), and a max accel of .05 m/s
     private val trapConstraints = TrapezoidProfile.Constraints(2.0, .8)
     private var trapXCurrentState: TrapezoidProfile.State =
-            TrapezoidProfile.State(
-                    Robot.swo.getPosition().positionCoord.x,
-                    Robot.swo.getVelocities().x
-            )
+        TrapezoidProfile.State(
+            Robot.swo.getPosition().positionCoord.x,
+            Robot.swo.getVelocities().x
+        )
     private var trapXDesiredState: TrapezoidProfile.State =
-            TrapezoidProfile.State(desiredPosition.x, 0.0)
+        TrapezoidProfile.State(desiredPosition.x, 0.0)
     private var trapYCurrentState: TrapezoidProfile.State =
-            TrapezoidProfile.State(
-                    Robot.swo.getPosition().positionCoord.y,
-                    Robot.swo.getVelocities().y
-            )
+        TrapezoidProfile.State(
+            Robot.swo.getPosition().positionCoord.y,
+            Robot.swo.getVelocities().y
+        )
     private var trapYDesiredState: TrapezoidProfile.State =
-            TrapezoidProfile.State(desiredPosition.y, 0.0)
+        TrapezoidProfile.State(desiredPosition.y, 0.0)
 
     // TODO: prob need to increase derivatives
     private val xPID = PIDController(5.0, 0.0, 0.05)
@@ -67,9 +67,9 @@ class SwerveAuto() {
         // desiredVelocity);
 
         trapXDesiredState =
-                TrapezoidProfile.State(this.desiredPosition.x, 0.0) // desiredVelocities[0]);
+            TrapezoidProfile.State(this.desiredPosition.x, 0.0) // desiredVelocities[0]);
         trapYDesiredState =
-                TrapezoidProfile.State(this.desiredPosition.y, 0.0) // desiredVelocities[0]);
+            TrapezoidProfile.State(this.desiredPosition.y, 0.0) // desiredVelocities[0]);
     }
 
     fun setDesiredPositionBall(ballNumber: Int) { // , double desiredVelocity) {
@@ -81,7 +81,12 @@ class SwerveAuto() {
     fun setDesiredPositionDistance(distance: Double, limeLightAngle: Double) {
         val pos = Robot.swo.getPosition()
         val desiredPositionCart = MathClass.polarToCartesian(Polar(pos.angle + limeLightAngle, distance))
-        setDesiredPosition(Vector2(desiredPositionCart.x + pos.positionCoord.x, desiredPositionCart.y + pos.positionCoord.y)) // , 0);
+        setDesiredPosition(
+            Vector2(
+                desiredPositionCart.x + pos.positionCoord.x,
+                desiredPositionCart.y + pos.positionCoord.y
+            )
+        ) // , 0);
     }
 
     fun setDesiredAngle(angle: Double, robotRelative: Boolean) {
@@ -102,21 +107,21 @@ class SwerveAuto() {
         // MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x))
         val deadzone = if (byBall) ballDistanceDeadzone else normalDistanceDeadzone
         return (MathClass.calculateDeadzone(
-                desiredPosition.x - MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x),
-                deadzone
+            desiredPosition.x - MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x),
+            deadzone
         ) == 0.0 &&
                 MathClass.calculateDeadzone(
-                        desiredPosition.y -
-                                MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y),
-                        deadzone
+                    desiredPosition.y -
+                            MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y),
+                    deadzone
                 ) == 0.0)
     }
 
     fun isAtDesiredAngle(): Boolean {
         return MathClass.calculateDeadzone(
-                MathClass.wrapAroundAngles(Robot.swo.getPosition().angle) -
-                        MathClass.wrapAroundAngles(desiredAngle),
-                angleDeadzone
+            MathClass.wrapAroundAngles(Robot.swo.getPosition().angle) -
+                    MathClass.wrapAroundAngles(desiredAngle),
+            angleDeadzone
         ) == 0.0
     }
 
@@ -152,15 +157,15 @@ class SwerveAuto() {
         // SmartDashboard.putNumber("TrapY", trapYOutput.position);
         // SmartDashboard.putNumber("TrapX", trapXOutput.position);
         val xPIDOutput =
-                xPID.calculate(
-                        MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x),
-                        trapXOutput.position
-                )
+            xPID.calculate(
+                MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x),
+                trapXOutput.position
+            )
         val yPIDOutput =
-                yPID.calculate(
-                        MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y),
-                        trapYOutput.position
-                )
+            yPID.calculate(
+                MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y),
+                trapYOutput.position
+            )
         val xVel = (trapXOutput.velocity + xPIDOutput)
         val yVel = (trapYOutput.velocity + yPIDOutput)
         // val xVel = xPIDOutput
@@ -177,7 +182,7 @@ class SwerveAuto() {
         SmartDashboard.putNumber("desiredTwistAngle", desiredAngle)
         val currentAngle: Double = Robot.swo.getPosition().angle
         var targetVal =
-                -MathUtil.clamp(MathClass.wrapAroundAngles(desiredAngle - currentAngle), -1.0, 1.0)
+            -MathUtil.clamp(MathClass.wrapAroundAngles(desiredAngle - currentAngle), -1.0, 1.0)
         // val twistValue: Double = desiredAngle, Robot.swo.getPosition().angle
         val twistFeedForward = (targetVal / 5)
         // NOTE: divide by 360 is to go from anlge to percent output + divide by 10 is to lower it

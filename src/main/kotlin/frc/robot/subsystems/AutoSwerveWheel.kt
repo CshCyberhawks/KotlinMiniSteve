@@ -24,7 +24,7 @@ class AutoSwerveWheel(turnPort: Int, drivePort: Int, private var turnEncoderPort
     var rawTurnValue = 0.0;
 
     private var speedPID: PIDController = PIDController(0.03, 0.0, 0.0)
-    private var turnPID: PIDController= PIDController(0.01, 0.0, 0.0)
+    private var turnPID: PIDController = PIDController(0.01, 0.0, 0.0)
 
     init {
         turnPID.setTolerance(4.0)

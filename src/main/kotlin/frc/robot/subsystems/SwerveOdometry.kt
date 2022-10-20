@@ -11,6 +11,7 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
 
     private var lastUpdateTime = 1.0
     private var robotVelocities = Vector2()
+
     init {
         Gyro.setOffset()
     }
