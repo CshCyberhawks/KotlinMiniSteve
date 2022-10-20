@@ -50,6 +50,10 @@ class IO {
             return joystick.getRawButton(3)
         }
 
+        fun cancelLimelightLockOn(): Boolean {
+            return joystick.getRawButton(14)
+        }
+
         fun moveTransport(): Double {
             return if (Math.abs(xbox.leftY) > controllerDeadzone) xbox.leftY else 0.0
         }

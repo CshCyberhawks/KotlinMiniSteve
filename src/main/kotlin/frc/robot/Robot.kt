@@ -27,6 +27,8 @@ import java.util.Map
  */
 class Robot : TimedRobot() {
     companion object {
+        var autoMoveRunning = false
+
         lateinit var swerveAuto: SwerveAuto
         lateinit var limelightFeed: HttpCamera
         lateinit var swerveSystem: SwerveDriveTrain

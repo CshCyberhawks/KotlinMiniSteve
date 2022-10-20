@@ -97,6 +97,7 @@ class SwerveDriveTrain() : SubsystemBase() { // p = 10 gets oscillation
     }
 
     fun drive(inputX: Double, inputY: Double, inputTwist: Double, throttleChange: Double, mode: DriveState?) {
+        if (Robot.autoMoveRunning && mode == DriveState.TELE) return
         var inputX = inputX
         var inputY = inputY
         var inputTwist = inputTwist

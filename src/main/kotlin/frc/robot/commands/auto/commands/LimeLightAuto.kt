@@ -16,6 +16,7 @@ class LimeLightAuto : CommandBase() {
         if (limelight.hasTarget()) {
             setDesired()
         }
+        Robot.autoMoveRunning = true
     }
 
     fun setDesired() {
@@ -36,6 +37,7 @@ class LimeLightAuto : CommandBase() {
     }
 
     override fun execute() {
+        SmartDashboard.putBoolean("Limelight Has Target", limelight.hasTarget())
         if (limelight.hasTarget()) {
             // setDesired()
             swerveAuto.move()
@@ -44,6 +46,7 @@ class LimeLightAuto : CommandBase() {
 
     override fun end(interrupted: Boolean) {
         swerveAuto.kill()
+        Robot.autoMoveRunning = false
     }
 
     override fun isFinished(): Boolean {

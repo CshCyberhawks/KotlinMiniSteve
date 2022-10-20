@@ -96,6 +96,10 @@ class SwerveAuto() {
         }
     }
 
+    fun setDesiredDistance(x: Double, y: Double) {
+
+    }
+
     fun isAtDesiredPosition(): Boolean {
         // SmartDashboard.putNumber("Desired position distance x", desiredPosition.x -
         // MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x))
@@ -136,7 +140,7 @@ class SwerveAuto() {
             twist = calculateTwist()
         }
 
-        Robot.swerveSystem.drive(translation.x, translation.y, twist, 0.0, DriveState.AUTO)
+        Robot.swerveSystem.drive(translation.x / 10, translation.y / 10, twist, 0.0, DriveState.AUTO)
     }
 
     fun calculateTranslation(): Vector2 {
