@@ -13,7 +13,7 @@ class AutoTransportCommand(private var transportSystem: TransportSystem) : Comma
     }
 
     override fun execute() {
-        transportSystem.move(.25)
+        transportSystem.move(0.25)
     }
 
     override fun end(interrupted: Boolean) {

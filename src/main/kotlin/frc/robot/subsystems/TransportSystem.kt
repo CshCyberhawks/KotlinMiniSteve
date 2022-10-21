@@ -4,15 +4,13 @@ import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.NeutralMode
 import com.ctre.phoenix.motorcontrol.can.VictorSPX
 import edu.wpi.first.networktables.NetworkTableEntry
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import frc.robot.Constants.Companion.shootBreakBeam
 import frc.robot.Robot
 import frc.robot.util.MathClass
 
 
-class TransportSystem() : SubsystemBase() {
+class TransportSystem : SubsystemBase() {
     private var transportMotor: VictorSPX = VictorSPX(Constants.traversalMotor)
     private val traversalMult = 2.0
     var cargoAmount: Int = 0
@@ -25,7 +23,15 @@ class TransportSystem() : SubsystemBase() {
 
     private var lastFrontBB = true
 
-    private var cargoAmountShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("cargoAmount", cargoAmount).getEntry()
+    private var cargoAmountShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("cargoAmount", cargoAmount).entry
+
+    init {
+        transportMotor.setNeutralMode(NeutralMode.Brake)
+        isRunningSequence = false
+        cargoAmount = 0
+        // lastCargoPickupTime = MathClass.getCurrentTime();
+        // lastCargoShootTime = MathClass.getCurrentTime();
+    }
 
     fun cargoMonitor() {
         val shootDifference = MathClass.getCurrentTime() - lastCargoShootTime
@@ -45,13 +51,6 @@ class TransportSystem() : SubsystemBase() {
         lastFrontBB = Robot.frontBreakBeam.get()
     }
 
-    init {
-        transportMotor.setNeutralMode(NeutralMode.Brake)
-        isRunningSequence = false
-        cargoAmount = 0
-        // lastCargoPickupTime = MathClass.getCurrentTime();
-        // lastCargoShootTime = MathClass.getCurrentTime();
-    }
 
     fun move(speed: Double) {
         // SmartDashboard.putNumber("transportSpeed", speed * traversalMult)

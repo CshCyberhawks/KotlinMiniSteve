@@ -31,7 +31,7 @@ class AutoGoToAngle(private var desiredAngle: Double) : CommandBase() {
     }
 
     override fun end(interrupted: Boolean) {
-        SmartDashboard.putBoolean("auto angle command finsihed", Robot.swerveAuto.isAtDesiredAngle())
+        SmartDashboard.putBoolean("auto angle command finished", Robot.swerveAuto.isAtDesiredAngle())
         Robot.swerveAuto.kill()
     }
 

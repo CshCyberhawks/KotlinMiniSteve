@@ -52,11 +52,7 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
             firstRun = false
         }
         swerveDriveTrain.drive(
-            -IO.moveRobotX(),
-            -IO.moveRobotY(),
-            -IO.turnControl(),
-            IO.getJoyThrottle(),
-            DriveState.TELE
+            -IO.moveRobotX(), -IO.moveRobotY(), -IO.turnControl(), IO.getJoyThrottle(), DriveState.TELE
         )
     }
 }

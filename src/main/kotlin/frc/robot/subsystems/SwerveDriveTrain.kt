@@ -1,6 +1,5 @@
 package frc.robot.subsystems
 
-import edu.wpi.first.math.MathUtil
 import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.util.WPIUtilJNI
@@ -8,10 +7,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.Robot
-import frc.robot.util.*
+import frc.robot.util.DriveState
+import frc.robot.util.Gyro
+import frc.robot.util.MathClass
+import frc.robot.util.Vector2
 
 
-class SwerveDriveTrain() : SubsystemBase() { // p = 10 gets oscillation
+class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     var backLeft: SwerveWheel = SwerveWheel(
         Constants.backLeftTurnMotor, Constants.backLeftDriveMotor,
         Constants.backLeftEncoder
@@ -44,7 +46,7 @@ class SwerveDriveTrain() : SubsystemBase() { // p = 10 gets oscillation
     // odometry
     private var lastUpdateTime = -1.0
 
-    private var throttleShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("throttle", throttle).getEntry()
+    private var throttleShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("throttle", throttle).entry
 
     var maxSwos = 13.9458
     var maxMeters = 3.777

@@ -1,14 +1,13 @@
 package frc.robot.util
 
 import edu.wpi.first.util.WPIUtilJNI
-
-
+import kotlin.math.*
 
 
 class MathClass {
     companion object {
         fun calculateDeadzone(input: Double, deadzone: Double): Double {
-            return if (Math.abs(input) > deadzone) input else 0.0
+            return if (abs(input) > deadzone) input else 0.0
         }
 
         fun gToMetersPerSecond(g: Double): Double {
@@ -45,7 +44,7 @@ class MathClass {
             minSpeed: Double
         ): DoubleArray {
             val minMax = getMinMax(speeds)
-            val divSpeed = if (Math.abs(minMax[0]) > minMax[1]) Math.abs(minMax[0]) else minMax[1]
+            val divSpeed = if (abs(minMax[0]) > minMax[1]) abs(minMax[0]) else minMax[1]
             val highestSpeed = if (minMax[1] > maxSpeed) maxSpeed else minMax[1]
             val lowestSpeed = if (minMax[0] < minSpeed) minSpeed else minMax[0]
             for (i in speeds.indices) {
@@ -57,7 +56,10 @@ class MathClass {
         }
 
         fun optimize(desiredAngle: Double, currentAngle: Double): Double {
-            return if (Math.abs(desiredAngle - currentAngle) > 90 && Math.abs(desiredAngle - currentAngle) < 270) (-1).toDouble() else 1.0
+            return if (abs(desiredAngle - currentAngle) > 90 && abs(desiredAngle - currentAngle) < 270)
+                -1.0
+            else
+                1.0
         }
 
         fun getCurrentTime(): Double {

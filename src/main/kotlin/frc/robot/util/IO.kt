@@ -2,19 +2,19 @@ package frc.robot.util
 
 import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.XboxController
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import kotlin.math.abs
 
 
 class IO {
     companion object {
-        private val joystick = Joystick(0)
-        private val joystick2 = Joystick(1)
-        private val xbox = XboxController(2)
-        private const val controllerDeadzone = 0.3
+        private val joystick: Joystick = Joystick(0)
+        private val joystick2: Joystick = Joystick(1)
+        private val xbox: XboxController = XboxController(2)
+        private const val controllerDeadzone: Double = 0.3
 
-        var hosas = true
+        private var dualStickDrive: Boolean = false;
 
-        fun getPolarCoords(): DoubleArray? {
+        fun getPolarCoords(): DoubleArray {
             return doubleArrayOf(
                 -MathClass.calculateDeadzone(joystick.directionDegrees, controllerDeadzone),
                 MathClass.calculateDeadzone(joystick.magnitude, controllerDeadzone),
@@ -55,11 +55,11 @@ class IO {
         }
 
         fun moveTransport(): Double {
-            return if (Math.abs(xbox.leftY) > controllerDeadzone) xbox.leftY else 0.0
+            return if (abs(xbox.leftY) > controllerDeadzone) xbox.leftY else 0.0
         }
 
         fun moveRobotX(): Double {
-            // SmartDashboard.putNumber("Jotstick X", joystick.y)
+            // SmartDashboard.putNumber("Joystick X", joystick.y)
             return MathClass.calculateDeadzone(joystick.y, controllerDeadzone)
         }
 
@@ -85,7 +85,7 @@ class IO {
         }
 
         fun turnControl(): Double {
-            return if (hosas) MathClass.calculateDeadzone(
+            return if (dualStickDrive) MathClass.calculateDeadzone(
                 joystick2.x,
                 .1
             ) else MathClass.calculateDeadzone(joystick.twist, .1)
@@ -96,7 +96,7 @@ class IO {
         }
 
         fun getJoyThrottle(): Double {
-            return if (hosas) {
+            return if (dualStickDrive) {
                 MathClass.calculateDeadzone((-joystick2.throttle + 1) / 2, .05)
             } else {
                 MathClass.calculateDeadzone((-joystick.throttle + 1) / 2, .05)

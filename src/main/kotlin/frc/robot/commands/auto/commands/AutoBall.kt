@@ -9,7 +9,13 @@ import frc.robot.util.MathClass
 import frc.robot.util.Vector2
 
 
-class AutoBall : CommandBase {
+class AutoBall(ballNumber: Int) : CommandBase() {
+    // add your autonomous commands below
+    // example: below will move robot 2 meters on the x and rotate to 90 degrees
+    // then it will wait 1 second before moving the robot back to its starting
+    // position
+    // Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
+    // SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
     private var startTime = 0.0
     private var intakeSequence: IntakeSequence = IntakeSequence()
     private var desiredAngle: Double = 0.0
@@ -17,7 +23,7 @@ class AutoBall : CommandBase {
     private var autoLimeLight: LimeLightAuto
     private var limeLightScheduled: Boolean = false;
 
-    constructor(ballNumber: Int) {
+    init {
         startTime = MathClass.getCurrentTime()
         Robot.swo.resetPos()
         // add your autonomous commands below
@@ -60,7 +66,7 @@ class AutoBall : CommandBase {
 
 
     override fun isFinished(): Boolean {
-        SmartDashboard.putBoolean("autoBallDone", intakeSequence.autoIntakeCommand.isFinished())
-        return intakeSequence.autoIntakeCommand.isFinished() // || MathClass.getCurrentTime() - startTime > 5;
+        SmartDashboard.putBoolean("autoBallDone", intakeSequence.autoIntakeCommand.isFinished)
+        return intakeSequence.autoIntakeCommand.isFinished // || MathClass.getCurrentTime() - startTime > 5;
     }
 }

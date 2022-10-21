@@ -6,7 +6,7 @@ import frc.robot.util.MathClass
 
 
 class Wait(private var length: Double) : CommandBase() {
-    var startTime = 0.0
+    private var startTime = 0.0
 
     override fun initialize() {
         startTime = WPIUtilJNI.now() * 1.0e-6

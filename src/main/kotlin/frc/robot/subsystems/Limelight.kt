@@ -11,23 +11,26 @@ import frc.robot.util.Vector2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
-import kotlin.properties.Delegates
 
-class Limelight(private val cameraHeight: Double, private val ballHeight: Double, private val mountAngle: Double) : SubsystemBase() {
+class Limelight(private val cameraHeight: Double, private val ballHeight: Double, private val mountAngle: Double) :
+    SubsystemBase() {
     private val table: NetworkTable = NetworkTableInstance.getDefault().getTable("limelight")
-    private val tv: NetworkTableEntry = table.getEntry("tv") // 0 or 1 whether it has a valid target
-    private val tx: NetworkTableEntry = table.getEntry("tx") // The horizontal offset between the crosshair and
-    // target in degrees
-    private val ty: NetworkTableEntry = table.getEntry("ty") // The vertical offset between the crosshair and target
-    // in degrees
-    private val ta: NetworkTableEntry = table.getEntry("ta") // Percentage of image
-    private val tc: NetworkTableEntry = table.getEntry("tc") // HSV color underneath the crosshair region as a
-    // NumberArray
+    private val hasTarget: NetworkTableEntry = table.getEntry("tv") // 0 or 1 whether it has a valid target
+    private val horizontalOffset: NetworkTableEntry = table.getEntry("tx") // The horizontal offset between the
+
+    // crosshair and target in degrees
+    private val verticalOffset: NetworkTableEntry = table.getEntry("ty") // The vertical offset between the
+
+    // crosshair and target in degrees
+    private val area: NetworkTableEntry = table.getEntry("ta") // Percentage of image
+    private val detectedColor: NetworkTableEntry = table.getEntry("tc") // HSV color underneath the crosshair
+
+    // region as a NumberArray
     private val pipeline: NetworkTableEntry = table.getEntry("pipeline") // Pipeline
 
     private val team: Alliance = DriverStation.getAlliance();
-//    .711 Height of camera (meters)
-//     0.24 Height of target (meters) measured perfectly
+//    0.711 Height of camera (meters)
+//    0.24 Height of target (meters) measured perfectly
 //    40.0 Angle that the limelight is mounted
 
 
@@ -39,44 +42,40 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
 //    }
 
     fun pipelineInit() {
-        if (team == Alliance.Red) {
-            pipeline.setDouble(0.0)
-        } else if (team == Alliance.Blue) {
-            pipeline.setDouble(1.0)
+        when (team) {
+            Alliance.Red -> pipeline.setDouble(0.0);
+            Alliance.Blue -> pipeline.setDouble(1.0);
+            Alliance.Invalid -> error("INVALID ALLIANCE");
         }
     }
 
     fun getBallAngleVertical(): Double {
-        var offset: Double = tx.getDouble(0.0)
-        offset = if (offset < 0) {
-            mountAngle + offset
-        } else {
-            mountAngle + offset
-        }
-        return offset
+        return horizontalOffset.getDouble(0.0) + mountAngle;
     }
 
     fun getHorizontalOffset(): Double {
-        return tx.getDouble(0.0);
+        return horizontalOffset.getDouble(0.0);
     }
+
     fun getVerticalOffset(): Double {
-        return ty.getDouble(0.0)
+        return verticalOffset.getDouble(0.0)
     }
 
     fun getArea(): Double {
-        return ta.getDouble(0.0)
+        return area.getDouble(0.0)
     }
 
     fun hasTarget(): Boolean {
-        return tv.getDouble(0.0) == 1.0
+        return hasTarget.getDouble(0.0) == 1.0
     }
 
     fun getColor(): Array<Number> {
-        return tc.getNumberArray(arrayOf<Number>(-1))
+        return detectedColor.getNumberArray(arrayOf<Number>(-1))
     }
 
     fun getBallDistance(): Double {
         SmartDashboard.putNumber("verOff", getVerticalOffset())
+
         return if (hasTarget()) {
             (cameraHeight - ballHeight) * tan(Math.toRadians(getBallAngleVertical()))
         } else {
