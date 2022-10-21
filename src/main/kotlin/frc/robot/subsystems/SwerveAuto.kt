@@ -9,7 +9,10 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.robot.Constants
 import frc.robot.Robot
-import frc.robot.util.*
+import frc.robot.util.DriveState
+import frc.robot.util.Gyro
+import frc.robot.util.MathClass
+import frc.robot.util.Vector2
 
 class SwerveAuto() {
     private var desiredPosition: Vector2 = Vector2(0.0, 0.0)
@@ -38,14 +41,14 @@ class SwerveAuto() {
     private var trapXCurrentState: TrapezoidProfile.State =
             TrapezoidProfile.State(
                     Robot.swo.getPosition().positionCoord.x,
-                    Robot.swo.getVelocities().x
+                    Robot.swo.getVelocities().get(0)
             )
     private var trapXDesiredState: TrapezoidProfile.State =
             TrapezoidProfile.State(desiredPosition.x, 0.0)
     private var trapYCurrentState: TrapezoidProfile.State =
             TrapezoidProfile.State(
                     Robot.swo.getPosition().positionCoord.y,
-                    Robot.swo.getVelocities().y
+                    Robot.swo.getVelocities().get(1)
             )
     private var trapYDesiredState: TrapezoidProfile.State =
             TrapezoidProfile.State(desiredPosition.y, 0.0)
@@ -80,8 +83,8 @@ class SwerveAuto() {
 
     fun setDesiredPositionDistance(distance: Double, limeLightAngle: Double) {
         val pos = Robot.swo.getPosition()
-        val desiredPositionCart = MathClass.polarToCartesian(Polar(pos.angle + limeLightAngle, distance))
-        setDesiredPosition(Vector2(desiredPositionCart.x + pos.positionCoord.x, desiredPositionCart.y + pos.positionCoord.y)) // , 0);
+        val desiredPositionCart = MathClass.polarToCartesian(pos.angle + limeLightAngle, distance)
+        setDesiredPosition(Vector2(desiredPositionCart[0] + pos.positionCoord.x, desiredPositionCart[1] + pos.positionCoord.y)) // , 0);
     }
 
     fun setDesiredAngle(angle: Double, robotRelative: Boolean) {
@@ -137,7 +140,7 @@ class SwerveAuto() {
             twist = calculateTwist()
         }
 
-        Robot.swerveSystem.drive(Vector2(translation.x / 10, translation.y / 10), twist, 0.0, DriveState.AUTO)
+        Robot.swerveSystem.drive(translation.x / 10, translation.y / 10, twist, 0.0, DriveState.AUTO)
     }
 
     fun calculateTranslation(): Vector2 {
@@ -204,14 +207,14 @@ class SwerveAuto() {
 
     fun translate() {
         val driveInputs: Vector2 = calculateTranslation()
-        Robot.swerveSystem.drive(Vector2(driveInputs.x, driveInputs.y), 0.0, 0.0, DriveState.AUTO)
+        Robot.swerveSystem.drive(driveInputs.x, driveInputs.y, 0.0, 0.0, DriveState.AUTO)
     }
 
     fun twist() {
         // val twistValue: Double = MathUtil.clamp(Robot.swo.getPosition().angle - desiredAngle,
         // -1.0, 1.0)
         val twistInput = calculateTwist()
-        Robot.swerveSystem.drive(Vector2(0.0, 0.0), twistInput, 0.0, DriveState.AUTO)
+        Robot.swerveSystem.drive(0.0, 0.0, twistInput, 0.0, DriveState.AUTO)
     }
 
     fun kill() {

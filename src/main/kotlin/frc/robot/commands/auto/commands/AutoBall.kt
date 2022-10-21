@@ -25,10 +25,10 @@ class AutoBall : CommandBase {
         // then it will wait 1 second before moving the robot back to its starting
         // position
         val desiredPosition: Vector2 = Robot.swerveAuto.ballPositions.get(ballNumber)
-        desiredAngle =  MathClass.cartesianToPolar(Vector2(
+        desiredAngle =  MathClass.cartesianToPolar(
             desiredPosition.x - Robot.swo.getPosition().positionCoord.x,
-            desiredPosition.y - Robot.swo.getPosition().positionCoord.y)
-        ).theta
+            desiredPosition.y - Robot.swo.getPosition().positionCoord.y
+        )[0]
         // Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
         // SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
         autoMove = AutoGoToPositionAndAngle(ballNumber, 0.0, 0.0)

@@ -2,6 +2,7 @@ package frc.robot.commands
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
+import edu.wpi.first.wpilibj2.command.CommandScheduler
 import frc.robot.Robot
 import frc.robot.commands.auto.commands.LimeLightAuto
 import frc.robot.commands.sequences.IntakeSequence
@@ -9,7 +10,6 @@ import frc.robot.subsystems.SwerveDriveTrain
 import frc.robot.util.DriveState
 import frc.robot.util.Gyro
 import frc.robot.util.IO
-import frc.robot.util.Vector2
 
 
 class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBase() {
@@ -43,10 +43,7 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
 
         SmartDashboard.putBoolean("Limelight Auto Finished", limeLightAuto?.isFinished == true)
         SmartDashboard.putBoolean("Intake Auto Finished", intakeSequence?.isFinished == true)
-        SmartDashboard.putBoolean(
-            "Limelight Scheduled",
-            IO.limelightLockOn() && (limeLightAuto?.isFinished == true || firstRun)
-        )
+        SmartDashboard.putBoolean("Limelight Scheduled", IO.limelightLockOn() && (limeLightAuto?.isFinished == true || firstRun))
         if (IO.limelightLockOn() && ((limeLightAuto?.isFinished == true && intakeSequence?.isFinished == true) || firstRun)) {
             limeLightAuto = LimeLightAuto()
             limeLightAuto?.schedule()
@@ -55,10 +52,8 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
             firstRun = false
         }
         swerveDriveTrain.drive(
-            Vector2(
-                -IO.moveRobotX(),
-                -IO.moveRobotY()
-            ),
+            -IO.moveRobotX(),
+            -IO.moveRobotY(),
             -IO.turnControl(),
             IO.getJoyThrottle(),
             DriveState.TELE

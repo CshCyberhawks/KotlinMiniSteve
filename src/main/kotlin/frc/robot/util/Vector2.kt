@@ -27,8 +27,4 @@ class Vector2 {
         x = vec.x
         y = vec.y
     }
-
-    fun add(other: Vector2): Vector2 {
-        return Vector2(this.x + other.x, this.y + other.y)
-    }
 }

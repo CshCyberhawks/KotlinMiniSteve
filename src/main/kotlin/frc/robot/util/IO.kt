@@ -2,6 +2,7 @@ package frc.robot.util
 
 import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.XboxController
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 
 
 class IO {
@@ -13,7 +14,7 @@ class IO {
 
         var hosas = false;
 
-        fun getPolarCoords(): DoubleArray {
+        fun getPolarCoords(): DoubleArray? {
             return doubleArrayOf(
                 -MathClass.calculateDeadzone(joystick.directionDegrees, controllerDeadzone),
                 MathClass.calculateDeadzone(joystick.magnitude, controllerDeadzone),
@@ -96,9 +97,10 @@ class IO {
 
         fun getJoyThrottle(): Double {
             if (hosas) {
-                return MathClass.calculateDeadzone((-joystick2.throttle + 1) / 2, .05)
-            } else {
-                return MathClass.calculateDeadzone((-joystick.throttle + 1) / 2, .05)
+            return MathClass.calculateDeadzone((-joystick2.throttle + 1) / 2, .05)
+            }
+            else {
+            return MathClass.calculateDeadzone((-joystick.throttle + 1) / 2, .05)
             }
         }
 

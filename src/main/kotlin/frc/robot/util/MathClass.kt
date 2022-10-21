@@ -15,19 +15,20 @@ class MathClass {
             return g / 9.8066
         }
 
-        fun cartesianToPolar(input: Vector2): Polar {
+        fun cartesianToPolar(x: Double, y: Double): DoubleArray {
             // math to turn cartesian into polar
-            val r = Math.sqrt(Math.pow(input.x, 2.0) + Math.pow(input.y, 2.0))
-            val theta = Math.toDegrees(Math.atan2(input.y, input.x))
-            return Polar(theta, r)
+            val r = Math.sqrt(Math.pow(x, 2.0) + Math.pow(y, 2.0))
+            val theta = Math.toDegrees(Math.atan2(y, x))
+            return doubleArrayOf(theta, r)
         }
 
-        fun polarToCartesian(input: Polar): Vector2 {
+        fun polarToCartesian(theta: Double, r: Double): DoubleArray {
             // math to turn polar coordinate into cartesian
-            var theta = Math.toRadians(input.theta)
-            val x = input.r * Math.cos(Math.toRadians(theta))
-            val y = input.r * Math.sin(Math.toRadians(theta))
-            return Vector2(x, y)
+            var theta = theta
+            theta = Math.toRadians(theta)
+            val x = r * Math.cos(theta)
+            val y = r * Math.sin(theta)
+            return doubleArrayOf(x, y)
         }
 
         fun getMinMax(values: DoubleArray): DoubleArray {
