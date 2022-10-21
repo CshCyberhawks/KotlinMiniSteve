@@ -28,16 +28,12 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
         if (IO.getSWOReset()) Robot.swo.resetPos()
         Robot.swo.getPosition()
         if (IO.resetGyro()) Gyro.setOffset()
-        SmartDashboard.putBoolean("Limelight Auto Finished", limeLightAuto.isFinished())
+        SmartDashboard.putBoolean("Limelight Auto Finished", limeLightAuto.isFinished)
         if (IO.limelightLockOn() && Robot.swerveAuto.isFinishedMoving()) {
             CommandScheduler.getInstance().schedule(limeLightAuto)
         }
         swerveDriveTrain.drive(
-            -IO.moveRobotX(),
-            -IO.moveRobotY(),
-            -IO.turnControl(),
-            IO.getJoyThrottle(),
-            DriveState.TELE
+            -IO.moveRobotX(), -IO.moveRobotY(), -IO.turnControl(), IO.getJoyThrottle(), DriveState.TELE
         )
     }
 }

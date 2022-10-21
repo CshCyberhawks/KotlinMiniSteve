@@ -1,6 +1,5 @@
 package frc.robot.commands
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.commands.auto.commands.AutoShootCommand
 import frc.robot.subsystems.ShootSystem
@@ -17,7 +16,7 @@ class ShootCommand(private val shootSystem: ShootSystem) : CommandBase() {
         // if (IO.lowerShootSpeed()) shootSystem!!.shootMult -= 0.05
         if (IO.autoShoot()) {
             AutoShootCommand(shootSystem).schedule()
-        } else if (!shootSystem.getAutoShootState()) {
+        } else if (!shootSystem.autoShootRunning) {
             shootSystem.shoot(IO.shootBall() != 0.0)
         }
     }

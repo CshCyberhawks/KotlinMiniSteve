@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 
 class Gyro {
     companion object { // Makes the class static
-        private val gyro = AHRS(SPI.Port.kMXP)
-        var offset = 0.0
-        private val filter = LinearFilter.highPass(0.1, 0.02)
+        private val gyro: AHRS = AHRS(SPI.Port.kMXP)
+        private var offset: Double = 0.0
+        private val filter: LinearFilter = LinearFilter.highPass(0.1, 0.02)
 
         private fun wrapAroundAngles(input: Double): Double {
             return if (input < 0) 360 + input else input
@@ -35,26 +35,26 @@ class Gyro {
             offset = wrapAroundAngles(gyro.yaw.toDouble())
         }
 
-        fun getVelZ(): Double {
+        fun getZVelocity(): Double {
             return filter.calculate(gyro.velocityZ.toDouble())
         }
 
-        fun getVelocityX(): Double {
+        fun getXVelocity(): Double {
             return filter.calculate(gyro.velocityX.toDouble())
             // return gyro.getVelocityX();
         }
 
-        fun getVelocityY(): Double {
+        fun getYVelocity(): Double {
             return filter.calculate(gyro.velocityY.toDouble())
             // return gyro.getVelocityY();
         }
 
-        fun getAccelX(): Double {
+        fun getXAccel(): Double {
             return filter.calculate(gyro.worldLinearAccelX.toDouble())
             // return gyro.getWorldLinearAccelX();
         }
 
-        fun getAccelY(): Double {
+        fun getYAccel(): Double {
             return filter.calculate(gyro.worldLinearAccelX.toDouble())
             // return gyro.getWorldLinearAccelX();
         }

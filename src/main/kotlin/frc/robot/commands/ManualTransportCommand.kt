@@ -14,7 +14,7 @@ class ManualTransportCommand(private var transportSystem: TransportSystem) : Com
 
     override fun execute() {
         val transportPower = -IO.moveTransport()
-        if (!transportSystem.isRunningSequence && !Robot.isSpitting && !Robot.shootSystem.getAutoShootState()) transportSystem.move(
+        if (!transportSystem.isRunningSequence && !Robot.isSpitting && !Robot.shootSystem.autoShootRunning) transportSystem.move(
             transportPower
         )
         if (IO.getResetCargo()) {

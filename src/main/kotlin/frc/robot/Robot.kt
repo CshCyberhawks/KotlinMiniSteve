@@ -14,8 +14,6 @@ import frc.robot.commands.*
 import frc.robot.commands.auto.groups.AutoCommandGroup
 import frc.robot.subsystems.*
 import frc.robot.util.FieldPosition
-import frc.robot.util.IO
-import java.util.*
 import java.util.Map
 
 
@@ -199,8 +197,8 @@ class Robot : TimedRobot() {
     var orchestra: Orchestra? = null
     var falcon: TalonFX? = null
     var songs = arrayOf(
-            "africa",
-            "imperialmarch"
+        "africa",
+        "imperialmarch"
     )
 
     private fun loadSong(idx: Int) {
@@ -211,7 +209,12 @@ class Robot : TimedRobot() {
         CommandScheduler.getInstance().cancelAll()
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll()
-        val instruments = listOf(TalonFX(Constants.frontRightDriveMotor), TalonFX(Constants.frontLeftDriveMotor), TalonFX(Constants.backRightDriveMotor), TalonFX(Constants.backLeftDriveMotor))
+        val instruments = listOf(
+            TalonFX(Constants.frontRightDriveMotor),
+            TalonFX(Constants.frontLeftDriveMotor),
+            TalonFX(Constants.backRightDriveMotor),
+            TalonFX(Constants.backLeftDriveMotor)
+        )
         orchestra = Orchestra(instruments)
         loadSong(1)
         orchestra!!.play()

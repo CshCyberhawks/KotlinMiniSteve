@@ -1,7 +1,6 @@
 package frc.robot.util
 
-class FieldPosition(startX: Double, startY: Double, startAngle: Double) {
-    var angle: Double = startAngle
+class FieldPosition(startX: Double, startY: Double, var angle: Double) {
     var positionCoord: Vector2 = Vector2(startX, startY)
 
     fun reset() {

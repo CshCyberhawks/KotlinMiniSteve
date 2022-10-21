@@ -9,6 +9,6 @@ class DriveEncoder(private var driveMotor: TalonFX) { // This is a primary const
     }
 
     fun getPosition(): Double {
-        return driveMotor.selectedSensorPosition / 2048
+        return driveMotor.selectedSensorPosition / 2048.0
     }
 }

@@ -1,14 +1,13 @@
 package frc.robot.util
 
 import edu.wpi.first.util.WPIUtilJNI
-
-
+import kotlin.math.*
 
 
 class MathClass {
     companion object {
         fun calculateDeadzone(input: Double, deadzone: Double): Double {
-            return if (Math.abs(input) > deadzone) input else 0.0
+            return if (abs(input) > deadzone) input else 0.0
         }
 
         fun gToMetersPerSecond(g: Double): Double {
@@ -17,8 +16,8 @@ class MathClass {
 
         fun cartesianToPolar(x: Double, y: Double): DoubleArray {
             // math to turn cartesian into polar
-            val r = Math.sqrt(Math.pow(x, 2.0) + Math.pow(y, 2.0))
-            val theta = Math.toDegrees(Math.atan2(y, x))
+            val r = sqrt(x.pow(2.0) + y.pow(2.0))
+            val theta = Math.toDegrees(atan2(y, x))
             return doubleArrayOf(theta, r)
         }
 
@@ -26,8 +25,8 @@ class MathClass {
             // math to turn polar coordinate into cartesian
             var theta = theta
             theta = Math.toRadians(theta)
-            val x = r * Math.cos(theta)
-            val y = r * Math.sin(theta)
+            val x = r * cos(theta)
+            val y = r * sin(theta)
             return doubleArrayOf(x, y)
         }
 
@@ -47,7 +46,7 @@ class MathClass {
             minSpeed: Double
         ): DoubleArray {
             val minMax = getMinMax(speeds)
-            val divSpeed = if (Math.abs(minMax[0]) > minMax[1]) Math.abs(minMax[0]) else minMax[1]
+            val divSpeed = if (abs(minMax[0]) > minMax[1]) abs(minMax[0]) else minMax[1]
             val highestSpeed = if (minMax[1] > maxSpeed) maxSpeed else minMax[1]
             val lowestSpeed = if (minMax[0] < minSpeed) minSpeed else minMax[0]
             for (i in speeds.indices) {
@@ -59,7 +58,10 @@ class MathClass {
         }
 
         fun optimize(desiredAngle: Double, currentAngle: Double): Double {
-            return if (Math.abs(desiredAngle - currentAngle) > 90 && Math.abs(desiredAngle - currentAngle) < 270) (-1).toDouble() else 1.0
+            return if (abs(desiredAngle - currentAngle) > 90 && abs(desiredAngle - currentAngle) < 270)
+                -1.0
+            else
+                1.0
         }
 
         fun getCurrentTime(): Double {

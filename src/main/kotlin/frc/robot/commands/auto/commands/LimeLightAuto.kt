@@ -1,7 +1,7 @@
 package frc.robot.commands.auto.commands
 
-import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
 import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveAuto
@@ -26,10 +26,10 @@ class LimeLightAuto : CommandBase() {
         // SmartDashboard.putNumber("autoLimeY", posY)
         // SmartDashboard.putNumber("autoLimeHori", limelight.getHorizontalOffset())
         swerveAuto.setDesiredPosition(Vector2(posX, posY))
-        var angleLime =
-                MathClass.wrapAroundAngles(
-                        limelight.getHorizontalOffset() + Robot.swo.getPosition().angle
-                )
+        val angleLime =
+            MathClass.wrapAroundAngles(
+                limelight.getHorizontalOffset() + Robot.swo.getPosition().angle
+            )
         SmartDashboard.putNumber("autoLimeAngle", angleLime)
         swerveAuto.setDesiredAngle(angleLime, false)
         swerveAuto.setDesiredAngle(0.0, false)
