@@ -9,10 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.robot.Constants
 import frc.robot.Robot
-import frc.robot.util.DriveState
-import frc.robot.util.Gyro
-import frc.robot.util.MathClass
-import frc.robot.util.Vector2
+import frc.robot.util.*
 
 class SwerveAuto() {
     private var desiredPosition: Vector2 = Vector2(0.0, 0.0)
@@ -83,8 +80,8 @@ class SwerveAuto() {
 
     fun setDesiredPositionDistance(distance: Double, limeLightAngle: Double) {
         val pos = Robot.swo.getPosition()
-        val desiredPositionCart = MathClass.polarToCartesian(pos.angle + limeLightAngle, distance)
-        setDesiredPosition(Vector2(desiredPositionCart[0] + pos.positionCoord.x, desiredPositionCart[1] + pos.positionCoord.y)) // , 0);
+        val desiredPositionCart = MathClass.polarToCartesian(Polar(pos.angle + limeLightAngle, distance))
+        setDesiredPosition(Vector2(desiredPositionCart.x + pos.positionCoord.x, desiredPositionCart.y + pos.positionCoord.y)) // , 0);
     }
 
     fun setDesiredAngle(angle: Double, robotRelative: Boolean) {

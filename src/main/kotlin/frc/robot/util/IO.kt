@@ -12,7 +12,7 @@ class IO {
         private val xbox = XboxController(2)
         private const val controllerDeadzone = 0.3
 
-        var hosas = false;
+        var hosas = true
 
         fun getPolarCoords(): DoubleArray? {
             return doubleArrayOf(
@@ -96,11 +96,10 @@ class IO {
         }
 
         fun getJoyThrottle(): Double {
-            if (hosas) {
-            return MathClass.calculateDeadzone((-joystick2.throttle + 1) / 2, .05)
-            }
-            else {
-            return MathClass.calculateDeadzone((-joystick.throttle + 1) / 2, .05)
+            return if (hosas) {
+                MathClass.calculateDeadzone((-joystick2.throttle + 1) / 2, .05)
+            } else {
+                MathClass.calculateDeadzone((-joystick.throttle + 1) / 2, .05)
             }
         }
 
