@@ -10,7 +10,7 @@ import frc.robot.util.IO
 class IntakeSequence() : SequentialCommandGroup() {
     // this gets called upon running intake on xbox controller
     public var autoIntakeCommand: AutoIntakeCommand = AutoIntakeCommand(Robot.intakeSystem)
-    private var autoTransportCommand: AutoTransportCommand = AutoTransportCommand(Robot.transportSystem)
+    private var autoTransportCommand: AutoTransportCommand =  AutoTransportCommand(Robot.transportSystem)
 
     init {
         Robot.transportSystem.isRunningSequence = true

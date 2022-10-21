@@ -133,8 +133,7 @@ class SwerveWheel(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
 
         SmartDashboard.putNumber(
             "$m_turnEncoderPort currentDriveSpeed",
-            currentDriveSpeed
-        );
+        currentDriveSpeed);
         // SmartDashboard.putNumber(m_turnEncoderPort + " turn set", turnPIDOutput);
 
         // SmartDashboard.putNumber(m_turnEncoderPort + " driveSet", (speed / 3.777) +

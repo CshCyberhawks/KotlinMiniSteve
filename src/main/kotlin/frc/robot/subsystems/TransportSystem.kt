@@ -4,8 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.NeutralMode
 import com.ctre.phoenix.motorcontrol.can.VictorSPX
 import edu.wpi.first.networktables.NetworkTableEntry
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import frc.robot.Constants.Companion.shootBreakBeam
 import frc.robot.Robot
 import frc.robot.util.MathClass
 
@@ -23,8 +25,7 @@ class TransportSystem() : SubsystemBase() {
 
     private var lastFrontBB = true
 
-    private var cargoAmountShuffle: NetworkTableEntry =
-        Robot.driveShuffleboardTab.add("cargoAmount", cargoAmount).getEntry()
+    private var cargoAmountShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("cargoAmount", cargoAmount).getEntry()
 
     fun cargoMonitor() {
         val shootDifference = MathClass.getCurrentTime() - lastCargoShootTime

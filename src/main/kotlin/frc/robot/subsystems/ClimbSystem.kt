@@ -2,6 +2,7 @@ package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.can.TalonFX
+import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.wpilibj.PneumaticsModuleType
 import edu.wpi.first.wpilibj.Solenoid
 import edu.wpi.first.wpilibj2.command.SubsystemBase
@@ -9,7 +10,7 @@ import frc.robot.Constants
 
 
 class ClimbSystem : SubsystemBase() {
-    // rightSolenoid = new Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 1);
+// rightSolenoid = new Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 1);
     private var climbMotor: TalonFX = TalonFX(Constants.climbMotor);
     private var leftSolenoid: Solenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 2);
 //    private val rightSolenoid: Solenoid;

@@ -11,20 +11,17 @@ import frc.robot.util.Vector2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
+import kotlin.properties.Delegates
 
-class Limelight(private val cameraHeight: Double, private val ballHeight: Double, private val mountAngle: Double) :
-    SubsystemBase() {
+class Limelight(private val cameraHeight: Double, private val ballHeight: Double, private val mountAngle: Double) : SubsystemBase() {
     private val table: NetworkTable = NetworkTableInstance.getDefault().getTable("limelight")
     private val tv: NetworkTableEntry = table.getEntry("tv") // 0 or 1 whether it has a valid target
     private val tx: NetworkTableEntry = table.getEntry("tx") // The horizontal offset between the crosshair and
-
     // target in degrees
     private val ty: NetworkTableEntry = table.getEntry("ty") // The vertical offset between the crosshair and target
-
     // in degrees
     private val ta: NetworkTableEntry = table.getEntry("ta") // Percentage of image
     private val tc: NetworkTableEntry = table.getEntry("tc") // HSV color underneath the crosshair region as a
-
     // NumberArray
     private val pipeline: NetworkTableEntry = table.getEntry("pipeline") // Pipeline
 
@@ -62,7 +59,6 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
     fun getHorizontalOffset(): Double {
         return tx.getDouble(0.0);
     }
-
     fun getVerticalOffset(): Double {
         return ty.getDouble(0.0)
     }

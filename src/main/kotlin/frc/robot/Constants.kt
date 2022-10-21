@@ -1,7 +1,7 @@
 package frc.robot
 
-import frc.robot.util.FieldPosition
 import frc.robot.util.Vector2
+import frc.robot.util.FieldPosition
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -61,7 +61,6 @@ class Constants {
         // encoder values for perfect shots
         //-3.7
         const val bottomShootSetpoint: Double = -5.9
-
         //19.0
         const val topShootSetpoint: Double = 12.0
 
@@ -103,8 +102,7 @@ class Constants {
         // new Vector2(3.8, 0.9),
         // new Vector2(2.3, -3.2), new Vector2(-0.6, -3.8), new Vector2(-3.2, -2.2) };
         val redBallPositions: Array<Vector2> = arrayOf<Vector2>(Vector2(3.0, 0.0), Vector2(0.0, 0.0))
-        val blueBallPositions: Array<Vector2> =
-            arrayOf<Vector2>(Vector2(3.0, 0.0), Vector2(2.0, -.8), Vector2(3.65, 1.9), Vector2(6.5, -2.2))
+        val blueBallPositions: Array<Vector2> = arrayOf<Vector2>(Vector2(3.0, 0.0), Vector2(2.0, -.8), Vector2(3.65, 1.9), Vector2(6.5, -2.2))
 
         val blueShootingPositions: Array<Vector2> = arrayOf<Vector2>(
             Vector2(-0.41, -1.1), Vector2(0.0, 0.0)
@@ -115,9 +113,7 @@ class Constants {
         )
 
         val blueStartingPositions = arrayOf<FieldPosition>(
-            FieldPosition(1.28, -0.6, 0.0),
-            FieldPosition(-0.41, -1.1, 111.0),
-            FieldPosition(-2.8, 1.0, 0.0) // 111 is 0 angle
+            FieldPosition(1.28, -0.6, 0.0), FieldPosition(-0.41, -1.1, 111.0), FieldPosition(-2.8, 1.0, 0.0) // 111 is 0 angle
         )
 
         val redStartingPositions = arrayOf<FieldPosition>(
