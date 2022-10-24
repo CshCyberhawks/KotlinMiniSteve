@@ -71,7 +71,7 @@ class ShootSystem : SubsystemBase() {
 
     // Syncing of bottom 2 motors
     private fun setBottom() {
-        val power = 0.45
+        val power = 0.28
 //        val bottomPIDOutput = bottomPIDController.calculate(
 //            bottomEncoder.getRate(),
 //            Constants.bottomShootSetpoint
