@@ -92,8 +92,8 @@ class ShootSystem : SubsystemBase() {
     }
 
     fun shoot(shooting: Boolean) {
-        SmartDashboard.putNumber("Top Encoder", topEncoder.rate)
-        SmartDashboard.putNumber("Bottom Encoder", bottomEncoder.rate)
+        // SmartDashboard.putNumber("Top Encoder", topEncoder.rate)
+        // SmartDashboard.putNumber("Bottom Encoder", bottomEncoder.rate)
         shootSpeedTable.setDouble(topEncoder.rate)
 
         if (!shooting) {

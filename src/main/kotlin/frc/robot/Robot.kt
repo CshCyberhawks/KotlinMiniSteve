@@ -190,10 +190,10 @@ class Robot : TimedRobot() {
     override fun teleopPeriodic() {
         swo.updatePosition()
         transportSystem.cargoMonitor()
-        SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam.get())
-        SmartDashboard.putBoolean("backBreakBeam", backBreakBeam.get())
-        SmartDashboard.putBoolean("topBreakBeam", topBreakBeam.get())
-        SmartDashboard.putBoolean("shootBreakBeam", shootBreakBeam.get())
+        // SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam.get())
+        // SmartDashboard.putBoolean("backBreakBeam", backBreakBeam.get())
+        // SmartDashboard.putBoolean("topBreakBeam", topBreakBeam.get())
+        // SmartDashboard.putBoolean("shootBreakBeam", shootBreakBeam.get())
     }
 
     var orchestra: Orchestra? = null
