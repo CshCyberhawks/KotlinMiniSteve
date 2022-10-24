@@ -20,8 +20,8 @@ class AutoBall(ballNumber: Int) : CommandBase() {
     private var intakeSequence: IntakeSequence = IntakeSequence()
     private var desiredAngle: Double = 0.0
     private var autoMove: AutoGoToPositionAndAngle
-    private var autoLimeLight: LimeLightAuto
-    private var limeLightScheduled: Boolean = false;
+    // private var autoLimeLight: LimeLightAuto
+    // private var limeLightScheduled: Boolean = false;
 
     init {
         startTime = MathClass.getCurrentTime()
@@ -38,7 +38,7 @@ class AutoBall(ballNumber: Int) : CommandBase() {
         // Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
         // SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
         autoMove = AutoGoToPositionAndAngle(ballNumber, 0.0, 0.0)
-        autoLimeLight = LimeLightAuto()
+        // autoLimeLight = LimeLightAuto()
     }
 
     override fun initialize() {
@@ -54,14 +54,14 @@ class AutoBall(ballNumber: Int) : CommandBase() {
         //     autoLimeLightScheduled = true
         // }
 
-        if (Robot.swerveAuto.isFinishedMoving() && !limeLightScheduled) {
-            CommandScheduler.getInstance().schedule(autoLimeLight)
-            limeLightScheduled = true;
-        }
+        // if (Robot.swerveAuto.isFinishedMoving() && !limeLightScheduled) {
+        //     CommandScheduler.getInstance().schedule(autoLimeLight)
+        //     limeLightScheduled = true;
+        // }
     }
 
     override fun end(interrupted: Boolean) {
-        autoLimeLight.cancel()
+        // autoLimeLight.cancel()
     }
 
 

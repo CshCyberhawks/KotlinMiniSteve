@@ -13,9 +13,7 @@ import frc.robot.util.IO
 
 
 class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBase() {
-    private var limeLightAuto: LimeLightAuto? = null
     private var intakeSequence: IntakeSequence? = null
-    private var firstRun: Boolean = true
 
     init {
         addRequirements(swerveDriveTrain)
@@ -33,23 +31,17 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
         if (IO.resetGyro()) Gyro.setOffset()
 
         if (IO.cancelLimelightLockOn()) {
-            limeLightAuto?.cancel()
             intakeSequence?.cancel()
         }
 
-        if (intakeSequence?.isFinished == true && limeLightAuto?.isFinished == false) {
-            limeLightAuto?.cancel()
-        }
-
-        SmartDashboard.putBoolean("Limelight Auto Finished", limeLightAuto?.isFinished == true)
-        SmartDashboard.putBoolean("Intake Auto Finished", intakeSequence?.isFinished == true)
-        SmartDashboard.putBoolean("Limelight Scheduled", IO.limelightLockOn() && (limeLightAuto?.isFinished == true || firstRun))
-        if (IO.limelightLockOn() && ((limeLightAuto?.isFinished == true && intakeSequence?.isFinished == true) || firstRun)) {
-            limeLightAuto = LimeLightAuto()
-            limeLightAuto?.schedule()
-            intakeSequence = IntakeSequence()
-            intakeSequence?.schedule()
-            firstRun = false
+        if (IO.limelightLockOn()){
+            if (intakeSequence != null) {
+                intakeSequence!!.cancel();
+            }
+            var limeLightAuto: LimeLightAuto = LimeLightAuto()
+            intakeSequence = IntakeSequence(limeLightAuto)
+            CommandScheduler.getInstance().schedule(intakeSequence)
+            CommandScheduler.getInstance().schedule(limeLightAuto)
         }
         swerveDriveTrain.drive(
             -IO.moveRobotX(), -IO.moveRobotY(), -IO.turnControl(), IO.getJoyThrottle(), DriveState.TELE
