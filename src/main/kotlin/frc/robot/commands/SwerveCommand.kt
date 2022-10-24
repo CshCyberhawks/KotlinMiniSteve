@@ -30,6 +30,14 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
         Robot.swo.getPosition()
         if (IO.resetGyro()) Gyro.setOffset()
 
+        if (IO.getFastThrottle()) {
+            swerveDriveTrain.throttle = 0.9
+        }
+
+        if (IO.getNormalThrottle()) {
+            swerveDriveTrain.throttle = 0.4
+        }
+
         if (IO.cancelLimelightLockOn()) {
             intakeSequence?.cancel()
         }

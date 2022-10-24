@@ -127,7 +127,7 @@ class SwerveAuto {
         }
 
         Robot.swerveSystem.drive(
-            translation.x / 2, translation.y / 2, twist, 0.0, DriveState.AUTO
+            translation.x / 2, translation.y / 2, twist, 0.0, 0, DriveState.AUTO
         )
     }
 
@@ -197,14 +197,14 @@ class SwerveAuto {
 
     fun translate() {
         val driveInputs: Vector2 = calculateTranslation()
-        Robot.swerveSystem.drive(driveInputs.x, driveInputs.y, 0.0, 0.0, DriveState.AUTO)
+        Robot.swerveSystem.drive(driveInputs.x, driveInputs.y, 0.0, 0.0, 0, DriveState.AUTO)
     }
 
     fun twist() {
         // val twistValue: Double = MathUtil.clamp(Robot.swo.getPosition().angle - desiredAngle,
         // -1.0, 1.0)
         val twistInput = calculateTwist()
-        Robot.swerveSystem.drive(0.0, 0.0, twistInput, 0.0, DriveState.AUTO)
+        Robot.swerveSystem.drive(0.0, 0.0, twistInput, 0.0, 0, DriveState.AUTO)
     }
 
     fun kill() {

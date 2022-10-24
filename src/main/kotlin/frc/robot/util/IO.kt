@@ -107,6 +107,14 @@ class IO {
             return joystick.pov
         }
 
+        fun getNormalThrottle(): Boolean {
+            return joystick2.getRawButtonPressed(3)
+        }
+
+        fun getFastThrottle(): Boolean {
+            return joystick2.getRawButtonPressed(4)
+        }
+
         fun getResetCargo(): Boolean {
             return xbox.bButtonPressed
         }
