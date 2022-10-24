@@ -56,8 +56,8 @@ class Robot : TimedRobot() {
 
         private val autoConfiguration = SendableChooser<Int>()
 
-        var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
-        var odometryShuffleboardTab = Shuffleboard.getTab("DriverStream")
+        public var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
+        public var odometryShuffleboardTab = Shuffleboard.getTab("OdometryStream")
     }
 
     // public RobotContainer m_robotContainer;
@@ -71,8 +71,8 @@ class Robot : TimedRobot() {
         limelightFeed = HttpCamera("limelight", "http://10.28.75.11:5800")
         // CameraServer.startAutomaticCapture(limelightFeed);
         driveShuffleboardTab
-                .add("LL", limelightFeed)
-                .withPosition(0, 0)
+                .add("LimeLight", limelightFeed)
+                .withPosition(6, 0)
                 .withSize(8, 4)
                 .withProperties(Map.of<String, Any>("Show Crosshair", true, "Show Controls", false))
         // Instantiate our RobotContainer. This will perform all our button bindings,

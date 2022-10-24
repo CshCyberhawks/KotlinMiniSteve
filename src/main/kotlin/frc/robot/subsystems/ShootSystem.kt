@@ -92,8 +92,8 @@ class ShootSystem : SubsystemBase() {
     }
 
     fun shoot(shooting: Boolean) {
-        // SmartDashboard.putNumber("Top Encoder", topEncoder.rate)
-        // SmartDashboard.putNumber("Bottom Encoder", bottomEncoder.rate)
+        SmartDashboard.putNumber("Top Encoder", topEncoder.rate)
+        SmartDashboard.putNumber("Bottom Encoder", bottomEncoder.rate)
         shootSpeedTable.setDouble(topEncoder.rate)
 
         if (!shooting) {
@@ -111,7 +111,7 @@ class ShootSystem : SubsystemBase() {
         topWheelSpeed = topEncoder.rate;
         isAtSpeedTable.setBoolean(topWheelSpeed >= 19.0);
         // power *= maxRPM; // Convert to RPM
-//        val topPIDOut = topPIDController.calculate(topWheelSpeed, Constants.topShootSetpoint)
+       // val topPIDOut = topPIDController.calculate(topWheelSpeed, Constants.topShootSetpoint)
         topMotor.set(MathUtil.clamp(-(power), -1.0, 1.0))
         bottomRightMotor.set(-MathUtil.clamp(0.28, -1.0, 1.0))
         bottomLeftMotor.set(MathUtil.clamp(0.28, -1.0, 1.0))

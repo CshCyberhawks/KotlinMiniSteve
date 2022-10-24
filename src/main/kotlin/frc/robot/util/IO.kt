@@ -39,7 +39,7 @@ class IO {
         }
 
         fun getAutoIntakeCancel(): Boolean {
-            return xbox.startButtonPressed
+            return xbox.bButton
         }
 
         fun intakeBall(): Double {
@@ -73,7 +73,7 @@ class IO {
         }
 
         fun getAutoShootCancel(): Boolean {
-            return xbox.startButton || shootBall() > 0
+            return xbox.bButton || shootBall() > 0
         }
 
         fun resetGyro(): Boolean {
