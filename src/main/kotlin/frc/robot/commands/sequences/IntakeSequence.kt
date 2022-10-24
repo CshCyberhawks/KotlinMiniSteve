@@ -44,6 +44,9 @@ class IntakeSequence : SequentialCommandGroup {
         if (!autoTransportCommand.isFinished) {
             if (IO.getAutoIntakeCancel()) {
                 println("manually canceled sequence")
+                autoIntakeCommand.cancel()
+                autoTransportCommand.cancel()
+                return true;
             }
             return IO.getAutoIntakeCancel()
         }

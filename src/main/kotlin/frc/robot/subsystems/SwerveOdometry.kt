@@ -3,6 +3,7 @@ package frc.robot.subsystems
 import edu.wpi.first.util.WPIUtilJNI
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
+import edu.wpi.first.networktables.NetworkTableEntry
 import frc.robot.Robot
 import frc.robot.util.FieldPosition
 import frc.robot.util.Gyro
@@ -14,6 +15,13 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
 
     private var lastUpdateTime = 1.0
     private var robotVelocities = doubleArrayOf(0.0, 0.0)
+
+
+    private var fieldPosXTab: NetworkTableEntry = Robot.odometryShuffleboardTab.add("fieldPosX", 0.0).entry
+    private var fieldPosYTab: NetworkTableEntry = Robot.odometryShuffleboardTab.add("fieldPosY", 0.0).entry
+    private var fieldPosXMTab: NetworkTableEntry = Robot.odometryShuffleboardTab.add("fieldPosXM", 0.0).entry
+    private var fieldPosYMTab: NetworkTableEntry = Robot.odometryShuffleboardTab.add("fieldPosYM", 0.0).entry
+    private var fieldPosAngleTab: NetworkTableEntry = Robot.odometryShuffleboardTab.add("fieldPosAngle", 0.0).entry
 
     init {
         Gyro.setOffset()
@@ -78,11 +86,13 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
         SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
         */
-        Robot.odometryShuffleboardTab.add("fieldPosX ", fieldPosition.positionCoord.x)
-        Robot.odometryShuffleboardTab.add("fieldPosY ", fieldPosition.positionCoord.y)
-        Robot.odometryShuffleboardTab.add("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
-        Robot.odometryShuffleboardTab.add("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
-        Robot.odometryShuffleboardTab.add("fieldPosAngle ", fieldPosition.angle)
+
+
+        fieldPosXTab.setNumber(fieldPosition.positionCoord.x)
+        fieldPosYTab.setNumber(fieldPosition.positionCoord.y)
+        fieldPosXMTab.setNumber(MathClass.swosToMeters(fieldPosition.positionCoord.x))
+        fieldPosYMTab.setNumber(MathClass.swosToMeters(fieldPosition.positionCoord.y))
+        fieldPosAngleTab.setNumber(fieldPosition.angle)
 
         lastUpdateTime = timeNow
     }

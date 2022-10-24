@@ -61,10 +61,10 @@ object Constants {
 
     // encoder values for perfect shots
     //-3.7
-    const val bottomShootSetpoint: Double = -5.9
+    const val bottomShootSetpoint: Double = -6.4
 
     //19.0
-    const val topShootSetpoint: Double = 12.0
+    const val topShootSetpoint: Double = 18.0
 
     // Intake System
     const val intakeMotor: Int = 15
