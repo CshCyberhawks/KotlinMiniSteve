@@ -16,31 +16,32 @@ class LimeLightAuto : CommandBase() {
         if (limelight.hasTarget()) {
             setDesired()
         }
+        Robot.swerveAuto.reset()
         Robot.autoMoveRunning = true
     }
 
     fun setDesired() {
-        var limelightPos = limelight.getPosition(.6)
-        var posX = limelightPos.x + Robot.swo.getPosition().positionCoord.x
-        var posY = limelightPos.y + Robot.swo.getPosition().positionCoord.y
-        // SmartDashboard.putNumber("autoLimeX", posX)
-        // SmartDashboard.putNumber("autoLimeY", posY)
-        // SmartDashboard.putNumber("autoLimeHori", limelight.getHorizontalOffset())
+        var limelightPos = limelight.getPosition()
+        SmartDashboard.putNumber("autoLimeX pre", limelightPos.x)
+        SmartDashboard.putNumber("autoLimeY pre", limelightPos.y)
+        var posX = limelightPos.x + MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x)
+        var posY = limelightPos.y + MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y)
+        SmartDashboard.putNumber("autoLimeX", posX)
+        SmartDashboard.putNumber("autoLimeY", posY)
         swerveAuto.setDesiredPosition(Vector2(posX, posY))
         val angleLime =
             MathClass.wrapAroundAngles(
                 limelight.getHorizontalOffset() + Robot.swo.getPosition().angle
             )
         SmartDashboard.putNumber("autoLimeAngle", angleLime)
-        swerveAuto.setDesiredAngle(angleLime, false)
-        swerveAuto.setDesiredAngle(0.0, false)
+        // swerveAuto.setDesiredAngle(angleLime, false)
     }
 
     override fun execute() {
         SmartDashboard.putBoolean("Limelight Has Target", limelight.hasTarget())
         if (limelight.hasTarget()) {
             // setDesired()
-            swerveAuto.move()
+            // swerveAuto.move()
         }
     }
 

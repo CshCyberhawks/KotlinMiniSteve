@@ -12,7 +12,7 @@ class IO {
         private val xbox: XboxController = XboxController(2)
         private const val controllerDeadzone: Double = 0.3
 
-        private var dualStickDrive: Boolean = false;
+        private var dualStickDrive: Boolean = true;
 
         fun getPolarCoords(): DoubleArray {
             return doubleArrayOf(

@@ -30,7 +30,7 @@ class SwerveAuto {
     private var trapXFinished = false
     private var trapYFinsihed = false
 
-    private var angleDeadzone: Double = 7.0
+    private var angleDeadzone: Double = 10.0
 
     // both below args are in m/s - first is velocity (35% of max robot velocity of
     // 3.77), and a max accel of .05 m/s
@@ -124,7 +124,7 @@ class SwerveAuto {
             twist = calculateTwist()
         }
 
-        Robot.swerveSystem.drive(translation.x / 10, translation.y / 10, twist, 0.0, DriveState.AUTO)
+        Robot.swerveSystem.drive(translation.x / 2, translation.y / 2, twist, 0.0, DriveState.AUTO)
     }
 
     fun calculateTranslation(): Vector2 {
@@ -148,8 +148,8 @@ class SwerveAuto {
         val yVel = (trapYOutput.velocity + yPIDOutput)
         // val xVel = xPIDOutput
         // val yVel = yPIDOutput
-        // SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
-        // SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
+        SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
+        SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
         trapXCurrentState = trapXOutput
         trapYCurrentState = trapYOutput
         prevTime = timeNow
@@ -182,6 +182,11 @@ class SwerveAuto {
         SmartDashboard.putNumber("auto twistVal", twistVal)
 
         return twistVal
+    }
+
+    fun reset() {
+        this.trapXCurrentState = TrapezoidProfile.State()
+        this.trapYCurrentState = TrapezoidProfile.State()
     }
 
     fun translate() {
