@@ -126,9 +126,9 @@ class SwerveWheel(turnPort: Int, drivePort: Int, private val turnEncoderPort: In
         // double driveFeedForwardOutput = driveFeedforward.calculate(currentDriveSpeed,
         // speed);
 
-        SmartDashboard.putNumber(
-            "$turnEncoderPort currentDriveSpeed", currentDriveSpeed
-        );
+        // SmartDashboard.putNumber(
+        //     "$turnEncoderPort currentDriveSpeed", currentDriveSpeed
+        // );
         // SmartDashboard.putNumber(m_turnEncoderPort + " turn set", turnPIDOutput);
 
         // SmartDashboard.putNumber(m_turnEncoderPort + " driveSet", (speed / 3.777) +

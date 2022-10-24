@@ -17,7 +17,7 @@ class Gyro {
         }
 
         fun getAngle(): Double {
-            SmartDashboard.putNumber("Gyro raw", gyro.yaw - offset)
+            // SmartDashboard.putNumber("Gyro raw", gyro.yaw - offset)
             return wrapAroundAngles(wrapAroundAngles(gyro.yaw.toDouble()) - offset)
             // return gyro.getYaw();
         }

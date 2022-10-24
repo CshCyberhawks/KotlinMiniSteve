@@ -127,14 +127,14 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
                  */
         // random decimal below is the max speed of robot in swos
         // double constantScaler = 13.9458 * highestSpeed;
-        SmartDashboard.putNumber("drive inputTwist ", inputTwist)
+        // SmartDashboard.putNumber("drive inputTwist ", inputTwist)
         if (mode == DriveState.TELE) {
             inputX *= throttle
             inputY *= throttle
             inputTwist *= throttle // (throttle * 3);
         }
-        SmartDashboard.putNumber("drive inputX ", inputX)
-        SmartDashboard.putNumber("drive inputY ", inputY)
+        // SmartDashboard.putNumber("drive inputX ", inputX)
+        // SmartDashboard.putNumber("drive inputY ", inputY)
 
         // double pidPredictX = inputX * maxSwos * period;
         // double pidPredictY = inputY * maxSwos * period;

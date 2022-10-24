@@ -148,8 +148,8 @@ class SwerveAuto {
         val yVel = (trapYOutput.velocity + yPIDOutput)
         // val xVel = xPIDOutput
         // val yVel = yPIDOutput
-        SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
-        SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
+        // SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
+        // SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
         trapXCurrentState = trapXOutput
         trapYCurrentState = trapYOutput
         prevTime = timeNow
@@ -157,7 +157,7 @@ class SwerveAuto {
     }
 
     fun calculateTwist(): Double {
-        SmartDashboard.putNumber("desiredTwistAngle", desiredAngle)
+        // SmartDashboard.putNumber("desiredTwistAngle", desiredAngle)
         val currentAngle: Double = Robot.swo.getPosition().angle
         var targetVal = -MathUtil.clamp(MathClass.wrapAroundAngles(desiredAngle - currentAngle), -1.0, 1.0)
         // val twistValue: Double = desiredAngle, Robot.swo.getPosition().angle
@@ -169,7 +169,7 @@ class SwerveAuto {
         //                 desiredAngle
         //         ) / 360)
 
-        SmartDashboard.putNumber("twistFeed", twistFeedForward)
+        // SmartDashboard.putNumber("twistFeed", twistFeedForward)
         //
         // if (Math.abs(desiredAngle - currentAngle) > 90 &&
         //                 Math.abs(desiredAngle - currentAngle) < 270
