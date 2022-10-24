@@ -96,7 +96,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         )
     }
 
-    fun drive(inputX: Double, inputY: Double, inputTwist: Double, throttleChange: Double, mode: DriveState?) {
+    fun drive(inputX: Double, inputY: Double, inputTwist: Double, throttleChange: Double, quickThrottle: Int, mode: DriveState?) {
         if (Robot.autoMoveRunning && mode == DriveState.TELE) return
         var inputX = inputX
         var inputY = inputY
@@ -106,6 +106,13 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         val gyroAngle: Double = Gyro.getAngle()
 
         throttle = throttleChange
+
+        if (quickThrottle in 135..225) {
+            throttle += throttleChange
+        } else if (quickThrottle >= 315 || quickThrottle <= 45) {
+            throttle -= throttleChange
+        }
+
         throttleShuffle.setDouble(throttle)
 
         SmartDashboard.putNumber("throttle ", throttle)
@@ -197,3 +204,4 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     // }
 
 }
+

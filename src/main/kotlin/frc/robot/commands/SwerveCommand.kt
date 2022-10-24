@@ -44,7 +44,7 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
             CommandScheduler.getInstance().schedule(limeLightAuto)
         }
         swerveDriveTrain.drive(
-            -IO.moveRobotX(), -IO.moveRobotY(), -IO.turnControl(), IO.getJoyThrottle(), DriveState.TELE
+            -IO.moveRobotX(), -IO.moveRobotY(), -IO.turnControl(), IO.getJoyThrottle(), IO.getQuickThrottle(), DriveState.TELE
         )
     }
 }

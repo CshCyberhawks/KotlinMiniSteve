@@ -103,6 +103,10 @@ class IO {
             }
         }
 
+        fun getQuickThrottle(): Int {
+            return joystick.pov
+        }
+
         fun getResetCargo(): Boolean {
             return xbox.bButtonPressed
         }
