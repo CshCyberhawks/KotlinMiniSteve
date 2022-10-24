@@ -123,29 +123,29 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
                  * double highestSpeed = Math.max(inputX, inputY) > Math.abs(Math.min(inputX,
                  * inputY))
                  * ? Math.max(inputX, inputY)
-                 * : Math.abs(Math.min(inputX, inputY));
+                 * : Math.abs(Math.min(inputX, inputY))
                  */
         // random decimal below is the max speed of robot in swos
-        // double constantScaler = 13.9458 * highestSpeed;
+        // double constantScaler = 13.9458 * highestSpeed
         // SmartDashboard.putNumber("drive inputTwist ", inputTwist)
         if (mode == DriveState.TELE) {
             inputX *= throttle
             inputY *= throttle
-            inputTwist *= throttle // (throttle * 3);
+            inputTwist *= throttle // (throttle * 3)
         }
         // SmartDashboard.putNumber("drive inputX ", inputX)
         // SmartDashboard.putNumber("drive inputY ", inputY)
 
-        // double pidPredictX = inputX * maxSwos * period;
-        // double pidPredictY = inputY * maxSwos * period;
+        // double pidPredictX = inputX * maxSwos * period
+        // double pidPredictY = inputY * maxSwos * period
 
         // double pidInputX = xPID.calculate(Robot.swo.getVelocities()[0], pidPredictX)
-        // / maxSwos;
+        // / maxSwos
         // double pidInputY = yPID.calculate(Robot.swo.getVelocities()[1], pidPredictY)
-        // / maxSwos;
+        // / maxSwos
 
-        // inputX += pidInputX;
-        // inputY += pidInputY;
+        // inputX += pidInputX
+        // inputY += pidInputY
         isTwisting = inputTwist != 0.0
 
         // calculates the speed and angle for each motor
@@ -176,10 +176,10 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         var wheelSpeeds: DoubleArray = doubleArrayOf(frontRightSpeed, frontLeftSpeed, backRightSpeed, backLeftSpeed)
         wheelSpeeds = MathClass.normalizeSpeeds(wheelSpeeds, 1.0, -1.0)
 
-        // SmartDashboard.putNumber("frontRightAngle", frontRightAngle);
-        // SmartDashboard.putNumber("frontLeftAngle", frontLeftAngle);
-        // SmartDashboard.putNumber("backRightAngle", backRightAngle);
-        // SmartDashboard.putNumber("backLeftAngle", backLeftAngle);
+        // SmartDashboard.putNumber("frontRightAngle", frontRightAngle)
+        // SmartDashboard.putNumber("frontLeftAngle", frontLeftAngle)
+        // SmartDashboard.putNumber("backRightAngle", backRightAngle)
+        // SmartDashboard.putNumber("backLeftAngle", backLeftAngle)
 
         // sets the speed and angle of each motor
         backRight.drive(wheelSpeeds[2], backRightAngle, mode)
@@ -187,13 +187,13 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         frontRight.drive(wheelSpeeds[0], frontRightAngle, mode)
         frontLeft.drive(wheelSpeeds[1], frontLeftAngle, mode)
 
-        // predictedVelocity.x = inputX * maxSwos * period;
-        // predictedVelocity.y = inputY * maxSwos * period;
+        // predictedVelocity.x = inputX * maxSwos * period
+        // predictedVelocity.y = inputY * maxSwos * period
         lastUpdateTime = timeNow
     }
 
     // public void resetPredictedOdometry() {
-    // predictedVelocity = new Vector2(0, 0);
+    // predictedVelocity = new Vector2(0, 0)
     // }
 
 }

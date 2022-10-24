@@ -9,8 +9,8 @@ import frc.robot.util.IO
 
 
 class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase() {
-    // private double speedMult;
-    // private double speedMult;
+    // private double speedMult
+    // private double speedMult
 
     init {
         addRequirements(intakeSystem)

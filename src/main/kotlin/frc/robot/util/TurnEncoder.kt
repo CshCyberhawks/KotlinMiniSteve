@@ -13,10 +13,10 @@ class TurnEncoder(private val port: Int) {
     fun get(): Double {
         // return
         // (double)Math.floor(filter.calculate(voltageToDegrees(encoder.getVoltage()) -
-        // Constants.turnEncoderOffsets[encoderPort]) * 10d) / 10d;
+        // Constants.turnEncoderOffsets[encoderPort]) * 10d) / 10d
         // return
         // (double)Math.floor(filter.calculate(voltageToDegrees(encoder.getVoltage())) *
-        // 10d) / 10d;
+        // 10d) / 10d
 //        SmartDashboard.putNumber("Turn Encoder " + encoderPort, voltageToDegrees(encoder!!.voltage) - Constants.turnEncoderOffsets[encoderPort])
         return voltageToDegrees(encoder.voltage) - Constants.turnEncoderOffsets[port]
     }

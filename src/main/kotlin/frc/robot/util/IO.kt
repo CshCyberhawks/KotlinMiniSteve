@@ -12,7 +12,7 @@ class IO {
         private val xbox: XboxController = XboxController(2)
         private const val controllerDeadzone: Double = 0.3
 
-        private var dualStickDrive: Boolean = true;
+        private var dualStickDrive: Boolean = true
 
         fun getPolarCoords(): DoubleArray {
             return doubleArrayOf(
@@ -116,28 +116,28 @@ class IO {
         }
 
         // public static boolean getXboxRightBumper() {
-        // return xbox.getRightBumper();
+        // return xbox.getRightBumper()
         // }
 
         // public static boolean getXboxLeftBumper() {
-        // return xbox.getLeftBumper();
+        // return xbox.getLeftBumper()
         // }
 
         // public static double getXboxLeftX() {
         // return Math.abs(xbox.getLeftX()) > controllerMathClass.calculateDeadzone ?
-        // xbox.getLeftX() : 0;
+        // xbox.getLeftX() : 0
         // }
 
         // public static double getXboxRightX() {
         // return Math.abs(xbox.getRightX()) > controllerMathClass.calculateDeadzone ?
         // xbox.getRightX() :
-        // 0;
+        // 0
         // }
 
         // public static double getJoyTwist() {
-        // SmartDashboard.putNumber("Joystick Twist", joystick.getTwist());
+        // SmartDashboard.putNumber("Joystick Twist", joystick.getTwist())
         // return MathClass.calculateDeadzone(joystick.getTwist(),
-        // controllerMathClass.calculateDeadzone);
+        // controllerMathClass.calculateDeadzone)
         // }
     }
 }

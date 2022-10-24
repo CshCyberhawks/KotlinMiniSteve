@@ -29,7 +29,7 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
     // region as a NumberArray
     private val pipeline: NetworkTableEntry = table.getEntry("pipeline") // Pipeline
 
-    private val team: Alliance = DriverStation.getAlliance();
+    private val team: Alliance = DriverStation.getAlliance()
 //    0.711 Height of camera (meters)
 //    0.24 Height of target (meters) measured perfectly
 //    40.0 Angle that the limelight is mounted
@@ -44,19 +44,19 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
 
     fun pipelineInit() {
         when (team) {
-            Alliance.Red -> pipeline.setDouble(0.0);
-            Alliance.Blue -> pipeline.setDouble(1.0);
-            Alliance.Invalid -> error("INVALID ALLIANCE");
+            Alliance.Red -> pipeline.setDouble(0.0)
+            Alliance.Blue -> pipeline.setDouble(1.0)
+            Alliance.Invalid -> error("INVALID ALLIANCE")
         }
     }
 
     fun getBallAngleVertical(): Double {
         SmartDashboard.putNumber("rawLimeLightVer", verticalOffset.getDouble(0.0))
-        return verticalOffset.getDouble(0.0) + mountAngle;
+        return verticalOffset.getDouble(0.0) + mountAngle
     }
 
     fun getHorizontalOffset(): Double {
-        return horizontalOffset.getDouble(0.0);
+        return horizontalOffset.getDouble(0.0)
     }
 
     fun getVerticalOffset(): Double {

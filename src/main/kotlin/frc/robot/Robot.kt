@@ -33,10 +33,10 @@ class Robot : TimedRobot() {
         var swerveCommand: SwerveCommand? = null
         lateinit var limelight: Limelight
 
-        // public Alliance teamColor;
-        // public OldSwerveDriveTrain swerveSystem;
-        // public OldSwerveDriveTrain swerveSystem;
-        // public SwerveDriveTrain swerveSystem;
+        // public Alliance teamColor
+        // public OldSwerveDriveTrain swerveSystem
+        // public OldSwerveDriveTrain swerveSystem
+        // public SwerveDriveTrain swerveSystem
         lateinit var shootSystem: ShootSystem
         lateinit var frontBreakBeam: DigitalInput
         lateinit var backBreakBeam: DigitalInput
@@ -45,8 +45,8 @@ class Robot : TimedRobot() {
 
         var isSpitting = false
 
-        // public OldSwerveDriveTrain swerveSystem;
-        // public SwerveDriveTrain swerveSystem;
+        // public OldSwerveDriveTrain swerveSystem
+        // public SwerveDriveTrain swerveSystem
         lateinit var intakeSystem: IntakeSystem
         lateinit var transportSystem: TransportSystem
         lateinit var climbSystem: ClimbSystem
@@ -60,16 +60,16 @@ class Robot : TimedRobot() {
         public var odometryShuffleboardTab = Shuffleboard.getTab("OdometryStream")
     }
 
-    // public RobotContainer m_robotContainer;
+    // public RobotContainer m_robotContainer
 
-    // public RobotContainer m_robotContainer;
+    // public RobotContainer m_robotContainer
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
      */
     override fun robotInit() {
         limelightFeed = HttpCamera("limelight", "http://10.28.75.11:5800")
-        // CameraServer.startAutomaticCapture(limelightFeed);
+        // CameraServer.startAutomaticCapture(limelightFeed)
         driveShuffleboardTab
                 .add("LimeLight", limelightFeed)
                 .withPosition(6, 0)
@@ -78,9 +78,9 @@ class Robot : TimedRobot() {
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our
         // autonomous chooser on the dashboard.
-        // teamColor = DriverStation.getAlliance();
-        // m_robotContainer = new RobotContainer();
-        // PortForwarder.add(5800, "limelight.local", 5800);
+        // teamColor = DriverStation.getAlliance()
+        // m_robotContainer = new RobotContainer()
+        // PortForwarder.add(5800, "limelight.local", 5800)
         PortForwarder.add(5800, "limelight.local", 5800)
         autoConfiguration.setDefaultOption("Auto 0", 0)
         autoConfiguration.addOption("Auto 1", 1)
@@ -95,16 +95,16 @@ class Robot : TimedRobot() {
         swerveSystem = SwerveDriveTrain()
         limelight = Limelight(0.711, 0.24, 40.0)
         // if (DriverStation.getAlliance() == Alliance.Blue) {
-        // swo = new SwerveOdometry(Constants.blueStartingPositions[0]);//
-        // autoConfiguration.getSelected()]);
+        // swo = new SwerveOdometry(Constants.blueStartingPositions[0])//
+        // autoConfiguration.getSelected()])
         // } else {
-        // swo = new SwerveOdometry(Constants.redStartingPositions[0]);//
-        // autoConfiguration.getSelected()]);
+        // swo = new SwerveOdometry(Constants.redStartingPositions[0])//
+        // autoConfiguration.getSelected()])
         // }
         swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
         //
-        // driveSystem = new DriveSystem();
-        // CameraServer.startAutomaticCapture();
+        // driveSystem = new DriveSystem()
+        // CameraServer.startAutomaticCapture()
         swerveAuto = SwerveAuto()
     }
 
@@ -130,7 +130,7 @@ class Robot : TimedRobot() {
     /** This function is called once each time the robot enters Disabled mode. */
     override fun disabledInit() {
         swo.resetPos()
-        // swerveSystem.resetPredictedOdometry();
+        // swerveSystem.resetPredictedOdometry()
     }
 
     private fun wrapAroundAngles(input: Double): Double {
@@ -146,9 +146,9 @@ class Robot : TimedRobot() {
         swerveCommand?.cancel()
         limelight.pipelineInit()
 
-        // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+        // m_autonomousCommand = m_robotContainer.getAutonomousCommand()
         transportSystem.cargoAmount = 1
-        autoCommands = AutoCommandGroup(0) // autoConfiguration.getSelected());
+        autoCommands = AutoCommandGroup(0) // autoConfiguration.getSelected())
 
         // schedule the autonomous command (example)
         autoCommands!!.schedule()
@@ -176,7 +176,7 @@ class Robot : TimedRobot() {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         // if (autoCommands != null) {
-        // autoCommands.cancel();
+        // autoCommands.cancel()
         // }
     }
 
