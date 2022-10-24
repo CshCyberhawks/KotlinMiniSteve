@@ -71,11 +71,19 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         fieldPosition.positionCoord.x += velocities[0] * period
         fieldPosition.positionCoord.y += velocities[1] * period
         fieldPosition.angle = Gyro.getAngle()
+        /*
         SmartDashboard.putNumber("fieldPosX ", fieldPosition.positionCoord.x)
         SmartDashboard.putNumber("fieldPosY ", fieldPosition.positionCoord.y)
         SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
         SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
         SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
+        */
+        Robot.odometryShuffleboardTab.add("fieldPosX ", fieldPosition.positionCoord.x)
+        Robot.odometryShuffleboardTab.add("fieldPosY ", fieldPosition.positionCoord.y)
+        Robot.odometryShuffleboardTab.add("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
+        Robot.odometryShuffleboardTab.add("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
+        Robot.odometryShuffleboardTab.add("fieldPosAngle ", fieldPosition.angle)
+
         lastUpdateTime = timeNow
     }
 }

@@ -57,6 +57,7 @@ class Robot : TimedRobot() {
         private val autoConfiguration = SendableChooser<Int>()
 
         var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
+        var odometryShuffleboardTab = Shuffleboard.getTab("DriverStream")
     }
 
     // public RobotContainer m_robotContainer;
