@@ -71,7 +71,7 @@ class ShootSystem : SubsystemBase() {
 
     // Syncing of bottom 2 motors
     private fun setBottom() {
-        val power = .45
+        val power = .28
 //        val bottomPIDOutput = bottomPIDController.calculate(
 //            bottomEncoder.getRate(),
 //            Constants.bottomShootSetpoint
@@ -113,7 +113,6 @@ class ShootSystem : SubsystemBase() {
         // power *= maxRPM; // Convert to RPM
 //        val topPIDOut = topPIDController.calculate(topWheelSpeed, Constants.topShootSetpoint)
         topMotor.set(MathUtil.clamp(-(power), -1.0, 1.0))
-        bottomRightMotor.set(-MathUtil.clamp(0.28, -1.0, 1.0))
-        bottomLeftMotor.set(MathUtil.clamp(0.28, -1.0, 1.0))
+        setBottom()
     }
 }
