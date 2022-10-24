@@ -71,7 +71,7 @@ class ShootSystem : SubsystemBase() {
 
     // Syncing of bottom 2 motors
     private fun setBottom() {
-        val power = 0.28
+        val power = 0.31
 //        val bottomPIDOutput = bottomPIDController.calculate(
 //            bottomEncoder.getRate(),
 //            Constants.bottomShootSetpoint
@@ -104,7 +104,7 @@ class ShootSystem : SubsystemBase() {
             return
         }
 
-        val power = 0.77
+        val power = 0.83
 
         // SmartDashboard.putNumber("Old Encoder", oldEncoder.getVelocity());
         bottomWheelSpeed = bottomEncoder.rate;
