@@ -107,13 +107,13 @@ class IO {
             return xbox.bButtonPressed
         }
 
-//        fun raiseShootSpeed(): Boolean {
-//            return xbox.rightBumperPressed
-//        }
-//
-//        fun lowerShootSpeed(): Boolean {
-//            return xbox.leftBumperPressed
-//        }
+        fun increaseCargoAmount(): Boolean {
+            return xbox.rightBumperPressed
+        }
+
+        fun decreaseCargoAmount(): Boolean {
+            return xbox.leftBumperPressed
+        }
 
         // public static boolean getXboxRightBumper() {
         // return xbox.getRightBumper();
