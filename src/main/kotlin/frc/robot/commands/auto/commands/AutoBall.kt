@@ -21,7 +21,7 @@ class AutoBall(ballNumber: Int) : CommandBase() {
     private var desiredAngle: Double = 0.0
     private var autoMove: AutoGoToPositionAndAngle
     // private var autoLimeLight: LimeLightAuto
-    // private var limeLightScheduled: Boolean = false;
+    // private var limeLightScheduled: Boolean = false
 
     init {
         startTime = MathClass.getCurrentTime()
@@ -56,7 +56,7 @@ class AutoBall(ballNumber: Int) : CommandBase() {
 
         // if (Robot.swerveAuto.isFinishedMoving() && !limeLightScheduled) {
         //     CommandScheduler.getInstance().schedule(autoLimeLight)
-        //     limeLightScheduled = true;
+        //     limeLightScheduled = true
         // }
     }
 
@@ -67,6 +67,6 @@ class AutoBall(ballNumber: Int) : CommandBase() {
 
     override fun isFinished(): Boolean {
         SmartDashboard.putBoolean("autoBallDone", intakeSequence.autoIntakeCommand.isFinished)
-        return intakeSequence.autoIntakeCommand.isFinished // || MathClass.getCurrentTime() - startTime > 5;
+        return intakeSequence.autoIntakeCommand.isFinished // || MathClass.getCurrentTime() - startTime > 5
     }
 }

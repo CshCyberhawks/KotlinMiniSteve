@@ -40,7 +40,7 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
             var wheelSpeed: Double = Robot.swerveSystem.wheelArr[i].getCurrentDriveSpeed()
 
             // if (i == 0 || i == 2) {
-            // wheelSpeed = -wheelSpeed;
+            // wheelSpeed = -wheelSpeed
             // }
 
             // Undoes the wheel optimization
@@ -60,7 +60,7 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         robotPolar[0] -= Gyro.getAngle()
         robotVelocities = Robot.swerveSystem.polarToCartesian(robotPolar[0], robotPolar[1])
 
-        // return new double[] { totalX, totalY };
+        // return new double[] { totalX, totalY }
         return doubleArrayOf(robotVelocities[0], robotVelocities[1])
     }
 

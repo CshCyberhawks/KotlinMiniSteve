@@ -19,7 +19,7 @@ class Gyro {
         fun getAngle(): Double {
             // SmartDashboard.putNumber("Gyro raw", gyro.yaw - offset)
             return wrapAroundAngles(wrapAroundAngles(gyro.yaw.toDouble()) - offset)
-            // return gyro.getYaw();
+            // return gyro.getYaw()
         }
 
         fun isConnected(): Boolean {
@@ -41,22 +41,22 @@ class Gyro {
 
         fun getXVelocity(): Double {
             return filter.calculate(gyro.velocityX.toDouble())
-            // return gyro.getVelocityX();
+            // return gyro.getVelocityX()
         }
 
         fun getYVelocity(): Double {
             return filter.calculate(gyro.velocityY.toDouble())
-            // return gyro.getVelocityY();
+            // return gyro.getVelocityY()
         }
 
         fun getXAccel(): Double {
             return filter.calculate(gyro.worldLinearAccelX.toDouble())
-            // return gyro.getWorldLinearAccelX();
+            // return gyro.getWorldLinearAccelX()
         }
 
         fun getYAccel(): Double {
             return filter.calculate(gyro.worldLinearAccelX.toDouble())
-            // return gyro.getWorldLinearAccelX();
+            // return gyro.getWorldLinearAccelX()
         }
 
         fun calibrate() {

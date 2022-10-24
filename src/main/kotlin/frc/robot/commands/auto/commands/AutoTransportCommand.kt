@@ -18,7 +18,7 @@ class AutoTransportCommand(private var transportSystem: TransportSystem) : Comma
 
     override fun end(interrupted: Boolean) {
         // if (transportSystem.getCargoAmount() < 2 && interrupted == false)
-        // transportSystem.setCargoAmount(transportSystem.getCargoAmount() + 1);
+        // transportSystem.setCargoAmount(transportSystem.getCargoAmount() + 1)
         transportSystem.move(0.0)
     }
 
