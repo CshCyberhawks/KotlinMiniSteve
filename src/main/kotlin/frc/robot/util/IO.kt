@@ -104,7 +104,7 @@ class IO {
         }
 
         fun getQuickThrottle(): Int {
-            return joystick.pov
+            return joystick2.pov
         }
 
         fun getNormalThrottle(): Boolean {

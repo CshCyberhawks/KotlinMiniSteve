@@ -20,7 +20,7 @@ object Constants {
     const val backRightTwistMult: Int = -1
     const val backLeftTwistMult: Int = 1
 
-    const val quickThrottleChange: Double = 0.05
+    const val quickThrottleChange: Double = 0.01
 
     // twist speed mults for motors
     const val twistSpeedMult: Double = 0.6

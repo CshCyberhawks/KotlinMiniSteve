@@ -11,6 +11,8 @@ import frc.robot.util.DriveState
 import frc.robot.util.Gyro
 import frc.robot.util.MathClass
 import frc.robot.util.Vector2
+import java.lang.Double.max
+import java.lang.Double.min
 
 
 class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
@@ -32,6 +34,8 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     )
     var gyro: Gyro? = null
     var throttle = 0.35
+
+    var lastThrottle: Double = -1.0
 
     var xPID: PIDController = PIDController(10.0, 0.0, 1.0)
     var yPID: PIDController = PIDController(10.0, 0.0, 1.0)
@@ -96,7 +100,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         )
     }
 
-    fun drive(inputX: Double, inputY: Double, inputTwist: Double, throttleChange: Double, quickThrottle: Int, mode: DriveState?) {
+    fun drive(inputX: Double, inputY: Double, inputTwist: Double, throttleChange: Double, mode: DriveState?) {
         if (Robot.autoMoveRunning && mode == DriveState.TELE) return
         var inputX = inputX
         var inputY = inputY
@@ -105,17 +109,17 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         val period = if (lastUpdateTime >= 0) timeNow - lastUpdateTime else 0.0
         val gyroAngle: Double = Gyro.getAngle()
 
-        throttle = throttleChange
-
-        if (quickThrottle in 135..225) {
-            throttle += throttleChange
-        } else if (quickThrottle >= 315 || quickThrottle <= 45) {
-            throttle -= throttleChange
+        if (throttleChange != lastThrottle) {
+            throttle = throttleChange
         }
+
+        throttle = min(max(throttle, 0.0), 1.0)
 
         throttleShuffle.setDouble(throttle)
 
         SmartDashboard.putNumber("throttle ", throttle)
+        SmartDashboard.putNumber("throttle change", throttleChange)
+        SmartDashboard.putNumber("last throttle", lastThrottle)
         // SmartDashboard.putNumber("gyro val", gyroAngle)
         if (inputX == 0.0 && inputY == 0.0 && inputTwist == 0.0) {
             backRight.preserveAngle()
@@ -123,6 +127,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
             frontRight.preserveAngle()
             frontLeft.preserveAngle()
             lastUpdateTime = timeNow
+            lastThrottle = throttleChange
             return
         }
 
@@ -197,6 +202,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         // predictedVelocity.x = inputX * maxSwos * period
         // predictedVelocity.y = inputY * maxSwos * period
         lastUpdateTime = timeNow
+        lastThrottle = throttleChange
     }
 
     // public void resetPredictedOdometry() {
