@@ -29,8 +29,8 @@ class TransportSystem : SubsystemBase() {
         transportMotor.setNeutralMode(NeutralMode.Brake)
         isRunningSequence = false
         cargoAmount = 0
-        // lastCargoPickupTime = MathClass.getCurrentTime();
-        // lastCargoShootTime = MathClass.getCurrentTime();
+        // lastCargoPickupTime = MathClass.getCurrentTime()
+        // lastCargoShootTime = MathClass.getCurrentTime()
     }
 
     fun cargoMonitor() {

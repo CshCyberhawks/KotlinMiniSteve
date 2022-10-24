@@ -36,7 +36,7 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
 
         if (IO.limelightLockOn()){
             if (intakeSequence != null) {
-                intakeSequence!!.cancel();
+                intakeSequence!!.cancel()
             }
             var limeLightAuto: LimeLightAuto = LimeLightAuto()
             intakeSequence = IntakeSequence(limeLightAuto)

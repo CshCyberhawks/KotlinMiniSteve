@@ -9,26 +9,26 @@ import frc.robot.Constants
 
 
 class IntakeSystem : SubsystemBase() {
-    // private final double powerMult = 1;
-    private var intakeMotor: VictorSPX = VictorSPX(Constants.intakeMotor);
-    private var intakeSolenoid: Solenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 0);
+    // private final double powerMult = 1
+    private var intakeMotor: VictorSPX = VictorSPX(Constants.intakeMotor)
+    private var intakeSolenoid: Solenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 0)
 
-    // private final double powerMult = 1;
+    // private final double powerMult = 1
 
     init {
-        intakeMotor.inverted = true;
+        intakeMotor.inverted = true
     }
 
     fun intake(speed: Double) {
-        intakeMotor[ControlMode.PercentOutput] = -speed;
-        intakeSolenoid.set(speed != 0.0);
-        // bottomFeedMotor.set(speed);
-        // topFeedMotor.set(speed);
+        intakeMotor[ControlMode.PercentOutput] = -speed
+        intakeSolenoid.set(speed != 0.0)
+        // bottomFeedMotor.set(speed)
+        // topFeedMotor.set(speed)
         // SmartDashboard.putNumber("Intake Motor Speed ", speed)
     }
 
     fun kill() {
-        intakeMotor[ControlMode.PercentOutput] = 0.0;
-        intakeSolenoid.set(false);
+        intakeMotor[ControlMode.PercentOutput] = 0.0
+        intakeSolenoid.set(false)
     }
 }

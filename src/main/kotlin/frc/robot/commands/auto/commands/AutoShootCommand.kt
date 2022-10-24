@@ -17,7 +17,7 @@ class AutoShootCommand(private var shootSystem: ShootSystem) : CommandBase() {
     private var lastShootTime = 0.0
 
     init {
-        shootSystem.autoShootRunning = true;
+        shootSystem.autoShootRunning = true
         startTime = MathClass.getCurrentTime()
         addRequirements(shootSystem)
     }
@@ -26,7 +26,7 @@ class AutoShootCommand(private var shootSystem: ShootSystem) : CommandBase() {
         val currentTopEncoderSpeed = shootSystem.topWheelSpeed
 
         // if (!Robot.getShootBreakBeam().get())
-        // transportSystem.setCargoAmount(transportSystem.getCargoAmount() - 1);
+        // transportSystem.setCargoAmount(transportSystem.getCargoAmount() - 1)
         if (abs(currentTopEncoderSpeed) > abs(Constants.topShootSetpoint)) {
             transportSystem.move(0.5)
         }
@@ -36,7 +36,7 @@ class AutoShootCommand(private var shootSystem: ShootSystem) : CommandBase() {
     override fun end(interrupted: Boolean) {
         shootSystem.shoot(false)
         transportSystem.move(0.0)
-        shootSystem.autoShootRunning = false;
+        shootSystem.autoShootRunning = false
     }
 
     override fun isFinished(): Boolean {
