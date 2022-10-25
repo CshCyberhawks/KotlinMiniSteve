@@ -24,10 +24,11 @@ class AutoShootCommand(private var shootSystem: ShootSystem) : CommandBase() {
 
     override fun execute() {
         val currentTopEncoderSpeed = shootSystem.topWheelSpeed
+        val currentBottomEncoderSpeed = shootSystem.bottomWheelSpeed
 
         // if (!Robot.getShootBreakBeam().get())
         // transportSystem.setCargoAmount(transportSystem.getCargoAmount() - 1)
-        if (abs(currentTopEncoderSpeed) > abs(Constants.topShootSetpoint)) {
+        if (abs(currentTopEncoderSpeed) > abs(Constants.topShootSetpoint) && abs(currentBottomEncoderSpeed) > abs(Constants.bottomShootSetpoint)) {
             transportSystem.move(0.5)
         }
         shootSystem.shoot(true)

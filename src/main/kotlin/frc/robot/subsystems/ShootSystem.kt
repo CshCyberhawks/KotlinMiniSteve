@@ -34,11 +34,11 @@ class ShootSystem : SubsystemBase() {
 //    private val bottomPIDController: PIDController = PIDController(.01, 0.0, 0.0)
 //    private val maxRPM = 5
     var autoShootRunning = false
-    private var bottomWheelSpeed = 0.0
+    public var bottomWheelSpeed = 0.0
     var topWheelSpeed = 0.0
 
-    private var shootSpeedTable: NetworkTableEntry =
-        Robot.driveShuffleboardTab.add("Shoot Speed", topEncoder.rate).entry
+    // private var shootSpeedTable: NetworkTableEntry =
+    //     Robot.driveShuffleboardTab.add("Shoot Speed", topEncoder.rate).entry
     private var isAtSpeedTable: NetworkTableEntry =
         Robot.driveShuffleboardTab.add("At Desired Speed", false).entry
 
@@ -94,7 +94,7 @@ class ShootSystem : SubsystemBase() {
     fun shoot(shooting: Boolean) {
         SmartDashboard.putNumber("Top Encoder", topEncoder.rate)
         SmartDashboard.putNumber("Bottom Encoder", bottomEncoder.rate)
-        shootSpeedTable.setDouble(topEncoder.rate)
+        // shootSpeedTable.setDouble(topEncoder.rate)
 
         if (!shooting) {
             topMotor.set(0.0)
@@ -109,7 +109,7 @@ class ShootSystem : SubsystemBase() {
         // SmartDashboard.putNumber("Old Encoder", oldEncoder.getVelocity());
         bottomWheelSpeed = bottomEncoder.rate;
         topWheelSpeed = topEncoder.rate;
-        isAtSpeedTable.setBoolean(topWheelSpeed >= 19.0);
+        isAtSpeedTable.setBoolean(topWheelSpeed >= 18.0);
         // power *= maxRPM; // Convert to RPM
        // val topPIDOut = topPIDController.calculate(topWheelSpeed, Constants.topShootSetpoint)
 
