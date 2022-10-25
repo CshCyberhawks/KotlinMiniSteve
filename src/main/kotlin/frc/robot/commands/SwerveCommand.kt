@@ -3,6 +3,7 @@ package frc.robot.commands
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.CommandScheduler
+import frc.robot.Constants
 import frc.robot.Robot
 import frc.robot.commands.auto.commands.LimeLightAuto
 import frc.robot.commands.sequences.IntakeSequence
@@ -30,6 +31,22 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
         Robot.swo.getPosition()
         if (IO.resetGyro()) Gyro.setOffset()
 
+        if (IO.getFastThrottle()) {
+            swerveDriveTrain.throttle = 0.9
+        }
+
+        if (IO.getNormalThrottle()) {
+            swerveDriveTrain.throttle = 0.4
+        }
+
+        val quickThrottle = IO.getQuickThrottle()
+        SmartDashboard.putNumber("Quick Throttle", quickThrottle.toDouble())
+        if (quickThrottle in 135..225) {
+            swerveDriveTrain.throttle -= Constants.quickThrottleChange
+        } else if (quickThrottle == 315 || quickThrottle == 45 || quickThrottle == 0) {
+            swerveDriveTrain.throttle += Constants.quickThrottleChange
+        }
+
         if (IO.cancelLimelightLockOn()) {
             intakeSequence?.cancel()
         }
@@ -38,7 +55,7 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
             if (intakeSequence != null) {
                 intakeSequence!!.cancel()
             }
-            var limeLightAuto: LimeLightAuto = LimeLightAuto()
+            val limeLightAuto: LimeLightAuto = LimeLightAuto()
             intakeSequence = IntakeSequence(limeLightAuto)
             CommandScheduler.getInstance().schedule(intakeSequence)
             CommandScheduler.getInstance().schedule(limeLightAuto)
