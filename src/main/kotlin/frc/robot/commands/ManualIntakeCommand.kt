@@ -15,7 +15,6 @@ class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase(
 
     // private var intakeCommandSequence: IntakeSequence = IntakeSequence()
 
-    private val intakeSequenceShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("Can Run IntakeSeq", true).entry
 
     init {
         addRequirements(intakeSystem)
@@ -24,7 +23,7 @@ class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase(
     override fun execute() {
         val speed = IO.intakeBall()
 
-        intakeSequenceShuffle.forceSetBoolean(!Robot.transportSystem.isRunningSequence)
+        intakeSystem.intakeSequenceShuffle.forceSetBoolean(!Robot.transportSystem.isRunningSequence)
 
         if (IO.autoIntake()) {
             Robot.isSpitting = false
