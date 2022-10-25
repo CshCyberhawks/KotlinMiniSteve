@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Robot
 import frc.robot.util.FieldPosition
 import frc.robot.util.Gyro
-import frc.robot.util.Vector2
 import frc.robot.util.MathClass
+import frc.robot.util.Vector2
 
 
 class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase() {

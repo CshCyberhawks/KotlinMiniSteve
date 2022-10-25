@@ -1,6 +1,5 @@
 package frc.robot.subsystems
 
-import edu.wpi.first.math.MathUtil
 import edu.wpi.first.math.controller.PIDController
 import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.util.WPIUtilJNI
@@ -8,10 +7,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.Robot
-import frc.robot.util.*
+import frc.robot.util.DriveState
+import frc.robot.util.Gyro
+import frc.robot.util.MathClass
+import frc.robot.util.Vector2
 
 
-class SwerveDriveTrain() : SubsystemBase() { // p = 10 gets oscillation
+class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     var backLeft: SwerveWheel = SwerveWheel(
         Constants.backLeftTurnMotor, Constants.backLeftDriveMotor,
         Constants.backLeftEncoder
@@ -44,7 +46,7 @@ class SwerveDriveTrain() : SubsystemBase() { // p = 10 gets oscillation
     // odometry
     private var lastUpdateTime = -1.0
 
-    private var throttleShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("throttle", throttle).getEntry()
+    private var throttleShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("throttle", throttle).entry
 
     var maxSwos = 13.9458
     var maxMeters = 3.777
@@ -67,22 +69,20 @@ class SwerveDriveTrain() : SubsystemBase() { // p = 10 gets oscillation
         return doubleArrayOf(theta, r)
     }
 
-    fun fieldOriented(x: Double, y: Double, gyroAngle: Double): DoubleArray {
+    fun fieldOriented(input: Vector2, gyroAngle: Double): Vector2 {
         // turns the translation input into polar
-        val polar = cartesianToPolar(x, y)
+        val polar = MathClass.cartesianToPolar(input)
         // subtracts the gyro angle from the polar angle of the translation of the robot
         // makes it field oriented
-        val theta = polar[0] + gyroAngle
-        val r = polar[1]
-
+        polar.theta += gyroAngle
         // returns the new field oriented translation but converted to cartesian
-        return polarToCartesian(theta, r)
+        return MathClass.polarToCartesian(polar)
     }
 
     fun calculateDrive(x1: Double, y1: Double, theta2: Double, r2: Double, twistMult: Double): DoubleArray {
         // X is 0 and Y is 1
         // Gets the cartesian coordinate of the robot's joystick translation inputs
-        val driveCoordinate = fieldOriented(x1, y1, Gyro.getAngle())
+        val driveCoordinate = fieldOriented(Vector2(x1, y1), Gyro.getAngle())
         // Turns the twist constant + joystick twist input into a cartesian coordinates
         val twistCoordinate = polarToCartesian(theta2, r2 * twistMult)
 
@@ -91,12 +91,13 @@ class SwerveDriveTrain() : SubsystemBase() { // p = 10 gets oscillation
         // turning them into polar and returning
         // can average below instead of add - need to look into it
         return cartesianToPolar(
-            driveCoordinate[0] + twistCoordinate[0],
-            driveCoordinate[1] + twistCoordinate[1]
+            driveCoordinate.x + twistCoordinate[0],
+            driveCoordinate.y + twistCoordinate[1]
         )
     }
 
     fun drive(inputX: Double, inputY: Double, inputTwist: Double, throttleChange: Double, mode: DriveState?) {
+        if (Robot.autoMoveRunning && mode == DriveState.TELE) return
         var inputX = inputX
         var inputY = inputY
         var inputTwist = inputTwist
@@ -126,14 +127,14 @@ class SwerveDriveTrain() : SubsystemBase() { // p = 10 gets oscillation
                  */
         // random decimal below is the max speed of robot in swos
         // double constantScaler = 13.9458 * highestSpeed;
-        SmartDashboard.putNumber("drive inputTwist ", inputTwist)
+        // SmartDashboard.putNumber("drive inputTwist ", inputTwist)
         if (mode == DriveState.TELE) {
             inputX *= throttle
             inputY *= throttle
             inputTwist *= throttle // (throttle * 3);
         }
-        SmartDashboard.putNumber("drive inputX ", inputX)
-        SmartDashboard.putNumber("drive inputY ", inputY)
+        // SmartDashboard.putNumber("drive inputX ", inputX)
+        // SmartDashboard.putNumber("drive inputY ", inputY)
 
         // double pidPredictX = inputX * maxSwos * period;
         // double pidPredictY = inputY * maxSwos * period;

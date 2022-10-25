@@ -3,7 +3,6 @@ package frc.robot.commands.auto.commands
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
-import frc.robot.util.MathClass
 import frc.robot.util.Vector2
 
 
@@ -63,7 +62,7 @@ class AutoGoToPositionAndAngle : CommandBase {
     }
 
     override fun isFinished(): Boolean {
-        SmartDashboard.putBoolean("moveCmdFin", Robot.swerveAuto.isFinsihedMoving())
-        return Robot.swerveAuto.isFinsihedMoving() // || MathClass.getCurrentTime() - startTime > 5;
+        SmartDashboard.putBoolean("moveCmdFin", Robot.swerveAuto.isFinishedMoving())
+        return Robot.swerveAuto.isFinishedMoving() // || MathClass.getCurrentTime() - startTime > 5;
     }
 }

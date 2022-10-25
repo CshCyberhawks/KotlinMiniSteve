@@ -10,7 +10,7 @@ import frc.robot.util.TurnEncoder
 import kotlin.math.abs
 
 
-class AutoSwerveWheel(turnPort: Int, drivePort: Int, private var turnEncoderPort: Int) {
+class AutoSwerveWheel(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
     private var turnMotor: TalonSRX = TalonSRX(turnPort)
     private var driveMotor: TalonFX = TalonFX(drivePort)
 
@@ -24,7 +24,7 @@ class AutoSwerveWheel(turnPort: Int, drivePort: Int, private var turnEncoderPort
     var rawTurnValue = 0.0;
 
     private var speedPID: PIDController = PIDController(0.03, 0.0, 0.0)
-    private var turnPID: PIDController= PIDController(0.01, 0.0, 0.0)
+    private var turnPID: PIDController = PIDController(0.01, 0.0, 0.0)
 
     init {
         turnPID.setTolerance(4.0)
@@ -50,9 +50,7 @@ class AutoSwerveWheel(turnPort: Int, drivePort: Int, private var turnEncoderPort
         var desiredWheelRotations = convertToWheelRotations(r);
         val currentTurnPosition = wrapAroundAngles(turnEncoder.get());
         var desiredTurnPosition = wrapAroundAngles(theta);
-        if (abs(desiredTurnPosition - currentTurnPosition) > 90
-            && abs(desiredTurnPosition - currentTurnPosition) < 270
-        ) {
+        if (abs(desiredTurnPosition - currentTurnPosition) > 90 && abs(desiredTurnPosition - currentTurnPosition) < 270) {
             desiredTurnPosition = (desiredTurnPosition + 180) % 360;
             desiredWheelRotations *= -1.0;
         }

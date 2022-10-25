@@ -12,17 +12,16 @@ import frc.robot.Constants
 import frc.robot.util.DriveEncoder
 import frc.robot.util.DriveState
 import frc.robot.util.TurnEncoder
+import kotlin.math.abs
 
 
-class SwerveWheel(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
+class SwerveWheel(turnPort: Int, drivePort: Int, private val turnEncoderPort: Int) {
     private var turnMotor: TalonSRX = TalonSRX(turnPort)
     private var driveMotor: TalonFX = TalonFX(drivePort)
-    var turnEncoder: TurnEncoder = TurnEncoder(turnEncoderPort)
+    val turnEncoder: TurnEncoder = TurnEncoder(turnEncoderPort)
     private var driveEncoder: DriveEncoder = DriveEncoder(driveMotor)
 
     private var oldAngle = 0.0
-
-    private var m_turnEncoderPort = turnEncoderPort
 
     // below is in m / 20 ms
     private var maxAcceleration = .01
@@ -30,11 +29,11 @@ class SwerveWheel(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
 
     private var turnValue = 0.0
     private var currentDriveSpeed = 0.0
-    var rawTurnValue = 0.0
+    private var rawTurnValue = 0.0
 
     private var turnPidController: PIDController = PIDController(.01, 0.0, 0.0)
-    private var drivePidController: PIDController = PIDController(0.01, 0.0, 0.0)
-    private var speedPID: PIDController = PIDController(0.03, 0.0, 0.0)
+//    private var drivePidController: PIDController = PIDController(0.01, 0.0, 0.0)
+//    private var speedPID: PIDController = PIDController(0.03, 0.0, 0.0)
 
     init {
         driveMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0)
@@ -45,11 +44,7 @@ class SwerveWheel(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
         driveMotor.setNeutralMode(NeutralMode.Brake)
         turnPidController.setTolerance(4.0)
         turnPidController.enableContinuousInput(0.0, 360.0)
-        if (turnEncoderPort == 1 || turnEncoderPort == 3) {
-            driveMotor.setInverted(true)
-        } else {
-            driveMotor.setInverted(false)
-        }
+        driveMotor.inverted = turnEncoderPort == 1 || turnEncoderPort == 3
     }
 
     private fun wrapAroundAngles(input: Double): Double {
@@ -101,13 +96,13 @@ class SwerveWheel(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
 
         // Optimization Code stolen from
         // https://github.com/Frc2481/frc-2015/blob/master/src/Components/SwerveModule.cpp
-        if (Math.abs(angle - turnValue) > 90 && Math.abs(angle - turnValue) < 270) {
+        if (abs(angle - turnValue) > 90 && abs(angle - turnValue) < 270) {
             angle = ((angle.toInt() + 180) % 360).toDouble()
             speed = -speed
         }
 
         // if (mode == "tele") {
-        if (Math.abs(speed - lastSpeed) > maxAcceleration) {
+        if (abs(speed - lastSpeed) > maxAcceleration) {
             speed = if (speed > lastSpeed) {
                 lastSpeed + maxAcceleration
             } else {
@@ -116,24 +111,24 @@ class SwerveWheel(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
         }
         // }
         lastSpeed = speed
-        speed = convertToMetersPerSecond(speed * 5000) // Converting the speed to m/s with a max rpm of 5000 (GEar
+        speed = convertToMetersPerSecond(speed * 5000.0) // Converting the speed to m/s with a max rpm of 5000 (GEar
         // ratio is 7:1)
         val turnPIDOutput = turnPidController.calculate(turnValue, angle)
 
-        // maybe reason why gradual deecleration isn't working is because the PID
-        // controller is trying to slow down by going opposite direction in stead of
+        // maybe reason why gradual deceleration isn't working is because the PID
+        // controller is trying to slow down by going opposite direction instead of
         // just letting wheels turn? maybe we need to skip the PID for slowing down?
         // maybe needs more tuning?
-        val drivePIDOutput = drivePidController.calculate(currentDriveSpeed, speed)
+//        val drivePIDOutput = drivePidController.calculate(currentDriveSpeed, speed)
 
         // SmartDashboard.putNumber(m_turnEncoderPort + " pid value", drivePIDOutput);
 
         // double driveFeedForwardOutput = driveFeedforward.calculate(currentDriveSpeed,
         // speed);
 
-        SmartDashboard.putNumber(
-            "$m_turnEncoderPort currentDriveSpeed",
-        currentDriveSpeed);
+        // SmartDashboard.putNumber(
+        //     "$turnEncoderPort currentDriveSpeed", currentDriveSpeed
+        // );
         // SmartDashboard.putNumber(m_turnEncoderPort + " turn set", turnPIDOutput);
 
         // SmartDashboard.putNumber(m_turnEncoderPort + " driveSet", (speed / 3.777) +

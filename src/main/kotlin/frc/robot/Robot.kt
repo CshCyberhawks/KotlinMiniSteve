@@ -14,8 +14,6 @@ import frc.robot.commands.*
 import frc.robot.commands.auto.groups.AutoCommandGroup
 import frc.robot.subsystems.*
 import frc.robot.util.FieldPosition
-import frc.robot.util.IO
-import java.util.*
 import java.util.Map
 
 
@@ -27,6 +25,8 @@ import java.util.Map
  */
 class Robot : TimedRobot() {
     companion object {
+        var autoMoveRunning = false
+
         lateinit var swerveAuto: SwerveAuto
         lateinit var limelightFeed: HttpCamera
         lateinit var swerveSystem: SwerveDriveTrain
@@ -92,7 +92,7 @@ class Robot : TimedRobot() {
         transportSystem = TransportSystem()
         climbSystem = ClimbSystem()
         swerveSystem = SwerveDriveTrain()
-        limelight = Limelight();
+        limelight = Limelight(0.711, 0.24, 40.0);
         // if (DriverStation.getAlliance() == Alliance.Blue) {
         // swo = new SwerveOdometry(Constants.blueStartingPositions[0]);//
         // autoConfiguration.getSelected()]);
@@ -104,6 +104,7 @@ class Robot : TimedRobot() {
 //
         // driveSystem = new DriveSystem();
         // CameraServer.startAutomaticCapture();
+        swerveAuto = SwerveAuto()
     }
 
     /**
@@ -147,7 +148,6 @@ class Robot : TimedRobot() {
      * [RobotContainer] class.
      */
     override fun autonomousInit() {
-        swerveAuto = SwerveAuto()
 //        swo = SwerveOdometry(Constants.blueStartingPositions[0])
         swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
         swerveCommand?.cancel()
@@ -191,17 +191,17 @@ class Robot : TimedRobot() {
     override fun teleopPeriodic() {
         swo.updatePosition()
         transportSystem.cargoMonitor()
-        SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam.get())
-        SmartDashboard.putBoolean("backBreakBeam", backBreakBeam.get())
-        SmartDashboard.putBoolean("topBreakBeam", topBreakBeam.get())
-        SmartDashboard.putBoolean("shootBreakBeam", shootBreakBeam.get())
+        // SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam.get())
+        // SmartDashboard.putBoolean("backBreakBeam", backBreakBeam.get())
+        // SmartDashboard.putBoolean("topBreakBeam", topBreakBeam.get())
+        // SmartDashboard.putBoolean("shootBreakBeam", shootBreakBeam.get())
     }
 
     var orchestra: Orchestra? = null
     var falcon: TalonFX? = null
     var songs = arrayOf(
-            "africa",
-            "imperialmarch"
+        "africa",
+        "imperialmarch"
     )
 
     private fun loadSong(idx: Int) {
@@ -212,7 +212,12 @@ class Robot : TimedRobot() {
         CommandScheduler.getInstance().cancelAll()
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll()
-        val instruments = listOf(TalonFX(Constants.frontRightDriveMotor), TalonFX(Constants.frontLeftDriveMotor), TalonFX(Constants.backRightDriveMotor), TalonFX(Constants.backLeftDriveMotor))
+        val instruments = listOf(
+            TalonFX(Constants.frontRightDriveMotor),
+            TalonFX(Constants.frontLeftDriveMotor),
+            TalonFX(Constants.backRightDriveMotor),
+            TalonFX(Constants.backLeftDriveMotor)
+        )
         orchestra = Orchestra(instruments)
         loadSong(1)
         orchestra!!.play()

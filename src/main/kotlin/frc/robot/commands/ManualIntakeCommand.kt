@@ -18,12 +18,12 @@ class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase(
 
     override fun execute() {
         val speed = IO.intakeBall()
-        SmartDashboard.putBoolean("intakeSequenceBool", Robot.transportSystem.isRunningSequence)
+        // SmartDashboard.putBoolean("intakeSequenceBool", Robot.transportSystem.isRunningSequence)
         if (IO.autoIntake()) {
             Robot.isSpitting = false
             val intakeCommandSequence = IntakeSequence()
             intakeCommandSequence.schedule()
-            SmartDashboard.putBoolean("intakeSequenceBegan", true)
+            // SmartDashboard.putBoolean("intakeSequenceBegan", true)
         } else if (!Robot.transportSystem.isRunningSequence) if (IO.removeBall()) {
             Robot.isSpitting = true
             intakeSystem.intake(-1.0)

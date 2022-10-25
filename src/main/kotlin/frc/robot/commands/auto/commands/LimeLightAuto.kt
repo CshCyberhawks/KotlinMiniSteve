@@ -5,33 +5,52 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
 import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveAuto
-import frc.robot.util.Gyro
+import frc.robot.util.MathClass
+import frc.robot.util.Vector2
 
 class LimeLightAuto : CommandBase() {
     private val swerveAuto: SwerveAuto = Robot.swerveAuto
     private val limelight: Limelight = Robot.limelight
 
     override fun initialize() {
-        val ballAngle = limelight.getHorizontalOffset()
-        swerveAuto.setDesiredAngle(ballAngle + Gyro.getAngle(), false)
-        SmartDashboard.putNumber("limelight distance: ", limelight.getBallDistance())
-        swerveAuto.setDesiredPositionDistance(limelight.getBallDistance())
+        if (limelight.hasTarget()) {
+            setDesired()
+        }
+        Robot.autoMoveRunning = true
+    }
+
+    fun setDesired() {
+        var limelightPos = limelight.getPosition(.6)
+        var posX = limelightPos.x + Robot.swo.getPosition().positionCoord.x
+        var posY = limelightPos.y + Robot.swo.getPosition().positionCoord.y
+        // SmartDashboard.putNumber("autoLimeX", posX)
+        // SmartDashboard.putNumber("autoLimeY", posY)
+        // SmartDashboard.putNumber("autoLimeHori", limelight.getHorizontalOffset())
+        swerveAuto.setDesiredPosition(Vector2(posX, posY))
+        val angleLime =
+            MathClass.wrapAroundAngles(
+                limelight.getHorizontalOffset() + Robot.swo.getPosition().angle
+            )
+        SmartDashboard.putNumber("autoLimeAngle", angleLime)
+        swerveAuto.setDesiredAngle(angleLime, false)
+        swerveAuto.setDesiredAngle(0.0, false)
     }
 
     override fun execute() {
-        val ballAngle = limelight.getHorizontalOffset()
-        swerveAuto.setDesiredAngle(ballAngle + Gyro.getAngle(), false)
-        SmartDashboard.putNumber("limelight distance: ", limelight.getBallDistance())
-        swerveAuto.setDesiredPositionDistance(limelight.getBallDistance())
-        swerveAuto.move()
+        SmartDashboard.putBoolean("Limelight Has Target", limelight.hasTarget())
+        if (limelight.hasTarget()) {
+            // setDesired()
+            swerveAuto.move()
+        }
     }
 
     override fun end(interrupted: Boolean) {
         swerveAuto.kill()
+        Robot.autoMoveRunning = false
     }
 
     override fun isFinished(): Boolean {
-        return swerveAuto.isFinsihedMoving()
+        // SmartDashboard.putBoolean("isLimelightDone", swerveAuto.isFinsihedMoving())
+        return swerveAuto.isFinishedMoving()
     }
 }
-
