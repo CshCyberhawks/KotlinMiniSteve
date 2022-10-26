@@ -37,7 +37,6 @@ class AutoCommandGroup(configuration: Int) : SequentialCommandGroup() {
             }
         }
     })
-
     init {
         autoConfigurations[configuration]?.invoke()
     }

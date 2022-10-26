@@ -1,13 +1,11 @@
 package frc.robot.commands
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
 import frc.robot.commands.sequences.IntakeSequence
 import frc.robot.subsystems.IntakeSystem
 import frc.robot.util.IO
-import edu.wpi.first.networktables.NetworkTableEntry
-
 
 class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase() {
     // private double speedMult
@@ -15,9 +13,11 @@ class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase(
 
     // private var intakeCommandSequence: IntakeSequence = IntakeSequence()
 
+    private val intakeSequenceShuffle: NetworkTableEntry
 
     init {
         addRequirements(intakeSystem)
+        this.intakeSequenceShuffle = Robot.driveShuffleboardTab.add("Can Run IntakeSeq", true).entry
     }
 
     override fun execute() {
@@ -30,13 +30,14 @@ class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase(
             val intakeCommandSequence = IntakeSequence()
             intakeCommandSequence.schedule()
             // SmartDashboard.putBoolean("intakeSequenceBegan", true)
-        } else if (!Robot.transportSystem.isRunningSequence) if (IO.removeBall()) {
-            Robot.isSpitting = true
-            intakeSystem.intake(-1.0)
-            Robot.transportSystem.move(-1.0)
-        } else {
-            Robot.isSpitting = false
-            intakeSystem.intake(speed)
-        }
+        } else if (!Robot.transportSystem.isRunningSequence)
+                if (IO.removeBall()) {
+                    Robot.isSpitting = true
+                    intakeSystem.intake(-1.0)
+                    Robot.transportSystem.move(-1.0)
+                } else {
+                    Robot.isSpitting = false
+                    intakeSystem.intake(speed)
+                }
     }
 }
