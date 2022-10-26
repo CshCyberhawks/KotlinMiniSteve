@@ -16,28 +16,40 @@ Autonomous Configs:
  */
 
 class AutoCommandGroup(configuration: Int) : SequentialCommandGroup() {
-    private var autoConfigurations: Map<Int, () -> Unit> = mapOf(0 to {
+    private var blueAutoConfigurations: Map<Int, () -> Unit> = mapOf(0 to {
         Robot.swo.resetPos()
         Gyro.setOffset()
         addCommands(
-            AutoGoToPosition(Vector2(0.0, -5.0), 0.0)
+            AutoBall(4),
+            AutoGoToCenterAndShoot(0, true),
+            AutoBall(5),
+            AutoGoToCenterAndShoot(0, true)
         )
     }, 1 to {
-        when (DriverStation.getAlliance()) {
-            Alliance.Blue -> {
                 addCommands(
                     AutoBall(0)
                 )
-            }
-
-            Alliance.Red -> {
-                addCommands(
-                    AutoBall(0)
-                )
-            }
         }
-    })
+    )
+
+    private var redAutoConfigurations: Map<Int, () -> Unit> = mapOf(0 to {
+        Robot.swo.resetPos()
+        Gyro.setOffset()
+        addCommands(
+            
+        )
+    }, 1 to {
+        addCommands(
+            AutoBall(0)
+        )
+    }
+    )
+
     init {
-        autoConfigurations[configuration]?.invoke()
+        if (DriverStation.getAlliance() == Alliance.Blue) {
+            blueAutoConfigurations[configuration]?.invoke()
+        } else {
+            redAutoConfigurations[configuration]?.invoke()
+        }
     }
 }

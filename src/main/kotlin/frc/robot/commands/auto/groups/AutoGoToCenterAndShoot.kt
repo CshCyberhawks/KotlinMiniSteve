@@ -7,6 +7,7 @@ import frc.robot.Constants
 import frc.robot.Robot
 import frc.robot.commands.auto.commands.AutoGoToPosition
 import frc.robot.commands.auto.commands.AutoShootCommand
+import frc.robot.commands.auto.commands.AutoGoToPositionAndAngle
 import frc.robot.util.Vector2
 
 
@@ -23,7 +24,7 @@ class AutoGoToCenterAndShoot(shootPosition: Int, move: Boolean) : SequentialComm
     init {
         if (move) {
             addCommands( // new AutoGoToAngle(111),
-                AutoGoToPosition(Vector2(0.0, 0.0), 0.0), // shootPositions[shootPosition], 0),
+                AutoGoToPositionAndAngle(shootPositions[shootPosition], 0.0, 0.0), // shootPositions[shootPosition], 0),
                 AutoShootCommand(Robot.shootSystem)
             )
         } else {

@@ -122,7 +122,7 @@ object Constants {
                     Vector2(-3.2, -2.2)
             )
 
-    val blueShootingPositions: Array<Vector2> = arrayOf(Vector2(-.3, -.78), Vector2(-.3, -.78))
+    val blueShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-.3, -.78, -75.0), FieldPosition(-.78, .3, 15.0))
 
     val redShootingPositions: Array<Vector2> = arrayOf(Vector2(.3, .78), Vector2(.78, -0.3))
 
@@ -149,5 +149,5 @@ object Constants {
 
     // Tape faces inside
     val turnEncoderOffsets =
-            doubleArrayOf(305.94723429600003, 87.27538168800001, 112.58787909600001, 279.140596416)
+            doubleArrayOf(302.78317212, 132.53904892800003, 99.31639608000002, 294.08200113600003)
 }

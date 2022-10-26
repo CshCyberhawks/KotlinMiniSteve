@@ -13,11 +13,8 @@ class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase(
 
     // private var intakeCommandSequence: IntakeSequence = IntakeSequence()
 
-    private val intakeSequenceShuffle: NetworkTableEntry
-
     init {
         addRequirements(intakeSystem)
-        this.intakeSequenceShuffle = Robot.driveShuffleboardTab.add("Can Run IntakeSeq", true).entry
     }
 
     override fun execute() {
