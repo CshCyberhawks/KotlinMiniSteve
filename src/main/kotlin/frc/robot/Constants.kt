@@ -23,7 +23,7 @@ object Constants {
     const val quickThrottleChange: Double = 0.01
 
     // twist speed mults for motors
-    const val twistSpeedMult: Double = 0.6
+    const val twistSpeedMult: Double = 0.8
 
     // twist angles for each motor
 //        val twistAngleMap: HashMap<String, Int> = object : HashMap() {
