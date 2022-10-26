@@ -23,13 +23,22 @@ class AutoCommandGroup(configuration: Int) : SequentialCommandGroup() {
             AutoGoToPosition(Vector2(0.0, -5.0), 0.0)
         )
     }, 1 to {
-        addCommands(
-            AutoBall(0)
-        )
+        when (DriverStation.getAlliance()) {
+            Alliance.Blue -> {
+                addCommands(
+                    AutoBall(0)
+                )
+            }
+
+            Alliance.Red -> {
+                addCommands(
+                    AutoBall(0)
+                )
+            }
+        }
     })
 
     init {
         autoConfigurations[configuration]?.invoke()
-
     }
 }
