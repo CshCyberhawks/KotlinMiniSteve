@@ -122,15 +122,17 @@ object Constants {
                     Vector2(-3.2, -2.2)
             )
 
-    val blueShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-.3, -.78, -75.0), FieldPosition(-.78, .3, 15.0))
+    val blueShootingPositions: Array<FieldPosition> =
+            arrayOf(FieldPosition(-.3, -.78, -75.0), FieldPosition(-.78, .3, 15.0))
 
-    val redShootingPositions: Array<Vector2> = arrayOf(Vector2(.3, .78), Vector2(.78, -0.3))
+    val redShootingPositions: Array<FieldPosition> =
+            arrayOf(FieldPosition(.3, .78, 105.0), FieldPosition(.78, -0.3, 195.0))
 
     val blueStartingPositions =
-            arrayOf(FieldPosition(-0.41, -1.1, 0.0), FieldPosition(-2.8, 1.0, 90.0))
+            arrayOf(FieldPosition(-0.41, -1.1, -90.0), FieldPosition(-2.8, 1.0, 0.0))
 
     val redStartingPositions =
-            arrayOf(FieldPosition(.41, 1.1, 90.0), FieldPosition(2.8, -1.0, 0.0)) // 291 is 0 angle
+            arrayOf(FieldPosition(.41, 1.1, 90.0), FieldPosition(2.8, -1.0, 180.0))
 
     val blueTaxiPos: Vector2 = Vector2(-6.0, 0.0)
     val redTaxiPos: Vector2 = Vector2(6.0, 0.0)
