@@ -37,7 +37,7 @@ class AutoBall(ballNumber: Int) : CommandBase() {
         ).theta
         // Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
         // SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
-        autoMove = AutoGoToPositionAndAngle(ballNumber, 0.0, 0.0)
+        autoMove = AutoGoToPositionAndAngle(ballNumber, MathClass.wrapAroundAngles(desiredAngle + 180), 0.0)
         // autoLimeLight = LimeLightAuto()
     }
 

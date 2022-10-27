@@ -92,7 +92,6 @@ class SwerveWheel(turnPort: Int, drivePort: Int, private val turnEncoderPort: In
 
         // SmartDashboard.putNumber("$m_turnEncoderPort wheel rotations", driveVelocity)
         rawTurnValue = turnEncoder.get()
-        SmartDashboard.putNumber("$turnEncoderPort encoder value", rawTurnValue)
         angle = wrapAroundAngles(angle)
 
         // Optimization Code stolen from
@@ -114,8 +113,6 @@ class SwerveWheel(turnPort: Int, drivePort: Int, private val turnEncoderPort: In
         lastSpeed = speed
         speed = convertToMetersPerSecond(speed * 5000.0) // Converting the speed to m/s with a max rpm of 5000 (GEar
         // ratio is 7:1)
-
-        SmartDashboard.putNumber("$turnEncoderPort desired angle", angle)
 
         val turnPIDOutput = turnPidController.calculate(turnValue, angle)
 
@@ -139,8 +136,6 @@ class SwerveWheel(turnPort: Int, drivePort: Int, private val turnEncoderPort: In
         // drivePIDOutput)
         // SmartDashboard.putNumber(m_turnEncoderPort + " turnSet", turnPIDOutput)
         // 70% speed is about 5.6 feet/second
-        SmartDashboard.putNumber("$turnEncoderPort pid", turnPIDOutput)
-        SmartDashboard.putBoolean("$turnEncoderPort at setpoint", turnPidController.atSetpoint())
         driveMotor[ControlMode.PercentOutput] = MathUtil.clamp(speed / 3.777 /* + drivePIDOutput */, -1.0, 1.0)
         if (!turnPidController.atSetpoint()) {
             turnMotor[ControlMode.PercentOutput] = MathUtil.clamp(turnPIDOutput, -1.0, 1.0)

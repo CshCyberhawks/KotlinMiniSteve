@@ -39,6 +39,18 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         fieldPosition.reset()
     }
 
+    fun changePos(position: FieldPosition, meters: Boolean = true) {
+        resetPos()
+        if (meters) {
+            position.positionCoord.x = MathClass.metersToSwos(position.positionCoord.x)            
+            position.positionCoord.y = MathClass.metersToSwos(position.positionCoord.y)
+            System.out.println(fieldPosition.positionCoord.x)
+        }
+        Gyro.offset = MathClass.wrapAroundAngles(position.angle)
+        System.out.println(Gyro.offset)
+        fieldPosition = position;
+    }
+
     fun calculateVelocities(): DoubleArray {
         val wheelCoords = arrayOfNulls<Vector2>(4)
         var totalX = 0.0
@@ -79,13 +91,13 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         fieldPosition.positionCoord.x += velocities[0] * period
         fieldPosition.positionCoord.y += velocities[1] * period
         fieldPosition.angle = Gyro.getAngle()
-        /*
+        
         SmartDashboard.putNumber("fieldPosX ", fieldPosition.positionCoord.x)
         SmartDashboard.putNumber("fieldPosY ", fieldPosition.positionCoord.y)
         SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
         SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
         SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
-        */
+        
 
 
         fieldPosXTab.setNumber(fieldPosition.positionCoord.x)

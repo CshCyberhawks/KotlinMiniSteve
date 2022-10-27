@@ -13,12 +13,9 @@ import kotlin.math.abs
 
 class AutoShootCommand(private var shootSystem: ShootSystem) : CommandBase() {
     private var transportSystem: TransportSystem = Robot.transportSystem
-    private var startTime = 0.0
-    private var lastShootTime = 0.0
 
     init {
         shootSystem.autoShootRunning = true
-        startTime = MathClass.getCurrentTime()
         addRequirements(shootSystem)
     }
 
@@ -41,13 +38,15 @@ class AutoShootCommand(private var shootSystem: ShootSystem) : CommandBase() {
     }
 
     override fun isFinished(): Boolean {
-        lastShootTime =
-            if (transportSystem.cargoAmount <= 0 && lastShootTime == 0.0) MathClass.getCurrentTime() else lastShootTime
-        val cargoReturn = transportSystem.cargoAmount <= 0 && MathClass.getCurrentTime() - lastShootTime > 0.1
-        SmartDashboard.putBoolean(
-            "shoot command done",
-            transportSystem.cargoAmount <= 0 && cargoReturn || IO.getAutoShootCancel() || MathClass.getCurrentTime() - startTime > 4.0
-        )
-        return (transportSystem.cargoAmount <= 0 && cargoReturn || IO.getAutoShootCancel() || MathClass.getCurrentTime() - startTime > 4.0)
+        return transportSystem.cargoAmount <= 0;
+        // lastShootTime =
+            // if (transportSystem.cargoAmount <= 0 && lastShootTime == 0.0) MathClass.getCurrentTime() else lastShootTime
+        // val cargoReturn = transportSystem.cargoAmount <= 0 && MathClass.getCurrentTime() - lastShootTime > 0.1
+        // SmartDashboard.putNumber("time", MathClass.getCurrentTime() - startTime)
+        // SmartDashboard.putBoolean(
+        //     "shoot command done",
+        //     transportSystem.cargoAmount <= 0 && cargoReturn || IO.getAutoShootCancel() || MathClass.getCurrentTime() - startTime > 4.0
+        // )
+        // return (transportSystem.cargoAmount <= 0 && cargoReturn || IO.getAutoShootCancel() || MathClass.getCurrentTime() - startTime > 4.0)
     }
 }

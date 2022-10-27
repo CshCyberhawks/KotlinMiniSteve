@@ -122,17 +122,18 @@ object Constants {
                     Vector2(-3.2, -2.2)
             )
 
+    //It is offset by 90 degrees because the coordinate systems don't line up
     val blueShootingPositions: Array<FieldPosition> =
-            arrayOf(FieldPosition(-.3, -.78, -75.0), FieldPosition(-.78, .3, 15.0))
+            arrayOf(FieldPosition(-.3, -.78, 115.0), FieldPosition(-.78, .3, 105.0))
 
     val redShootingPositions: Array<FieldPosition> =
-            arrayOf(FieldPosition(.3, .78, 105.0), FieldPosition(.78, -0.3, 195.0))
+            arrayOf(FieldPosition(.3, .78, -75.0), FieldPosition(.78, -0.3, 285.0))
 
     val blueStartingPositions =
-            arrayOf(FieldPosition(-0.41, -1.1, -90.0), FieldPosition(-2.8, 1.0, 0.0))
+            arrayOf(FieldPosition(-0.41, -1.1, 0.0), FieldPosition(-2.8, 1.0, 90.0))
 
     val redStartingPositions =
-            arrayOf(FieldPosition(.41, 1.1, 90.0), FieldPosition(2.8, -1.0, 180.0))
+            arrayOf(FieldPosition(.41, 1.1, 180.0), FieldPosition(2.8, -1.0, 270.0))
 
     val blueTaxiPos: Vector2 = Vector2(-6.0, 0.0)
     val redTaxiPos: Vector2 = Vector2(6.0, 0.0)

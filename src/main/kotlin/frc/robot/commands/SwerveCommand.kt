@@ -22,7 +22,7 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
 
     // Called when the command is initially scheduled.
     override fun initialize() {
-        Gyro.setOffset()
+//        Gyro.setOffset()
     }
 
     // Called every time the scheduler runs while the command is scheduled.

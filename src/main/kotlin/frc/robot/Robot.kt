@@ -5,6 +5,7 @@ import com.ctre.phoenix.music.Orchestra
 import edu.wpi.first.cscore.HttpCamera
 import edu.wpi.first.util.net.PortForwarder
 import edu.wpi.first.wpilibj.DigitalInput
+import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
@@ -58,6 +59,8 @@ class Robot : TimedRobot() {
 
         public var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
         public var odometryShuffleboardTab = Shuffleboard.getTab("OdometryStream")
+
+        val startPositions = if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) Constants.blueStartingPositions else Constants.redStartingPositions
     }
 
     // public RobotContainer m_robotContainer
@@ -94,13 +97,7 @@ class Robot : TimedRobot() {
         climbSystem = ClimbSystem()
         swerveSystem = SwerveDriveTrain()
         limelight = Limelight(0.711, 0.24, 40.0)
-        // if (DriverStation.getAlliance() == Alliance.Blue) {
-        // swo = new SwerveOdometry(Constants.blueStartingPositions[0])//
-        // autoConfiguration.getSelected()])
-        // } else {
-        // swo = new SwerveOdometry(Constants.redStartingPositions[0])//
-        // autoConfiguration.getSelected()])
-        // }
+
         swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
         //
         // driveSystem = new DriveSystem()
@@ -142,7 +139,7 @@ class Robot : TimedRobot() {
     /** This autonomous runs the autonomous command selected by your [RobotContainer] class. */
     override fun autonomousInit() {
         //        swo = SwerveOdometry(Constants.blueStartingPositions[0])
-        swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
+        swo.changePos(startPositions[0])
         swerveCommand?.cancel()
         limelight.pipelineInit()
 

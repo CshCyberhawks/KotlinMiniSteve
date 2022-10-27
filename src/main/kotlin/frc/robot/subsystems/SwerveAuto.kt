@@ -20,8 +20,8 @@ class SwerveAuto {
         if (team == Alliance.Blue) Constants.blueBallPositions else Constants.redBallPositions
 
     private var byBall = false
-    private val ballDistanceDeadzone = 0.02
-    private val normalDistanceDeadzone = 0.02
+    private val ballDistanceDeadzone = 0.1
+    private val normalDistanceDeadzone = 0.1
 
     private val positionStopRange = 0.1
     private val isAtPosition = false
