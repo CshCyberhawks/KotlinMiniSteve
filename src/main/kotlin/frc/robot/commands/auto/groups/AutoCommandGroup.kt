@@ -32,7 +32,7 @@ class AutoCommandGroup(configuration: Int) : SequentialCommandGroup() {
         addCommands(
             AutoBall(4, 15.0),
             AutoGoToCenterAndShoot(0, true),
-//            AutoGoToPosition(Vector2(20.0, 0.0), 0.0)
+            AutoGoToPosition(Constants.blueTaxiPositions[0], 0.0)
         )
         }
     )
@@ -48,8 +48,9 @@ class AutoCommandGroup(configuration: Int) : SequentialCommandGroup() {
         Robot.swo.resetPos()
         Gyro.setOffset()
         addCommands(
-            AutoBall(FieldPosition(0.0, 0.4, 0.0)),
-            AutoGoToCenterAndShoot(0, true)
+            AutoBall(1, 15.0),
+            AutoGoToCenterAndShoot(0, true),
+            AutoGoToPosition(Constants.redTaxiPositions[0], 0.0)
         )
     }
     )
