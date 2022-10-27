@@ -18,7 +18,7 @@ Autonomous Configs:
 class AutoCommandGroup(configuration: Int) : SequentialCommandGroup() {
     private var blueAutoConfigurations: Map<Int, () -> Unit> = mapOf(0 to {
         addCommands(
-            AutoBall(4),
+            // AutoBall(4),
             AutoGoToCenterAndShoot(0, true),
 //            AutoBall(5),
 //            AutoGoToCenterAndShoot(0, true)

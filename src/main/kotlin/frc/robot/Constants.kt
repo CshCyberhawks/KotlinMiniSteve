@@ -122,7 +122,7 @@ object Constants {
                     Vector2(-3.2, -2.2)
             )
 
-    //It is offset by 90 degrees because the coordinate systems don't line up
+    //It is offset by -90 degrees because the coordinate systems don't line up
     val blueShootingPositions: Array<FieldPosition> =
             arrayOf(FieldPosition(-.3, -.78, 115.0), FieldPosition(-.78, .3, 105.0))
 
