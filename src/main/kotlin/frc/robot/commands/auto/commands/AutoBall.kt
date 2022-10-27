@@ -23,9 +23,7 @@ class AutoBall(ballNumber: Int) : CommandBase() {
     // private var autoLimeLight: LimeLightAuto
     // private var limeLightScheduled: Boolean = false
 
-    init {
-        startTime = MathClass.getCurrentTime()
-        Robot.swo.resetPos()
+    constructor(ballNumber: Int) {
         // add your autonomous commands below
         // example: below will move robot 2 meters on the x and rotate to 90 degrees
         // then it will wait 1 second before moving the robot back to its starting
@@ -39,6 +37,14 @@ class AutoBall(ballNumber: Int) : CommandBase() {
         // SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
         autoMove = AutoGoToPositionAndAngle(ballNumber, MathClass.wrapAroundAngles(desiredAngle + 180), 0.0)
         // autoLimeLight = LimeLightAuto()
+    }
+
+    constructor(position: FieldPosition) {
+        autoMove = AutoGoToPositionAndAngle(position, 0)
+    }
+
+    init {
+        startTime = MathClass.getCurrentTime()
     }
 
     override fun initialize() {
