@@ -67,11 +67,11 @@ class MathClass {
         }
 
         fun metersToSwos(meters: Double): Double {
-            return meters * 3.69230769231
+            return meters * 3.918699
         }
 
         fun swosToMeters(swos: Double): Double {
-            return swos * 0.27083333333
+            return swos * 0.255187
         }
 
         fun wrapAroundAngles(angle: Double): Double {

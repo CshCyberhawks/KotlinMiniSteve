@@ -136,7 +136,7 @@ class SwerveWheel(turnPort: Int, drivePort: Int, private val turnEncoderPort: In
         // drivePIDOutput)
         // SmartDashboard.putNumber(m_turnEncoderPort + " turnSet", turnPIDOutput)
         // 70% speed is about 5.6 feet/second
-        driveMotor[ControlMode.PercentOutput] = MathUtil.clamp(speed / 3.777 /* + drivePIDOutput */, -1.0, 1.0)
+        driveMotor[ControlMode.PercentOutput] = MathUtil.clamp(speed / 4.00 /* + drivePIDOutput */, -1.0, 1.0)
         if (!turnPidController.atSetpoint()) {
             turnMotor[ControlMode.PercentOutput] = MathUtil.clamp(turnPIDOutput, -1.0, 1.0)
         }

@@ -5,11 +5,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import frc.robot.Robot
 import frc.robot.commands.sequences.IntakeSequence
+import frc.robot.util.FieldPosition
 import frc.robot.util.MathClass
 import frc.robot.util.Vector2
 
 
-class AutoBall(ballNumber: Int) : CommandBase() {
+class AutoBall : CommandBase {
     // add your autonomous commands below
     // example: below will move robot 2 meters on the x and rotate to 90 degrees
     // then it will wait 1 second before moving the robot back to its starting
@@ -23,7 +24,7 @@ class AutoBall(ballNumber: Int) : CommandBase() {
     // private var autoLimeLight: LimeLightAuto
     // private var limeLightScheduled: Boolean = false
 
-    constructor(ballNumber: Int) {
+    constructor(ballNumber: Int) : super() {
         // add your autonomous commands below
         // example: below will move robot 2 meters on the x and rotate to 90 degrees
         // then it will wait 1 second before moving the robot back to its starting
@@ -39,8 +40,12 @@ class AutoBall(ballNumber: Int) : CommandBase() {
         // autoLimeLight = LimeLightAuto()
     }
 
-    constructor(position: FieldPosition) {
-        autoMove = AutoGoToPositionAndAngle(position, 0)
+    constructor(ballNumber: Int, angle: Double) {
+        autoMove = AutoGoToPositionAndAngle(ballNumber, angle, 0.0)
+    }
+
+    constructor(position: FieldPosition) : super() {
+        autoMove = AutoGoToPositionAndAngle(position, 0.0)
     }
 
     init {

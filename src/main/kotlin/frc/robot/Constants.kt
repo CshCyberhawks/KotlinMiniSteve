@@ -141,16 +141,16 @@ object Constants {
     // Towards limelight is -x
     // Right (facing with limelight) is +y
         val redBallPositions: Array<Vector2> = arrayOf()
-        val blueBallPositions: Array<Vector2> = arrayOf()
+        val blueBallPositions: Array<Vector2> = arrayOf(Vector2(), Vector2(), Vector2(), Vector2(), Vector2(2.7, -.19))
 
-        val redShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(Vector2(0.11, 0.32), 15.0))
-        val blueShootingPositions: Array<FieldPosition> = arrayOf()
+        val redShootingPositions: Array<FieldPosition> = arrayOf()
+        val blueShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
 
-        val redStartingPositions: Array<FieldPosition> = arrayOf(FieldPosition(Vector2(0.0, 0.0), 0.0))
-        val blueStartingPositions: Array<FieldPosition> = arrayOf(FieldPosition(Vector2(0.0, 0.0), 0.0))
+        val redStartingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
+        val blueStartingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
 
-        val redTaxiPositions: Array<Vector2> = arrayOf(Vector2(-5.0, 0.0))
-        val blueTaxiPositions: Array<Vector2> = arrayOf(Vector2(-5.0, 0.0))
+        val redTaxiPositions: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
+        val blueTaxiPositions: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
 
     // Break Beams
     const val frontBreakBeam = 6

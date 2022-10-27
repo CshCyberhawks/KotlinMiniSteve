@@ -91,7 +91,9 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         fieldPosition.positionCoord.x += velocities[0] * period
         fieldPosition.positionCoord.y += velocities[1] * period
         fieldPosition.angle = Gyro.getAngle()
-        
+
+        SmartDashboard.putNumber("veloX", velocities[0])
+        SmartDashboard.putNumber("veloY", velocities[1])
         SmartDashboard.putNumber("fieldPosX ", fieldPosition.positionCoord.x)
         SmartDashboard.putNumber("fieldPosY ", fieldPosition.positionCoord.y)
         SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))

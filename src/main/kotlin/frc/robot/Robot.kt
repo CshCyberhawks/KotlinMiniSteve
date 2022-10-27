@@ -145,7 +145,7 @@ class Robot : TimedRobot() {
 
         // m_autonomousCommand = m_robotContainer.getAutonomousCommand()
         transportSystem.cargoAmount = 1
-        autoCommands = AutoCommandGroup(0) // autoConfiguration.getSelected())
+        autoCommands = AutoCommandGroup(1) // autoConfiguration.getSelected())
 
         // schedule the autonomous command (example)
         autoCommands!!.schedule()

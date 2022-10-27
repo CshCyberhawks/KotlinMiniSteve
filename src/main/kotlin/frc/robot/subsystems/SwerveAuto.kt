@@ -30,11 +30,11 @@ class SwerveAuto {
     private var trapXFinished = false
     private var trapYFinsihed = false
 
-    private var angleDeadzone: Double = 10.0
+    private var angleDeadzone: Double = 1.0
 
-    // both below args are in m/s - first is velocity (35% of max robot velocity of
-    // 3.77), and a max accel of .05 m/s
-    private val trapConstraints = TrapezoidProfile.Constraints(2.0, 0.8)
+    // max accel = 1.71m/s^2
+    //max velo actual: 4.0m/s
+    private val trapConstraints = TrapezoidProfile.Constraints(4.0, 1.5)
     private var trapXCurrentState: TrapezoidProfile.State = TrapezoidProfile.State(
         Robot.swo.getPosition().positionCoord.x, Robot.swo.getVelocities()[0]
     )
@@ -45,12 +45,16 @@ class SwerveAuto {
     private var trapYDesiredState: TrapezoidProfile.State = TrapezoidProfile.State(desiredPosition.y, 0.0)
 
     // TODO: prob need to increase derivatives
-    private val xPID = PIDController(5.0, 0.0, 0.05)
-    private val yPID = PIDController(5.0, 0.0, 0.05)
+    private val xPID = PIDController(0.5, 0.0, 0.05)
+    private val yPID = PIDController(0.5, 0.0, 0.05)
 
-    private val twistPID = PIDController(1.0, 0.0, 0.05)
+    private val twistPID = PIDController(10.0, 0.0, 12.0)
 
     private var prevTime = 0.0
+
+    init {
+        twistPID.enableContinuousInput(0.0, 360.0)
+    }
 
     fun setDesiredPosition(desiredPosition: Vector2) { // , double desiredVelocity) {
         byBall = false
@@ -127,7 +131,7 @@ class SwerveAuto {
         }
 
         Robot.swerveSystem.drive(
-            translation.x / 2, translation.y / 2, twist, 0.0, DriveState.AUTO, true
+            translation.x, translation.y, twist, 0.0, DriveState.AUTO, true
         )
     }
 
@@ -140,40 +144,54 @@ class SwerveAuto {
         trapYFinsihed = trapYProfile.isFinished(trapTime)
         val trapXOutput = trapXProfile.calculate(trapTime)
         val trapYOutput = trapYProfile.calculate(trapTime)
-        // SmartDashboard.putNumber("TrapY", trapYOutput.position)
-        // SmartDashboard.putNumber("TrapX", trapXOutput.position)
+         SmartDashboard.putNumber("TrapY", trapYOutput.position)
+         SmartDashboard.putNumber("TrapX", trapXOutput.position)
         val xPIDOutput = xPID.calculate(
             MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), trapXOutput.position
         )
         val yPIDOutput = yPID.calculate(
             MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y), trapYOutput.position
         )
+        SmartDashboard.putNumber("xPID", xPIDOutput)
+        SmartDashboard.putNumber("yPID", yPIDOutput)
         val xVel = (trapXOutput.velocity + xPIDOutput)
         val yVel = (trapYOutput.velocity + yPIDOutput)
         // val xVel = xPIDOutput
         // val yVel = yPIDOutput
-        SmartDashboard.putNumber("xDriveInput", xVel / 3.777)
-        SmartDashboard.putNumber("yDriveInput", yVel / 3.777)
+        SmartDashboard.putNumber("xDriveInput", xVel / 4.0)
+        SmartDashboard.putNumber("yDriveInput", yVel / 4.0)
         trapXCurrentState = trapXOutput
         trapYCurrentState = trapYOutput
         prevTime = timeNow
-        return Vector2(xVel / 3.777, yVel / 3.777)
+        return Vector2(xVel / 4.0, yVel / 4.0)
     }
 
     fun calculateTwist(): Double {
         // SmartDashboard.putNumber("desiredTwistAngle", desiredAngle)
         val currentAngle: Double = Robot.swo.getPosition().angle
-        val targetVal = -MathUtil.clamp(
-            MathClass.wrapAroundAngles(desiredAngle - currentAngle), -1.0, 1.0
-        )
+
+        val angleChange = MathClass.wrapAroundAngles(MathClass.wrapAroundAngles(desiredAngle) - MathClass.wrapAroundAngles(currentAngle))
+
+        val targetVal =  MathUtil.clamp(if (angleChange > 180) {
+            angleChange
+        } else {
+            -angleChange
+        }, -1.0, 1.0)
+
+//        val targetVal = -MathUtil.clamp(
+//            MathClass.wrapAroundAngles(desiredAngle - currentAngle), -1.0, 1.0
+//        )
+
+
+
         // val twistValue: Double = desiredAngle, Robot.swo.getPosition().angle
-        val twistFeedForward = (targetVal / 5)
+        val twistFeedForward = (targetVal / 15)
         // NOTE: divide by 360 is to go from angle to percent output + divide by 10 is to lower it
-        // var twistPIDOutput =
-        //         -(twistPID.calculate(
-        //                 desiredAngle - currentAngle,
-        //                 desiredAngle
-        //         ) / 360)
+         val twistPIDOutput =
+                 -(twistPID.calculate(
+                         currentAngle,
+                         MathClass.wrapAroundAngles(currentAngle + angleChange)
+                 ) / 360)
 
         // SmartDashboard.putNumber("twistFeed", twistFeedForward)
         //
@@ -184,8 +202,9 @@ class SwerveAuto {
         //     // targetVal *= -1
         //     twistPIDOutput *= -1
         // }
-        val twistVal: Double = twistFeedForward
+        val twistVal: Double = MathUtil.clamp(twistFeedForward + twistPIDOutput, -1.0, 1.0)
         SmartDashboard.putNumber("auto twistVal", twistVal)
+        SmartDashboard.putNumber("auto twist PID", twistPIDOutput)
 
         return twistVal
     }

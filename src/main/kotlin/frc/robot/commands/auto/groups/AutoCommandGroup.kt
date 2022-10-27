@@ -3,9 +3,12 @@ package frc.robot.commands.auto.groups
 import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
+import frc.robot.Constants
 import frc.robot.Robot
 import frc.robot.commands.auto.commands.AutoBall
 import frc.robot.commands.auto.commands.AutoGoToPosition
+import frc.robot.commands.auto.commands.AutoShootCommand
+import frc.robot.util.FieldPosition
 import frc.robot.util.Gyro
 import frc.robot.util.Vector2
 
@@ -21,14 +24,15 @@ class AutoCommandGroup(configuration: Int) : SequentialCommandGroup() {
         Gyro.setOffset()
         addCommands(
             AutoShootCommand(Robot.shootSystem),
-            AutoGoToPosition(FieldPosition(Vector2(0, 3), 0))
+            AutoGoToPosition(Constants.blueTaxiPositions[0], 0.0)
         )
     }, 1 to {
         Robot.swo.resetPos()
         Gyro.setOffset()
         addCommands(
-            AutoBall(FieldPosition(Vector2(0, .4), 0)),
-            AutoGoToCenterAndShoot()
+            AutoBall(4, 15.0),
+            AutoGoToCenterAndShoot(0, true),
+//            AutoGoToPosition(Vector2(20.0, 0.0), 0.0)
         )
         }
     )
@@ -38,11 +42,14 @@ class AutoCommandGroup(configuration: Int) : SequentialCommandGroup() {
         Gyro.setOffset()
         addCommands(
             AutoShootCommand(Robot.shootSystem),
-            AutoGoToPosition(0, 3)
+            AutoGoToPosition(Constants.redTaxiPositions[0], 0.0)
         )
     }, 1 to {
+        Robot.swo.resetPos()
+        Gyro.setOffset()
         addCommands(
-            AutoBall(0)
+            AutoBall(FieldPosition(0.0, 0.4, 0.0)),
+            AutoGoToCenterAndShoot(0, true)
         )
     }
     )
