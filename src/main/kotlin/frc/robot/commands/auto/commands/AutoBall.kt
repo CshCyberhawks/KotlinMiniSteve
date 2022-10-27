@@ -25,7 +25,6 @@ class AutoBall(ballNumber: Int) : CommandBase() {
 
     init {
         startTime = MathClass.getCurrentTime()
-        Robot.swo.resetPos()
         // add your autonomous commands below
         // example: below will move robot 2 meters on the x and rotate to 90 degrees
         // then it will wait 1 second before moving the robot back to its starting
