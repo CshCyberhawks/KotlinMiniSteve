@@ -7,10 +7,12 @@ import frc.robot.Constants
 import frc.robot.Robot
 import frc.robot.commands.auto.commands.LimeLightAuto
 import frc.robot.commands.sequences.IntakeSequence
+import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveDriveTrain
 import frc.robot.util.DriveState
 import frc.robot.util.Gyro
 import frc.robot.util.IO
+import frc.robot.util.MathClass
 
 
 class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBase() {
@@ -47,21 +49,10 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
             swerveDriveTrain.throttle += Constants.quickThrottleChange
         }
 
-        if (IO.cancelLimelightLockOn()) {
-            intakeSequence?.cancel()
-        }
+        val angle = if (IO.limelightLockOn()) MathClass.calculateDeadzone(Robot.limelight.getHorizontalOffset(), .5) / 25 else IO.turnControl()
 
-        if (IO.limelightLockOn()){
-            if (intakeSequence != null) {
-                intakeSequence!!.cancel()
-            }
-            val limeLightAuto: LimeLightAuto = LimeLightAuto()
-            intakeSequence = IntakeSequence(limeLightAuto)
-            CommandScheduler.getInstance().schedule(intakeSequence)
-            CommandScheduler.getInstance().schedule(limeLightAuto)
-        }
         swerveDriveTrain.drive(
-            -IO.moveRobotX(), -IO.moveRobotY(), -IO.turnControl(), IO.getJoyThrottle(), DriveState.TELE
+            -IO.moveRobotX(), -IO.moveRobotY(), -angle, IO.getJoyThrottle(), DriveState.TELE, !IO.disableFieldOrientation()
         )
     }
 }

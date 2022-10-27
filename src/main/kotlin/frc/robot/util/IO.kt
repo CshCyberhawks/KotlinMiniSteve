@@ -2,6 +2,7 @@ package frc.robot.util
 
 import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.XboxController
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import kotlin.math.abs
 
 
@@ -61,6 +62,10 @@ class IO {
         fun moveRobotX(): Double {
             // SmartDashboard.putNumber("Joystick X", joystick.y)
             return MathClass.calculateDeadzone(joystick.y, controllerDeadzone)
+        }
+
+        fun disableFieldOrientation(): Boolean {
+            return joystick.trigger
         }
 
         fun moveRobotY(): Double {
