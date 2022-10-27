@@ -12,27 +12,33 @@ import frc.robot.util.Vector2
 /*
 Autonomous Configs:
 0 - Drive Straight Backwards
-1 - Main swerve configuration
+1 - One ball and shoot
  */
 
 class AutoCommandGroup(configuration: Int) : SequentialCommandGroup() {
     private var blueAutoConfigurations: Map<Int, () -> Unit> = mapOf(0 to {
+        Robot.swo.resetPos()
+        Gyro.setOffset()
         addCommands(
-            // AutoBall(4),
-            AutoGoToCenterAndShoot(0, true),
-//            AutoBall(5),
-//            AutoGoToCenterAndShoot(0, true)
+            AutoShootCommand(Robot.shootSystem),
+            AutoGoToPosition(FieldPosition(Vector2(0, 3), 0))
         )
     }, 1 to {
+        Robot.swo.resetPos()
+        Gyro.setOffset()
         addCommands(
-            AutoBall(0)
+            AutoBall(FieldPosition(Vector2(0, .4), 0)),
+            AutoGoToCenterAndShoot()
         )
         }
     )
 
     private var redAutoConfigurations: Map<Int, () -> Unit> = mapOf(0 to {
+        Robot.swo.resetPos()
+        Gyro.setOffset()
         addCommands(
-            
+            AutoShootCommand(Robot.shootSystem),
+            AutoGoToPosition(0, 3)
         )
     }, 1 to {
         addCommands(
