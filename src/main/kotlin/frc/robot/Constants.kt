@@ -140,17 +140,17 @@ object Constants {
     //These are relative to robot start because coordinates are being annoying
     // Towards limelight is -x
     // Right (facing with limelight) is +y
-        val redBallPositions: Array<Vector2> = arrayOf(Vector2(), Vector2(2.7, -.19))
-        val blueBallPositions: Array<Vector2> = arrayOf(Vector2(), Vector2(), Vector2(), Vector2(), Vector2(2.7, -.19))
+        // val redBallPositions: Array<Vector2> = arrayOf(Vector2(), Vector2(2.7, -.19))
+        val ballPositionsZero: Array<Vector2> = arrayOf(Vector2(), Vector2(), Vector2(), Vector2(), Vector2(2.7, -.19), Vector2(2.79, 1.1), Vector2(2.49, 6.6))
 
-        val redShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
-        val blueShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
+        // val redShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
+        val shootingPositionsZero: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
 
-        val redStartingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
-        val blueStartingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
+        // val redStartingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
+        val startingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
 
-        val redTaxiPositions: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
-        val blueTaxiPositions: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
+        // val redTaxiPositions: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
+        val taxiPositionsZero: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
 
     // Break Beams
     const val frontBreakBeam = 6

@@ -59,8 +59,6 @@ class Robot : TimedRobot() {
 
         public var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
         public var odometryShuffleboardTab = Shuffleboard.getTab("OdometryStream")
-
-        val startPositions = if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) Constants.blueStartingPositions else Constants.redStartingPositions
     }
 
     // public RobotContainer m_robotContainer
@@ -102,7 +100,7 @@ class Robot : TimedRobot() {
         //
         // driveSystem = new DriveSystem()
         // CameraServer.startAutomaticCapture()
-        swerveAuto = SwerveAuto()
+        swerveAuto = SwerveAuto(0)
     }
 
     /**
@@ -139,13 +137,12 @@ class Robot : TimedRobot() {
     /** This autonomous runs the autonomous command selected by your [RobotContainer] class. */
     override fun autonomousInit() {
         //        swo = SwerveOdometry(Constants.blueStartingPositions[0])
-        swo.changePos(startPositions[0])
         swerveCommand?.cancel()
         limelight.pipelineInit()
 
         // m_autonomousCommand = m_robotContainer.getAutonomousCommand()
         transportSystem.cargoAmount = 1
-        autoCommands = AutoCommandGroup(1) // autoConfiguration.getSelected())
+        autoCommands = AutoCommandGroup(1, 0) // autoConfiguration.getSelected())
 
         // schedule the autonomous command (example)
         autoCommands!!.schedule()

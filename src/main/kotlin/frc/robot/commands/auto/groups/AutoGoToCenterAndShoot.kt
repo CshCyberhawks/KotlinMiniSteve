@@ -19,10 +19,14 @@ class AutoGoToCenterAndShoot(shootPosition: Int, move: Boolean) : SequentialComm
 // example: below will move robot 2 meters on the x and rotate to 90 degrees
 // then it will wait 1 second before moving the robot back to its starting
 // position
-    private var shootPositions: Array<FieldPosition> =
-        if (DriverStation.getAlliance() == Alliance.Blue) Constants.blueShootingPositions else Constants.redShootingPositions
+    private var shootPositions: Array<FieldPosition>
 
     init {
+        if (Robot.swerveAuto.startingPos == 0) {
+            shootPositions = Constants.shootingPositionsZero
+        }
+        shootPositions = Constants.shootingPositionsZero
+
         if (move) {
             addCommands( // new AutoGoToAngle(111),
                 AutoGoToPositionAndAngle(shootPositions[shootPosition], 0.0), // shootPositions[shootPosition], 0),
