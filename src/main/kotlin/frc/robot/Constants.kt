@@ -103,54 +103,66 @@ object Constants {
     // new Vector2(-0.9, 3.8),
     // new Vector2(3.8, 0.9),
     // new Vector2(2.3, -3.2), new Vector2(-0.6, -3.8), new Vector2(-3.2, -2.2) }
-//     val redBallPositions: Array<Vector2> =
-//             arrayOf(
-//                     Vector2(-2.2, 3.2),
-//                     Vector2(0.7, 3.8),
-//                     Vector2(3.2, 2.2),
-//                     Vector2(3.3, -2.1),
-//                     Vector2(0.9, -3.8),
-//                     Vector2(-3.8, -0.9)
-//             )
-//     val blueBallPositions: Array<Vector2> =
-//             arrayOf(
-//                     Vector2(-3.3, 2.1),
-//                     Vector2(-.9, 3.8),
-//                     Vector2(3.8, 0.9),
-//                     Vector2(2.3, -3.2),
-//                     Vector2(-0.6, -3.8),
-//                     Vector2(-3.2, -2.2)
-//             )
+    //     val redBallPositions: Array<Vector2> =
+    //             arrayOf(
+    //                     Vector2(-2.2, 3.2),
+    //                     Vector2(0.7, 3.8),
+    //                     Vector2(3.2, 2.2),
+    //                     Vector2(3.3, -2.1),
+    //                     Vector2(0.9, -3.8),
+    //                     Vector2(-3.8, -0.9)
+    //             )
+    //     val blueBallPositions: Array<Vector2> =
+    //             arrayOf(
+    //                     Vector2(-3.3, 2.1),
+    //                     Vector2(-.9, 3.8),
+    //                     Vector2(3.8, 0.9),
+    //                     Vector2(2.3, -3.2),
+    //                     Vector2(-0.6, -3.8),
+    //                     Vector2(-3.2, -2.2)
+    //             )
 
-//     val blueShootingPositions: Array<FieldPosition> =
-//             arrayOf(FieldPosition(-.3, -.78, 115.0), FieldPosition(-.78, .3, 105.0))
+    //     val blueShootingPositions: Array<FieldPosition> =
+    //             arrayOf(FieldPosition(-.3, -.78, 115.0), FieldPosition(-.78, .3, 105.0))
 
-//     val redShootingPositions: Array<FieldPosition> =
-//             arrayOf(FieldPosition(.3, .78, -75.0), FieldPosition(.78, -0.3, 285.0))
+    //     val redShootingPositions: Array<FieldPosition> =
+    //             arrayOf(FieldPosition(.3, .78, -75.0), FieldPosition(.78, -0.3, 285.0))
 
-//     val blueStartingPositions =
-//             arrayOf(FieldPosition(-0.41, -1.1, 0.0), FieldPosition(-2.8, 1.0, 90.0))
+    //     val blueStartingPositions =
+    //             arrayOf(FieldPosition(-0.41, -1.1, 0.0), FieldPosition(-2.8, 1.0, 90.0))
 
-//     val redStartingPositions =
-//             arrayOf(FieldPosition(.41, 1.1, 180.0), FieldPosition(2.8, -1.0, 270.0))
+    //     val redStartingPositions =
+    //             arrayOf(FieldPosition(.41, 1.1, 180.0), FieldPosition(2.8, -1.0, 270.0))
 
-//     val blueTaxiPos: Vector2 = Vector2(-6.0, 0.0)
-//     val redTaxiPos: Vector2 = Vector2(6.0, 0.0)
+    //     val blueTaxiPos: Vector2 = Vector2(-6.0, 0.0)
+    //     val redTaxiPos: Vector2 = Vector2(6.0, 0.0)
 
-    //These are relative to robot start because coordinates are being annoying
+    // These are relative to robot start because coordinates are being annoying
     // Towards limelight is -x
     // Right (facing with limelight) is +y
-        // val redBallPositions: Array<Vector2> = arrayOf(Vector2(), Vector2(2.7, -.19))
-        val ballPositionsZero: Array<Vector2> = arrayOf(Vector2(), Vector2(), Vector2(), Vector2(), Vector2(2.7, -.19), Vector2(2.79, 1.1), Vector2(2.49, 6.6))
+    // val redBallPositions: Array<Vector2> = arrayOf(Vector2(), Vector2(2.7, -.19))
+    val ballPositionsZero: Array<Vector2> =
+            arrayOf(
+                    Vector2(),
+                    Vector2(),
+                    Vector2(),
+                    Vector2(),
+                    Vector2(2.7, -.19),
+                    Vector2(2.79, 1.1),
+                    Vector2(2.49, 6.6)
+            )
+    val ballPositionsOne: Array<Vector2> = arrayOf(Vector2(), Vector2(), Vector2(), Vector2())
 
-        // val redShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
-        val shootingPositionsZero: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
+    // val redShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
+    val shootingPositionsZero: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
+    val shootingPositionsOne: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
 
-        // val redStartingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
-        val startingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
+    // val redStartingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
+    val startingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
 
-        // val redTaxiPositions: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
-        val taxiPositionsZero: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
+    // val redTaxiPositions: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
+    val taxiPositionsZero: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
+    val taxiPositionsOne: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
 
     // Break Beams
     const val frontBreakBeam = 6
