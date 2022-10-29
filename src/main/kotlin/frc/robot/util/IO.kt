@@ -3,18 +3,19 @@ package frc.robot.util
 import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import kotlin.math.abs
 
 
 class IO {
     companion object {
-        private val joystick = Joystick(0)
-        private val joystick2 = Joystick(1)
-        private val xbox = XboxController(2)
-        private const val controllerDeadzone = 0.3
+        private val joystick: Joystick = Joystick(0)
+        private val joystick2: Joystick = Joystick(1)
+        private val xbox: XboxController = XboxController(2)
+        private const val controllerDeadzone: Double = 0.3
 
-        var hosas = true;
+        private var dualStickDrive: Boolean = true
 
-        fun getPolarCoords(): DoubleArray? {
+        fun getPolarCoords(): DoubleArray {
             return doubleArrayOf(
                 -MathClass.calculateDeadzone(joystick.directionDegrees, controllerDeadzone),
                 MathClass.calculateDeadzone(joystick.magnitude, controllerDeadzone),
@@ -39,7 +40,7 @@ class IO {
         }
 
         fun getAutoIntakeCancel(): Boolean {
-            return xbox.startButtonPressed
+            return xbox.bButton
         }
 
         fun intakeBall(): Double {
@@ -50,13 +51,21 @@ class IO {
             return joystick.getRawButton(3)
         }
 
+        fun cancelLimelightLockOn(): Boolean {
+            return joystick.getRawButton(14)
+        }
+
         fun moveTransport(): Double {
-            return if (Math.abs(xbox.leftY) > controllerDeadzone) xbox.leftY else 0.0
+            return if (abs(xbox.leftY) > controllerDeadzone) xbox.leftY else 0.0
         }
 
         fun moveRobotX(): Double {
-            // SmartDashboard.putNumber("Jotstick X", joystick.y)
+            // SmartDashboard.putNumber("Joystick X", joystick.y)
             return MathClass.calculateDeadzone(joystick.y, controllerDeadzone)
+        }
+
+        fun disableFieldOrientation(): Boolean {
+            return joystick.trigger
         }
 
         fun moveRobotY(): Double {
@@ -69,11 +78,11 @@ class IO {
         }
 
         fun getAutoShootCancel(): Boolean {
-            return xbox.startButton || shootBall() > 0
+            return xbox.bButton || shootBall() > 0
         }
 
         fun resetGyro(): Boolean {
-            return joystick.getRawButtonPressed(8)
+            return joystick.getRawButtonPressed(2)
         }
 
         fun shootBall(): Double {
@@ -81,7 +90,7 @@ class IO {
         }
 
         fun turnControl(): Double {
-            return if (hosas) MathClass.calculateDeadzone(
+            return if (dualStickDrive) MathClass.calculateDeadzone(
                 joystick2.x,
                 .1
             ) else MathClass.calculateDeadzone(joystick.twist, .1)
@@ -92,47 +101,60 @@ class IO {
         }
 
         fun getJoyThrottle(): Double {
-            return if (hosas) MathClass.calculateDeadzone(
-                -(joystick2.y / 50),
-                .01
-            ) else MathClass.calculateDeadzone((-joystick.throttle + 1) / 2, .05)
+            return if (dualStickDrive) {
+                MathClass.calculateDeadzone((-joystick2.throttle + 1) / 2, .05)
+            } else {
+                MathClass.calculateDeadzone((-joystick.throttle + 1) / 2, .05)
+            }
+        }
+
+        fun getQuickThrottle(): Int {
+            return joystick2.pov
+        }
+
+        fun getNormalThrottle(): Boolean {
+            return joystick2.getRawButtonPressed(3)
+        }
+
+        fun getFastThrottle(): Boolean {
+            return joystick2.getRawButtonPressed(4)
         }
 
         fun getResetCargo(): Boolean {
             return xbox.bButtonPressed
         }
 
-        fun raiseShootSpeed(): Boolean {
+        fun increaseCargoAmount(): Boolean {
             return xbox.rightBumperPressed
         }
 
-        fun lowerShootSpeed(): Boolean {
+        fun decreaseCargoAmount(): Boolean {
             return xbox.leftBumperPressed
         }
 
         // public static boolean getXboxRightBumper() {
-        // return xbox.getRightBumper();
+        // return xbox.getRightBumper()
         // }
 
         // public static boolean getXboxLeftBumper() {
-        // return xbox.getLeftBumper();
+        // return xbox.getLeftBumper()
         // }
 
         // public static double getXboxLeftX() {
         // return Math.abs(xbox.getLeftX()) > controllerMathClass.calculateDeadzone ?
-        // xbox.getLeftX() : 0;
+        // xbox.getLeftX() : 0
         // }
 
         // public static double getXboxRightX() {
         // return Math.abs(xbox.getRightX()) > controllerMathClass.calculateDeadzone ?
         // xbox.getRightX() :
-        // 0;
+        // 0
         // }
 
         // public static double getJoyTwist() {
-        // SmartDashboard.putNumber("Joystick Twist", joystick.getTwist());
+        // SmartDashboard.putNumber("Joystick Twist", joystick.getTwist())
         // return MathClass.calculateDeadzone(joystick.getTwist(),
-        // controllerMathClass.calculateDeadzone);
+        // controllerMathClass.calculateDeadzone)
         // }
     }
 }

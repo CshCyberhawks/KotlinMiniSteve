@@ -5,6 +5,7 @@ import com.ctre.phoenix.music.Orchestra
 import edu.wpi.first.cscore.HttpCamera
 import edu.wpi.first.util.net.PortForwarder
 import edu.wpi.first.wpilibj.DigitalInput
+import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
@@ -14,10 +15,7 @@ import frc.robot.commands.*
 import frc.robot.commands.auto.groups.AutoCommandGroup
 import frc.robot.subsystems.*
 import frc.robot.util.FieldPosition
-import frc.robot.util.IO
-import java.util.*
 import java.util.Map
-
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -27,58 +25,63 @@ import java.util.Map
  */
 class Robot : TimedRobot() {
     companion object {
-        var swerveAuto: SwerveAuto? = null
-        var limelightFeed: HttpCamera? = null
-        var swerveSystem: SwerveDriveTrain? = null
-        var swo: SwerveOdometry? = null
-        var swerveCommand: SwerveCommand? = null
-        var limelight: Limelight? = null;
+        var autoMoveRunning = false
 
-        // public Alliance teamColor;
-        // public OldSwerveDriveTrain swerveSystem;
-        // public OldSwerveDriveTrain swerveSystem;
-        // public SwerveDriveTrain swerveSystem;
-        var shootSystem: ShootSystem? = null
-        var frontBreakBeam: DigitalInput? = null
-        var backBreakBeam: DigitalInput? = null
-        var topBreakBeam: DigitalInput? = null
-        var shootBreakBeam: DigitalInput? = null
+        lateinit var swerveAuto: SwerveAuto
+        lateinit var limelightFeed: HttpCamera
+        lateinit var swerveSystem: SwerveDriveTrain
+        lateinit var swo: SwerveOdometry
+        var swerveCommand: SwerveCommand? = null
+        lateinit var limelight: Limelight
+
+        // public Alliance teamColor
+        // public OldSwerveDriveTrain swerveSystem
+        // public OldSwerveDriveTrain swerveSystem
+        // public SwerveDriveTrain swerveSystem
+        lateinit var shootSystem: ShootSystem
+        lateinit var frontBreakBeam: DigitalInput
+        lateinit var backBreakBeam: DigitalInput
+        lateinit var topBreakBeam: DigitalInput
+        lateinit var shootBreakBeam: DigitalInput
 
         var isSpitting = false
 
-        // public OldSwerveDriveTrain swerveSystem;
-        // public SwerveDriveTrain swerveSystem;
-        var intakeSystem: IntakeSystem? = null
-        var transportSystem: TransportSystem? = null
-        var climbSystem: ClimbSystem? = null
+        // public OldSwerveDriveTrain swerveSystem
+        // public SwerveDriveTrain swerveSystem
+        lateinit var intakeSystem: IntakeSystem
+        lateinit var transportSystem: TransportSystem
+        lateinit var climbSystem: ClimbSystem
 
         var autoCommands: AutoCommandGroup? = null
         private val startingPosition = 0
 
         private val autoConfiguration = SendableChooser<Int>()
 
-        var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
+        public var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
+        public var odometryShuffleboardTab = Shuffleboard.getTab("OdometryStream")
     }
 
-    // public RobotContainer m_robotContainer;
+    // public RobotContainer m_robotContainer
 
-    // public RobotContainer m_robotContainer;
+    // public RobotContainer m_robotContainer
     /**
-     * This function is run when the robot is first started up and should be used
-     * for any
+     * This function is run when the robot is first started up and should be used for any
      * initialization code.
      */
     override fun robotInit() {
         limelightFeed = HttpCamera("limelight", "http://10.28.75.11:5800")
-        // CameraServer.startAutomaticCapture(limelightFeed);
-        driveShuffleboardTab.add("LL", limelightFeed).withPosition(0, 0).withSize(8, 4)
-            .withProperties(Map.of<String, Any>("Show Crosshair", true, "Show Controls", false))
+        // CameraServer.startAutomaticCapture(limelightFeed)
+        driveShuffleboardTab
+                .add("LimeLight", limelightFeed)
+                .withPosition(6, 0)
+                .withSize(8, 4)
+                .withProperties(Map.of<String, Any>("Show Crosshair", true, "Show Controls", false))
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our
         // autonomous chooser on the dashboard.
-        // teamColor = DriverStation.getAlliance();
-        // m_robotContainer = new RobotContainer();
-        // PortForwarder.add(5800, "limelight.local", 5800);
+        // teamColor = DriverStation.getAlliance()
+        // m_robotContainer = new RobotContainer()
+        // PortForwarder.add(5800, "limelight.local", 5800)
         PortForwarder.add(5800, "limelight.local", 5800)
         autoConfiguration.setDefaultOption("Auto 0", 0)
         autoConfiguration.addOption("Auto 1", 1)
@@ -91,30 +94,20 @@ class Robot : TimedRobot() {
         transportSystem = TransportSystem()
         climbSystem = ClimbSystem()
         swerveSystem = SwerveDriveTrain()
-        limelight = Limelight();
-        // if (DriverStation.getAlliance() == Alliance.Blue) {
-        // swo = new SwerveOdometry(Constants.blueStartingPositions[0]);//
-        // autoConfiguration.getSelected()]);
-        // } else {
-        // swo = new SwerveOdometry(Constants.redStartingPositions[0]);//
-        // autoConfiguration.getSelected()]);
-        // }
+        limelight = Limelight(0.711, 0.24, 40.0)
+
         swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
-//
-        // driveSystem = new DriveSystem();
-        // CameraServer.startAutomaticCapture();
+        //
+        // driveSystem = new DriveSystem()
+        // CameraServer.startAutomaticCapture()
+        swerveAuto = SwerveAuto(0)
     }
 
     /**
-     * This function is called every robot packet, no matter the mode. Use this for
-     * items like
-     * diagnostics that you want ran during disabled, autonomous, teleoperated and
-     * test.
+     * This function is called every robot packet, no matter the mode. Use this for items like
+     * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
      *
-     *
-     *
-     * This runs after the mode specific periodic functions, but before LiveWindow
-     * and
+     * This runs after the mode specific periodic functions, but before LiveWindow and
      * SmartDashboard integrated updating.
      */
     override fun robotPeriodic() {
@@ -126,13 +119,13 @@ class Robot : TimedRobot() {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run()
-        SmartDashboard.putNumber("cargoStored", transportSystem!!.cargoAmount.toDouble())
+        SmartDashboard.putNumber("cargoStored", transportSystem.cargoAmount.toDouble())
     }
 
-    /** This function is called once each time the robot enters Disabled mode.  */
+    /** This function is called once each time the robot enters Disabled mode. */
     override fun disabledInit() {
-        swo!!.resetPos()
-        // swerveSystem.resetPredictedOdometry();
+        swo.resetPos()
+        // swerveSystem.resetPredictedOdometry()
     }
 
     private fun wrapAroundAngles(input: Double): Double {
@@ -141,69 +134,59 @@ class Robot : TimedRobot() {
 
     override fun disabledPeriodic() {}
 
-    /**
-     * This autonomous runs the autonomous command selected by your
-     * [RobotContainer] class.
-     */
+    /** This autonomous runs the autonomous command selected by your [RobotContainer] class. */
     override fun autonomousInit() {
-//        swo = SwerveOdometry(Constants.blueStartingPositions[0])
-        swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
-        if (swerveCommand != null) {
-            swerveCommand!!.cancel()
-        }
-        limelight!!.pipelineInit()
+        //        swo = SwerveOdometry(Constants.blueStartingPositions[0])
+        swerveCommand?.cancel()
+        limelight.pipelineInit()
 
-        // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-        swerveAuto = SwerveAuto()
-        transportSystem!!.cargoAmount = 1
-        autoCommands = AutoCommandGroup(0) // autoConfiguration.getSelected());
+        // m_autonomousCommand = m_robotContainer.getAutonomousCommand()
+        transportSystem.cargoAmount = 1
+        autoCommands = AutoCommandGroup(1, 0) // autoConfiguration.getSelected())
 
         // schedule the autonomous command (example)
         autoCommands!!.schedule()
     }
 
-    /** This function is called periodically during autonomous.  */
+    /** This function is called periodically during autonomous. */
     override fun autonomousPeriodic() {
-        swo!!.updatePosition()
-        transportSystem!!.cargoMonitor()
+        swo.updatePosition()
+        transportSystem.cargoMonitor()
     }
 
     override fun teleopInit() {
-        shootSystem!!.defaultCommand = ShootCommand(shootSystem)
-        intakeSystem!!.defaultCommand = ManualIntakeCommand(intakeSystem)
-        //TODO: remove this before the competition and leave the leftover cargo stored from auto
-        transportSystem!!.cargoAmount = 0;
-        transportSystem!!.defaultCommand = ManualTransportCommand(transportSystem)
-        climbSystem!!.defaultCommand = ClimbCommand(climbSystem)
+        shootSystem.defaultCommand = ShootCommand(shootSystem)
+        intakeSystem.defaultCommand = ManualIntakeCommand(intakeSystem)
+        // TODO: remove this before the competition and leave the leftover cargo stored from auto
+        transportSystem.cargoAmount = 0
+        transportSystem.defaultCommand = ManualTransportCommand(transportSystem)
+        climbSystem.defaultCommand = ClimbCommand(climbSystem)
         swerveCommand = SwerveCommand(swerveSystem)
         swerveCommand!!.schedule()
-        limelight!!.pipelineInit()
+        limelight.pipelineInit()
 
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
         // if (autoCommands != null) {
-        // autoCommands.cancel();
+        // autoCommands.cancel()
         // }
     }
 
-    /** This function is called periodically during operator control.  */
+    /** This function is called periodically during operator control. */
     override fun teleopPeriodic() {
-        swo!!.updatePosition()
-        transportSystem!!.cargoMonitor()
-        SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam!!.get())
-        SmartDashboard.putBoolean("backBreakBeam", backBreakBeam!!.get())
-        SmartDashboard.putBoolean("topBreakBeam", topBreakBeam!!.get())
-        SmartDashboard.putBoolean("shootBreakBeam", shootBreakBeam!!.get())
+        swo.updatePosition()
+        transportSystem.cargoMonitor()
+        // SmartDashboard.putBoolean("frontBreakBeam", frontBreakBeam.get())
+        // SmartDashboard.putBoolean("backBreakBeam", backBreakBeam.get())
+        // SmartDashboard.putBoolean("topBreakBeam", topBreakBeam.get())
+        // SmartDashboard.putBoolean("shootBreakBeam", shootBreakBeam.get())
     }
 
     var orchestra: Orchestra? = null
     var falcon: TalonFX? = null
-    var songs = arrayOf(
-            "africa",
-            "imperialmarch"
-    )
+    var songs = arrayOf("africa", "imperialmarch")
 
     private fun loadSong(idx: Int) {
         orchestra!!.loadMusic("music/" + songs[idx] + ".chrp")
@@ -213,19 +196,26 @@ class Robot : TimedRobot() {
         CommandScheduler.getInstance().cancelAll()
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll()
-        val instruments = ArrayList(Arrays.asList(TalonFX(Constants.frontRightDriveMotor), TalonFX(Constants.frontLeftDriveMotor), TalonFX(Constants.backRightDriveMotor), TalonFX(Constants.backLeftDriveMotor)))
+        val instruments =
+                listOf(
+                        TalonFX(Constants.frontRightDriveMotor),
+                        TalonFX(Constants.frontLeftDriveMotor),
+                        TalonFX(Constants.backRightDriveMotor),
+                        TalonFX(Constants.backLeftDriveMotor)
+                )
         orchestra = Orchestra(instruments)
         loadSong(1)
         orchestra!!.play()
     }
 
-    /** This function is called periodically during test mode.  */
+    /** This function is called periodically during test mode. */
     override fun testPeriodic() {
-        val frontRightValue = wrapAroundAngles(swerveSystem!!.frontRight!!.turnEncoder!!.getRaw())
-        val backRightValue = wrapAroundAngles(swerveSystem!!.backRight!!.turnEncoder!!.getRaw())
-        val frontLeftValue = wrapAroundAngles(swerveSystem!!.frontLeft!!.turnEncoder!!.getRaw())
-        val backLeftValue = wrapAroundAngles(swerveSystem!!.backLeft!!.turnEncoder!!.getRaw())
-        val encoderValues: DoubleArray = doubleArrayOf(frontRightValue, frontLeftValue, backRightValue, backLeftValue)
+        val frontRightValue = wrapAroundAngles(swerveSystem.frontRight.turnEncoder.getRaw())
+        val backRightValue = wrapAroundAngles(swerveSystem.backRight.turnEncoder.getRaw())
+        val frontLeftValue = wrapAroundAngles(swerveSystem.frontLeft.turnEncoder.getRaw())
+        val backLeftValue = wrapAroundAngles(swerveSystem.backLeft.turnEncoder.getRaw())
+        val encoderValues: DoubleArray =
+                doubleArrayOf(frontRightValue, frontLeftValue, backRightValue, backLeftValue)
 
         SmartDashboard.putString("Encoder Values", encoderValues.joinToString(", "))
     }

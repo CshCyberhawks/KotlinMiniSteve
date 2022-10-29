@@ -1,24 +1,11 @@
 package frc.robot.util
 
-class Polar {
-    var theta = 0.0
-    var r = 0.0
-
-    constructor() {
-        theta = 0.0
-        r = 0.0
-    }
-
-    constructor(theta: Double, r: Double) {
-        this.theta = theta
-        this.r = r
+class Polar(var theta: Double = 0.0, var r: Double = 0.0) {
+    fun add(other: Polar): Polar {
+        return Polar(theta + other.theta, r + other.r)
     }
 
     fun equals(other: Polar): Boolean {
         return theta == other.theta && r == other.r
-    }
-
-    fun add(other: Polar): Polar {
-        return Polar(theta + other.theta, r + other.r)
     }
 }

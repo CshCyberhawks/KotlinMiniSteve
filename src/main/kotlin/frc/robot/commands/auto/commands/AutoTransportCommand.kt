@@ -4,31 +4,27 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
 import frc.robot.subsystems.TransportSystem
 
-class AutoTransportCommand : CommandBase {
-    private var transportSystem: TransportSystem? = null
-    private var cargoStored = 0
+class AutoTransportCommand(private var transportSystem: TransportSystem) : CommandBase() {
+    private var cargoStored = transportSystem.cargoAmount
     private var hitBackBreak = false
 
-    constructor(transportSystem: TransportSystem) {
-        this.transportSystem = transportSystem
-        cargoStored = transportSystem.cargoAmount
-        hitBackBreak = false
+    init {
         addRequirements(transportSystem)
     }
 
     override fun execute() {
-        transportSystem!!.move(.25)
+        transportSystem.move(0.25)
     }
 
     override fun end(interrupted: Boolean) {
         // if (transportSystem.getCargoAmount() < 2 && interrupted == false)
-        // transportSystem.setCargoAmount(transportSystem.getCargoAmount() + 1);
-        transportSystem!!.move(0.0)
+        // transportSystem.setCargoAmount(transportSystem.getCargoAmount() + 1)
+        transportSystem.move(0.0)
     }
 
     override fun isFinished(): Boolean {
-        val backBeam: Boolean = Robot.backBreakBeam!!.get()
-        hitBackBreak = if (!hitBackBreak) !backBeam else hitBackBreak
+        val backBeam: Boolean = Robot.backBreakBeam.get()
+        hitBackBreak = hitBackBreak || !backBeam
         return if (cargoStored < 1) !backBeam else backBeam && hitBackBreak
     }
 }

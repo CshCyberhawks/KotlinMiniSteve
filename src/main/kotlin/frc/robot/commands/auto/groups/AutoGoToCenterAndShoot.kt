@@ -7,21 +7,29 @@ import frc.robot.Constants
 import frc.robot.Robot
 import frc.robot.commands.auto.commands.AutoGoToPosition
 import frc.robot.commands.auto.commands.AutoShootCommand
+import frc.robot.commands.auto.commands.AutoGoToPositionAndAngle
+import frc.robot.util.FieldPosition
 import frc.robot.util.Vector2
 
 
-class AutoGoToCenterAndShoot : SequentialCommandGroup {
-    private var shootPositions: Array<Vector2> =
-        if (DriverStation.getAlliance() == Alliance.Blue) Constants.blueShootingPositions else Constants.redShootingPositions
+class AutoGoToCenterAndShoot(shootPosition: Int, move: Boolean) : SequentialCommandGroup() {
+    // new AutoGoToAngle(111),
+// shootPositions[shootPosition], 0),
+// add your autonomous commands below
+// example: below will move robot 2 meters on the x and rotate to 90 degrees
+// then it will wait 1 second before moving the robot back to its starting
+// position
+    private var shootPositions: Array<FieldPosition>
 
-    constructor(shootPosition: Int, move: Boolean) {
-        // add your autonomous commands below
-        // example: below will move robot 2 meters on the x and rotate to 90 degrees
-        // then it will wait 1 second before moving the robot back to its starting
-        // position
+    init {
+        if (Robot.swerveAuto.startingPos == 0) {
+            shootPositions = Constants.shootingPositionsZero
+        }
+        shootPositions = Constants.shootingPositionsZero
+
         if (move) {
             addCommands( // new AutoGoToAngle(111),
-                AutoGoToPosition(Vector2(0.0, 0.0), 0.0), // shootPositions[shootPosition], 0),
+                AutoGoToPositionAndAngle(shootPositions[shootPosition], 0.0), // shootPositions[shootPosition], 0),
                 AutoShootCommand(Robot.shootSystem)
             )
         } else {

@@ -12,52 +12,45 @@ import frc.robot.Constants
 import frc.robot.util.DriveEncoder
 import frc.robot.util.DriveState
 import frc.robot.util.TurnEncoder
+import kotlin.math.abs
 
 
-class SwerveWheel {
-    private var turnMotor: TalonSRX? = null
-    private var driveMotor: TalonFX? = null
-    public var turnEncoder: TurnEncoder? = null
-    private var driveEncoder: DriveEncoder? = null
+class SwerveWheel(turnPort: Int, drivePort: Int, private val turnEncoderPort: Int) {
+    private var turnMotor: TalonSRX = TalonSRX(turnPort)
+    private var driveMotor: TalonFX = TalonFX(drivePort)
+    val turnEncoder: TurnEncoder = TurnEncoder(turnEncoderPort)
+    private var driveEncoder: DriveEncoder = DriveEncoder(driveMotor)
 
     private var oldAngle = 0.0
-
-    private var m_turnEncoderPort = 0
 
     // below is in m / 20 ms
     private var maxAcceleration = .01
     private var lastSpeed = 0.0
 
-    internal var turnValue = 0.0
-    internal var currentDriveSpeed = 0.0
-    var rawTurnValue = 0.0
+    private var turnValue = 0.0
+    private var currentDriveSpeed = 0.0
+    private var rawTurnValue = 0.0
 
-    private var turnPidController: PIDController? = null
-    private var drivePidController: PIDController? = null
-    private var speedPID: PIDController? = null
+    private var turnPidController: PIDController = PIDController(.01, 0.0, 0.0)
+//    private var drivePidController: PIDController = PIDController(0.01, 0.0, 0.0)
+//    private var speedPID: PIDController = PIDController(0.03, 0.0, 0.0)
 
-    constructor(turnPort: Int, drivePort: Int, turnEncoderPort: Int) {
-        turnMotor = TalonSRX(turnPort)
-        driveMotor = TalonFX(drivePort)
-        driveEncoder = DriveEncoder(driveMotor!!)
-        turnEncoder = TurnEncoder(turnEncoderPort)
-        driveMotor!!.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0)
-        driveMotor!!.config_kF(0, 0.0)
-        driveMotor!!.config_kP(0, 0.01)
-        driveMotor!!.config_kI(0, 0.0)
-        driveMotor!!.config_kD(0, 0.0)
-        driveMotor!!.setNeutralMode(NeutralMode.Brake)
-        m_turnEncoderPort = turnEncoderPort
-        turnPidController = PIDController(.01, 0.0, 0.0)
-        turnPidController!!.setTolerance(4.0)
-        turnPidController!!.enableContinuousInput(0.0, 360.0)
-        speedPID = PIDController(0.03, 0.0, 0.0)
-        drivePidController = PIDController(0.01, 0.0, 0.0)
-        if (turnEncoderPort == 1 || turnEncoderPort == 3) {
-            driveMotor!!.setInverted(true)
-        } else {
-            driveMotor!!.setInverted(false)
-        }
+    init {
+        driveMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0)
+        driveMotor.config_kF(0, 0.0)
+        driveMotor.config_kP(0, 0.01)
+        driveMotor.config_kI(0, 0.0)
+        driveMotor.config_kD(0, 0.0)
+        driveMotor.setStatusFramePeriod(4, 2800)
+        driveMotor.setStatusFramePeriod(8, 2600)
+        driveMotor.setStatusFramePeriod(14, 2400)
+        driveMotor.setStatusFramePeriod(10, 100000)
+
+
+        driveMotor.setNeutralMode(NeutralMode.Brake)
+        turnPidController.setTolerance(2.0)
+        turnPidController.enableContinuousInput(0.0, 360.0)
+        driveMotor.inverted = turnEncoderPort == 1 || turnEncoderPort == 3
     }
 
     private fun wrapAroundAngles(input: Double): Double {
@@ -81,12 +74,12 @@ class SwerveWheel {
     }
 
     fun getCurrentDriveSpeed(): Double {
-        val driveVelocity = driveEncoder!!.getVelocity()
+        val driveVelocity = driveEncoder.getVelocity()
         return convertToMetersPerSecondFromSecond(driveVelocity)
     }
 
     fun getTurnValue(): Double {
-        return wrapAroundAngles(turnEncoder!!.get())
+        return wrapAroundAngles(turnEncoder.get())
     }
 
 
@@ -104,18 +97,18 @@ class SwerveWheel {
         turnValue = getTurnValue()
 
         // SmartDashboard.putNumber("$m_turnEncoderPort wheel rotations", driveVelocity)
-        rawTurnValue = turnEncoder!!.get()
+        rawTurnValue = turnEncoder.get()
         angle = wrapAroundAngles(angle)
 
         // Optimization Code stolen from
         // https://github.com/Frc2481/frc-2015/blob/master/src/Components/SwerveModule.cpp
-        if (Math.abs(angle - turnValue) > 90 && Math.abs(angle - turnValue) < 270) {
+        if (abs(angle - turnValue) > 90 && abs(angle - turnValue) < 270) {
             angle = ((angle.toInt() + 180) % 360).toDouble()
             speed = -speed
         }
 
         // if (mode == "tele") {
-        if (Math.abs(speed - lastSpeed) > maxAcceleration) {
+        if (abs(speed - lastSpeed) > maxAcceleration) {
             speed = if (speed > lastSpeed) {
                 lastSpeed + maxAcceleration
             } else {
@@ -124,32 +117,34 @@ class SwerveWheel {
         }
         // }
         lastSpeed = speed
-        speed = convertToMetersPerSecond(speed * 5000) // Converting the speed to m/s with a max rpm of 5000 (GEar
+        speed = convertToMetersPerSecond(speed * 5000.0) // Converting the speed to m/s with a max rpm of 5000 (GEar
         // ratio is 7:1)
-        val turnPIDOutput = turnPidController!!.calculate(turnValue, angle)
 
-        // maybe reason why gradual deecleration isn't working is because the PID
-        // controller is trying to slow down by going opposite direction in stead of
+        val turnPIDOutput = turnPidController.calculate(turnValue, angle)
+
+        // maybe reason why gradual deceleration isn't working is because the PID
+        // controller is trying to slow down by going opposite direction instead of
         // just letting wheels turn? maybe we need to skip the PID for slowing down?
         // maybe needs more tuning?
-        val drivePIDOutput = drivePidController!!.calculate(currentDriveSpeed, speed)
+//        val drivePIDOutput = drivePidController.calculate(currentDriveSpeed, speed)
 
-        // SmartDashboard.putNumber(m_turnEncoderPort + " pid value", drivePIDOutput);
+        // SmartDashboard.putNumber(m_turnEncoderPort + " pid value", drivePIDOutput)
 
         // double driveFeedForwardOutput = driveFeedforward.calculate(currentDriveSpeed,
-        // speed);
+        // speed)
 
-        SmartDashboard.putNumber(m_turnEncoderPort.toString() + " currentDriveSpeed",
-        currentDriveSpeed);
-        // SmartDashboard.putNumber(m_turnEncoderPort + " turn set", turnPIDOutput);
+        // SmartDashboard.putNumber(
+        //     "$turnEncoderPort currentDriveSpeed", currentDriveSpeed
+        // )
+        // SmartDashboard.putNumber(m_turnEncoderPort + " turn set", turnPIDOutput)
 
         // SmartDashboard.putNumber(m_turnEncoderPort + " driveSet", (speed / 3.777) +
-        // drivePIDOutput);
-        // SmartDashboard.putNumber(m_turnEncoderPort + " turnSet", turnPIDOutput);
+        // drivePIDOutput)
+        // SmartDashboard.putNumber(m_turnEncoderPort + " turnSet", turnPIDOutput)
         // 70% speed is about 5.6 feet/second
-        driveMotor!![ControlMode.PercentOutput] = MathUtil.clamp(speed / 3.777 /* + drivePIDOutput */, -1.0, 1.0)
-        if (!turnPidController!!.atSetpoint()) {
-            turnMotor!![ControlMode.PercentOutput] = MathUtil.clamp(turnPIDOutput, -1.0, 1.0)
+        driveMotor[ControlMode.PercentOutput] = MathUtil.clamp(speed / 4.00 /* + drivePIDOutput */, -1.0, 1.0)
+        if (!turnPidController.atSetpoint()) {
+            turnMotor[ControlMode.PercentOutput] = MathUtil.clamp(turnPIDOutput, -1.0, 1.0)
         }
     }
 
@@ -158,7 +153,7 @@ class SwerveWheel {
     }
 
     fun kill() {
-        driveMotor!![ControlMode.PercentOutput] = 0.0
-        turnMotor!![ControlMode.PercentOutput] = 0.0
+        driveMotor[ControlMode.PercentOutput] = 0.0
+        turnMotor[ControlMode.PercentOutput] = 0.0
     }
 }

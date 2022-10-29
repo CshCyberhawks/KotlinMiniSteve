@@ -1,44 +1,97 @@
 package frc.robot.commands.auto.groups
 
-import edu.wpi.first.wpilibj.DriverStation
-import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import frc.robot.Constants
+import frc.robot.Robot
 import frc.robot.commands.auto.commands.AutoBall
 import frc.robot.commands.auto.commands.AutoGoToPosition
-import frc.robot.commands.auto.commands.AutoGoToAngle
-import frc.robot.util.Vector2
+import frc.robot.commands.auto.commands.AutoShootCommand
+import frc.robot.util.Gyro
 
+/*
+Autonomous Configs:
+0 - Drive Straight Backwards
+1 - One ball and shoot
+ */
 
-class AutoCommandGroup : SequentialCommandGroup {
-    constructor(configuration: Int) : super() {
-        // add your autonomous commands below
-        // example: below will move robot 2 meters on the x and rotate to 90 degrees
-        // then it will wait 1 second before moving the robot back to its starting
-        // position
-         if (configuration == 0 && DriverStation.getAlliance() == Alliance.Blue) {
-             addCommands(
-                    // AutoGoToPosition(Constants.blueBallPositions[0], 0.0)
-//             AutoGoToPosition(Vector2(3.0, 0.0), 0.0)
-              AutoBall(0)
-             )
-             // new AutoGoToCenterAndShoot(0, true),
-         } else if (configuration == 0 && DriverStation.getAlliance() == Alliance.Red) {
-             addCommands( // new Wait(3),
-                 AutoGoToCenterAndShoot(0, false),
-                 AutoGoToPosition(Vector2(3.0, 0.0), 0.0)
-             )}
-            // new AutoBall(0));
-            // new AutoGoToCenterAndShoot(0, true),
-            // new AutoGoToCenterAndShoot(0, true));
-            // new AutoGoToCenterAndShoot(0, false),
-            
-//           addCommands(
-//               AutoGoToPosition(Vector2(4.0, -2.0), 0.0),
-//               AutoGoToPosition(Vector2(4.0, 2.0), 0.0),
-//               AutoGoToAngle(70.0),
-//               );
-            // new AutoGoToPosition(new Vector2(.7, 3.8), 0));
-        // }
+class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommandGroup() {
+
+    private var startingPosZero: Map<Int, () -> Unit> =
+            mapOf(
+                    0 to
+                            {
+                                Robot.swo.resetPos()
+                                Gyro.setOffset()
+                                addCommands(
+                                        AutoShootCommand(Robot.shootSystem),
+                                        AutoGoToPosition(Constants.taxiPositionsZero[0], 0.0)
+                                )
+                            },
+                    1 to
+                            {
+                                Robot.swo.resetPos()
+                                Gyro.setOffset()
+                                addCommands(
+                                        AutoGoToCenterAndShoot(0, true),
+                                        AutoBall(4, 0.0),
+                                        AutoGoToCenterAndShoot(0, true),
+                                        AutoGoToPosition(Constants.taxiPositionsZero[0], 0.0)
+                                )
+                            },
+                    2 to
+                            {
+                                Robot.swo.resetPos()
+                                Gyro.setOffset()
+                                addCommands(
+                                        AutoBall(4, 0.0),
+                                        AutoGoToCenterAndShoot(0, true),
+                                        AutoBall(6, 50.0),
+                                        AutoGoToCenterAndShoot(0, true),
+                                        AutoGoToPosition(Constants.taxiPositionsZero[0], 0.0)
+                                )
+                            },
+                    3 to
+                            {
+                                Robot.swo.resetPos()
+                                Gyro.setOffset()
+                                addCommands(
+                                        AutoBall(4, 0.0),
+                                        AutoGoToCenterAndShoot(0, true),
+                                        AutoBall(5, 45.0),
+                                        AutoBall(6, 50.0),
+                                        AutoGoToCenterAndShoot(0, true),
+                                        AutoGoToPosition(Constants.taxiPositionsZero[0], 0.0)
+                                )
+                            }
+            )
+
+    private var startingPosOne: Map<Int, () -> Unit> =
+            mapOf(
+                0 to  {
+                    Robot.swo.resetPos()
+                    Gyro.setOffset()
+                    addCommands(
+                        AutoGoToCenterAndShoot(1, false),
+                        AutoGoToPosition(Constants.taxiPositionsOne[0], 0.0)
+                    )
+                },
+                    1 to
+                            {
+                                Robot.swo.resetPos()
+                                Gyro.setOffset()
+                                addCommands(
+                                    AutoBall(0, 15.0),
+                                    AutoGoToCenterAndShoot(1, true),
+                                    AutoGoToPosition(Constants.taxiPositionsOne[0], 0.0)
+                                )
+                            },
+            )
+
+    init {
+        if (startingPos == 0) {
+            startingPosZero[configuration]?.invoke()
+        } else if (startingPos == 1) {
+            startingPosOne[configuration]?.invoke()
+        }
     }
 }
