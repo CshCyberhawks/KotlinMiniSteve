@@ -41,6 +41,12 @@ class SwerveWheel(turnPort: Int, drivePort: Int, private val turnEncoderPort: In
         driveMotor.config_kP(0, 0.01)
         driveMotor.config_kI(0, 0.0)
         driveMotor.config_kD(0, 0.0)
+        driveMotor.setStatusFramePeriod(4, 2800)
+        driveMotor.setStatusFramePeriod(8, 2600)
+        driveMotor.setStatusFramePeriod(14, 2400)
+        driveMotor.setStatusFramePeriod(10, 100000)
+
+
         driveMotor.setNeutralMode(NeutralMode.Brake)
         turnPidController.setTolerance(2.0)
         turnPidController.enableContinuousInput(0.0, 360.0)

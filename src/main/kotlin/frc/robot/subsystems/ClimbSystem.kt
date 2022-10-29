@@ -20,6 +20,10 @@ class ClimbSystem : SubsystemBase() {
         climbMotor.config_kF(0, 0.0)
         climbMotor.config_kP(0, 0.01)
         climbMotor.config_kD(0, 0.0)
+        climbMotor.setStatusFramePeriod(8, 2800)
+        climbMotor.setStatusFramePeriod(14, 2600)
+        climbMotor.setStatusFramePeriod(10, 100000)
+
     }
 
     fun climb(speed: Double) {

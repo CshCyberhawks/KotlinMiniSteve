@@ -147,22 +147,22 @@ object Constants {
                     Vector2(),
                     Vector2(),
                     Vector2(),
-                    Vector2(2.7, -.19),
-                    Vector2(2.79, 1.1),
-                    Vector2(2.49, 6.6)
+                    Vector2(2.7, .1),
+                    Vector2(1.1, 2.8),
+                    Vector2(2.3, 6.6)
             )
     val ballPositionsOne: Array<Vector2> = arrayOf(Vector2(), Vector2(), Vector2(), Vector2())
 
     // val redShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
-    val shootingPositionsZero: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
+    val shootingPositionsZero: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 15.0))
     val shootingPositionsOne: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
 
     // val redStartingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
     val startingPositions: Array<FieldPosition> = arrayOf(FieldPosition(0.0, 0.0, 0.0))
 
     // val redTaxiPositions: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
-    val taxiPositionsZero: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
-    val taxiPositionsOne: Array<Vector2> = arrayOf(Vector2(5.0, 0.0))
+    val taxiPositionsZero: Array<Vector2> = arrayOf(Vector2(3.0, 0.0))
+    val taxiPositionsOne: Array<Vector2> = arrayOf(Vector2(3.0, 0.0))
 
     // Break Beams
     const val frontBreakBeam = 6
