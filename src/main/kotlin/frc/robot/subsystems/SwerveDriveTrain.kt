@@ -13,6 +13,7 @@ import frc.robot.util.MathClass
 import frc.robot.util.Vector2
 import java.lang.Double.max
 import java.lang.Double.min
+import kotlin.math.*
 
 
 class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
@@ -62,15 +63,15 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
     fun polarToCartesian(theta: Double, r: Double): DoubleArray {
         // math to turn polar coordinate into cartesian
-        val x = r * Math.cos(Math.toRadians(theta))
-        val y = r * Math.sin(Math.toRadians(theta))
+        val x = r * cos(Math.toRadians(theta))
+        val y = r * sin(Math.toRadians(theta))
         return doubleArrayOf(x, y)
     }
 
     fun cartesianToPolar(x: Double, y: Double): DoubleArray {
         // math to turn cartesian into polar
-        val r = Math.sqrt(Math.pow(x, 2.0) + Math.pow(y, 2.0))
-        val theta = Math.toDegrees(Math.atan2(y, x))
+        val r = sqrt(Math.pow(x, 2.0) + y.pow(2.0))
+        val theta = Math.toDegrees(atan2(y, x))
         return doubleArrayOf(theta, r)
     }
 
