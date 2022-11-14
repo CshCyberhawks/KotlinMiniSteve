@@ -163,19 +163,19 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
         // calculates the speed and angle for each motor
         val frontRightVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap[Wheels.frontRight]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.FrontRight]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val frontLeftVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap[Wheels.frontLeft]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.FrontLeft]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val backRightVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap[Wheels.backRight]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.BackRight]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val backLeftVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap[Wheels.backLeft]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.BackLeft]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val frontRightSpeed = frontRightVector[1]

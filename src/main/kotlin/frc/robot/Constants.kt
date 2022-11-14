@@ -36,10 +36,10 @@ object Constants {
     //        }
     val twistAngleMap: Map<Wheels, Double> =
             mapOf(
-                    Wheels.frontRight to 45.0,
-                    Wheels.frontLeft to 135.0,
-                    Wheels.backRight to -45.0,
-                    Wheels.backLeft to -135.0
+                    Wheels.FrontRight to 45.0,
+                    Wheels.FrontLeft to 135.0,
+                    Wheels.BackRight to -45.0,
+                    Wheels.BackLeft to -135.0
             )
 
     // TalonSRX Motors
