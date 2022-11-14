@@ -7,10 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.Robot
-import frc.robot.util.DriveState
-import frc.robot.util.Gyro
-import frc.robot.util.MathClass
-import frc.robot.util.Vector2
+import frc.robot.util.*
 import java.lang.Double.max
 import java.lang.Double.min
 import kotlin.math.*
@@ -166,19 +163,19 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
         // calculates the speed and angle for each motor
         val frontRightVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap["frontRight"]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.frontRight]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val frontLeftVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap["frontLeft"]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.frontLeft]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val backRightVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap["backRight"]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.backRight]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val backLeftVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap["backLeft"]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.backLeft]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val frontRightSpeed = frontRightVector[1]

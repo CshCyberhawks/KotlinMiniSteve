@@ -2,6 +2,7 @@ package frc.robot
 
 import frc.robot.util.FieldPosition
 import frc.robot.util.Vector2
+import frc.robot.util.Wheels
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -33,12 +34,12 @@ object Constants {
     //                put("backLeft", -135)
     //            }
     //        }
-    val twistAngleMap: Map<String, Double> =
+    val twistAngleMap: Map<Wheels, Double> =
             mapOf(
-                    "frontRight" to 45.0,
-                    "frontLeft" to 135.0,
-                    "backRight" to -45.0,
-                    "backLeft" to -135.0
+                    Wheels.frontRight to 45.0,
+                    Wheels.frontLeft to 135.0,
+                    Wheels.backRight to -45.0,
+                    Wheels.backLeft to -135.0
             )
 
     // TalonSRX Motors
