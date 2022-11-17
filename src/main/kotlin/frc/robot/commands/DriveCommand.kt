@@ -18,7 +18,9 @@ class DriveCommand(private val driveSystem: DriveSystem) : CommandBase() {
     }
 
     // Called when the command is initially scheduled.
-    override fun initialize() {}
+    override fun initialize() {
+        println("Initalized")
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {

@@ -14,14 +14,12 @@ class DriveSystem : SubsystemBase() {
 //    var leftFrontMotor = VictorSPX(Constants.leftFrontMotor)
 //    var rightBackMotor = VictorSPX(Constants.rightBackMotor)
 //    var rightFrontMotor = VictorSPX(Constants.rightFrontMotor)
-    var testingMotor = TalonFX(3, "driveBus")
 
     fun setSpeed(leftSpeed: Double, rightSpeed: Double) {
 //        leftBackMotor[ControlMode.PercentOutput] = -leftSpeed
 //        leftFrontMotor[ControlMode.PercentOutput] = -leftSpeed
 //        rightBackMotor[ControlMode.PercentOutput] = rightSpeed
 //        rightFrontMotor[ControlMode.PercentOutput] = rightSpeed
-        testingMotor[ControlMode.PercentOutput] = rightSpeed
         SmartDashboard.putNumber("Left Motor", -leftSpeed)
         SmartDashboard.putNumber("Right Motor", rightSpeed)
     }

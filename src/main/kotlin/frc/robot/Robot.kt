@@ -1,8 +1,11 @@
 package frc.robot
 
+import com.ctre.phoenix.motorcontrol.ControlMode
+import com.ctre.phoenix.motorcontrol.can.TalonFX
 import edu.wpi.first.wpilibj.TimedRobot
 import frc.robot.commands.DriveCommand
 import frc.robot.subsystems.DriveSystem
+import javax.naming.ldap.Control
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -70,11 +73,15 @@ class Robot : TimedRobot() {
 
     }
 
+    lateinit var testingMotor: TalonFX
+
+
     override fun testInit() {
+        testingMotor = TalonFX(9, "driveBus")
+        testingMotor[ControlMode.PercentOutput] = 0.1
     }
 
     /** This function is called periodically during test mode. */
     override fun testPeriodic() {
-
     }
 }
