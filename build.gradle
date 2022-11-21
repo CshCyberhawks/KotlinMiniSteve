@@ -57,6 +57,7 @@ configurations.all {
 dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
+    testImplementation 'junit:junit:4.13.1'
 
     roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
     roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)
@@ -72,7 +73,7 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
 	// implementation 'com.github.CshCyberhawks:SwoLib:main-SNAPSHOT'
@@ -103,6 +104,10 @@ allprojects {
             url 'https://www.jitpack.io'
         }
     }
+}
+
+test {
+    useJUnit()
 }
 
 compileKotlin {
