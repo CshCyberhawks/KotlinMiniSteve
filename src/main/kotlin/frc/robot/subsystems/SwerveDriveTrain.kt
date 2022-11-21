@@ -7,12 +7,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.Robot
-import frc.robot.util.DriveState
-import frc.robot.util.Gyro
-import frc.robot.util.MathClass
-import frc.robot.util.Vector2
+import frc.robot.util.*
 import java.lang.Double.max
 import java.lang.Double.min
+import kotlin.math.*
 
 
 class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
@@ -62,15 +60,15 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
     fun polarToCartesian(theta: Double, r: Double): DoubleArray {
         // math to turn polar coordinate into cartesian
-        val x = r * Math.cos(Math.toRadians(theta))
-        val y = r * Math.sin(Math.toRadians(theta))
+        val x = r * cos(Math.toRadians(theta))
+        val y = r * sin(Math.toRadians(theta))
         return doubleArrayOf(x, y)
     }
 
     fun cartesianToPolar(x: Double, y: Double): DoubleArray {
         // math to turn cartesian into polar
-        val r = Math.sqrt(Math.pow(x, 2.0) + Math.pow(y, 2.0))
-        val theta = Math.toDegrees(Math.atan2(y, x))
+        val r = sqrt(Math.pow(x, 2.0) + y.pow(2.0))
+        val theta = Math.toDegrees(atan2(y, x))
         return doubleArrayOf(theta, r)
     }
 
@@ -165,19 +163,19 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
         // calculates the speed and angle for each motor
         val frontRightVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap["frontRight"]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.FrontRight]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val frontLeftVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap["frontLeft"]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.FrontLeft]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val backRightVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap["backRight"]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.BackRight]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val backLeftVector = calculateDrive(
-            inputX, inputY, Constants.twistAngleMap["backLeft"]!!,
+            inputX, inputY, Constants.twistAngleMap[Wheels.BackLeft]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
         val frontRightSpeed = frontRightVector[1]

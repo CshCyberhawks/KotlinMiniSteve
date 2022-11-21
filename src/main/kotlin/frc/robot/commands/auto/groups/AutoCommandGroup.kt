@@ -7,6 +7,7 @@ import frc.robot.commands.auto.commands.AutoBall
 import frc.robot.commands.auto.commands.AutoGoToPosition
 import frc.robot.commands.auto.commands.AutoShootCommand
 import frc.robot.util.Gyro
+import frc.robot.util.Vector2
 
 /*
 Autonomous Configs:
@@ -88,10 +89,13 @@ class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommand
             )
 
     init {
-        if (startingPos == 0) {
-            startingPosZero[configuration]?.invoke()
-        } else if (startingPos == 1) {
-            startingPosOne[configuration]?.invoke()
-        }
+        addCommands(
+            AutoGoToPosition(Vector2(5.0, 0.0), 0.0)
+        )
+//        if (startingPos == 0) {
+//            startingPosZero[configuration]?.invoke()
+//        } else if (startingPos == 1) {
+//            startingPosOne[configuration]?.invoke()
+//        }
     }
 }
