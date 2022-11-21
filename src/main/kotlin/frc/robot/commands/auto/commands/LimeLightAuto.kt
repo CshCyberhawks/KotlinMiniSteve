@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
 import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveAuto
+import frc.robot.util.Coordinate
 import frc.robot.util.MathClass
 import frc.robot.util.Vector2
 
@@ -28,7 +29,7 @@ class LimeLightAuto : CommandBase() {
         var posY = limelightPos.y + MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y)
         SmartDashboard.putNumber("autoLimeX", posX)
         SmartDashboard.putNumber("autoLimeY", posY)
-        swerveAuto.setDesiredPosition(Vector2(posX, posY))
+        swerveAuto.setDesiredPosition(Coordinate(posX, posY))
         val angleLime =
             MathClass.wrapAroundAngles(
                 limelight.getHorizontalOffset() + Robot.swo.getPosition().angle

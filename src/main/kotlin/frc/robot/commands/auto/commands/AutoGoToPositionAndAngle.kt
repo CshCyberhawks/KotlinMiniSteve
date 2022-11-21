@@ -3,18 +3,19 @@ package frc.robot.commands.auto.commands
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
+import frc.robot.util.Coordinate
 import frc.robot.util.Vector2
 import frc.robot.util.FieldPosition
 
 
 class AutoGoToPositionAndAngle : CommandBase {
-    private var desiredPosition: Vector2 = Vector2(0.0, 0.0)
+    private var desiredPosition: Coordinate = Coordinate(0.0, 0.0)
     private var desiredVelocity = 0.0
     private var desiredAngle = 0.0
     private var ballNumber = 0
     private var byBallNumber = false
 
-    constructor(desiredPosition: Vector2, desiredAngle: Double, desiredVelocity: Double) : super() {
+    constructor(desiredPosition: Coordinate, desiredAngle: Double, desiredVelocity: Double) : super() {
         this.desiredPosition = desiredPosition
         this.desiredVelocity = desiredVelocity
         this.desiredAngle = desiredAngle

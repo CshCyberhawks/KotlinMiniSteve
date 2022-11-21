@@ -6,6 +6,7 @@ import frc.robot.Robot
 import frc.robot.commands.auto.commands.AutoBall
 import frc.robot.commands.auto.commands.AutoGoToPosition
 import frc.robot.commands.auto.commands.AutoShootCommand
+import frc.robot.util.Coordinate
 import frc.robot.util.Gyro
 import frc.robot.util.Vector2
 
@@ -90,7 +91,7 @@ class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommand
 
     init {
         addCommands(
-            AutoGoToPosition(Vector2(5.0, 0.0), 0.0)
+            AutoGoToPosition(Coordinate(5.0, 0.0), 0.0)
         )
 //        if (startingPos == 0) {
 //            startingPosZero[configuration]?.invoke()

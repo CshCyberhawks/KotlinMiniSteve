@@ -29,7 +29,7 @@ class AutoBall : CommandBase {
         // example: below will move robot 2 meters on the x and rotate to 90 degrees
         // then it will wait 1 second before moving the robot back to its starting
         // position
-        val desiredPosition: Vector2 = Robot.swerveAuto.ballPositions[ballNumber]
+        val desiredPosition = Robot.swerveAuto.ballPositions[ballNumber]
         desiredAngle =  MathClass.cartesianToPolar(Vector2(
             desiredPosition.x - Robot.swo.getPosition().positionCoord.x,
             desiredPosition.y - Robot.swo.getPosition().positionCoord.y)

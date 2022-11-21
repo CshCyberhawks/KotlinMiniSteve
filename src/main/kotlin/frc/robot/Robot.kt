@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler
 import frc.robot.commands.*
 import frc.robot.commands.auto.groups.AutoCommandGroup
 import frc.robot.subsystems.*
+import frc.robot.util.Coordinate
 import frc.robot.util.FieldPosition
 import java.util.Map
 
@@ -96,7 +97,7 @@ class Robot : TimedRobot() {
         swerveSystem = SwerveDriveTrain()
         limelight = Limelight(0.711, 0.24, 40.0)
 
-        swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
+        swo = SwerveOdometry(FieldPosition(Coordinate(0.0, 0.0), 0.0))
         //
         // driveSystem = new DriveSystem()
         // CameraServer.startAutomaticCapture()

@@ -12,11 +12,11 @@ import frc.robot.Robot
 import frc.robot.util.*
 
 class SwerveAuto {
-    private var desiredPosition: Vector2 = Vector2(0.0, 0.0)
+    private var desiredPosition: Coordinate = Coordinate(0.0, 0.0)
     private var desiredAngle = 0.0
 
     private var team: Alliance = DriverStation.getAlliance()
-    var ballPositions: Array<Vector2>
+    var ballPositions: Array<Coordinate>
 
     private var byBall = false
     private val ballDistanceDeadzone = 0.1
@@ -74,7 +74,7 @@ class SwerveAuto {
         twistPID.enableContinuousInput(0.0, 360.0)
     }
 
-    fun setDesiredPosition(desiredPosition: Vector2) { // , double desiredVelocity) {
+    fun setDesiredPosition(desiredPosition: Coordinate) { // , double desiredVelocity) {
         byBall = false
         this.desiredPosition = desiredPosition
         // SmartDashboard.putNumber("Desired pos input", desiredPosition.x)
@@ -96,13 +96,9 @@ class SwerveAuto {
 
     fun setDesiredPositionDistance(distance: Double, limeLightAngle: Double) {
         val pos = Robot.swo.getPosition()
-        val desiredPositionCart =
-                MathClass.polarToCartesian(Polar(pos.angle + limeLightAngle, distance))
+        val desiredPositionCart = Coordinate.fromPolar(pos.angle + limeLightAngle, distance)
         setDesiredPosition(
-                Vector2(
-                        desiredPositionCart.x + pos.positionCoord.x,
-                        desiredPositionCart.y + pos.positionCoord.y
-                )
+            desiredPositionCart + pos.positionCoord
         ) // , 0)
     }
 
