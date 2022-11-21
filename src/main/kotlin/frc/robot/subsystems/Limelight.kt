@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import frc.robot.util.Vector2
 import frc.robot.Robot
+import frc.robot.util.Coordinate
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
@@ -86,7 +86,7 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
     }
 
 
-    fun getPosition(addToDistance: Double): Vector2 {
+    fun getPosition(addToDistance: Double): Coordinate {
         val distance: Double = getBallDistance() + addToDistance
         val angle: Double = Math.toRadians(getHorizontalOffset())
 
@@ -98,10 +98,10 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
         SmartDashboard.putNumber("limeLightPosX", x)
         SmartDashboard.putNumber("limeLightPosY", y)
 
-        return Vector2(x, y)
+        return Coordinate(x, y)
     }
 
-    fun getPosition(): Vector2 {
+    fun getPosition(): Coordinate {
         val distance: Double = getBallDistance()
         val angle: Double = Math.toRadians(getHorizontalOffset() + Robot.swo.getPosition().angle)
 
@@ -111,6 +111,6 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
         SmartDashboard.putNumber("limeLightDistance", distance)
         SmartDashboard.putNumber("limeLightAngle", getHorizontalOffset())
 
-        return Vector2(x, y)
+        return Coordinate(x, y)
     }
 }

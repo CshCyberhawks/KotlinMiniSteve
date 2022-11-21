@@ -49,7 +49,7 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
     }
 
     fun calculateVelocities(): DoubleArray {
-        val wheelCoords = arrayOfNulls<Vector2>(4)
+        val wheelCoords = arrayOfNulls<Coordinate>(4)
         var totalX = 0.0
         var totalY = 0.0
         for (i in 0..3) {
@@ -66,18 +66,17 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
                 wheelSpeed = -wheelSpeed
                 wheelAngle = (wheelAngle + 180) % 360
             }
-            val cartCoords = MathClass.polarToCartesian(Polar(wheelAngle, wheelSpeed))
+            val cartCoords = Coordinate.fromPolar(wheelAngle, wheelSpeed)
             wheelCoords[i] = cartCoords
             totalX += cartCoords.x
             totalY += cartCoords.y
         }
 
-        val robotPolar = MathClass.cartesianToPolar(Vector2(totalX, totalY))
+        val robotPolar = Coordinate(totalX, totalY)
         // maybe below is done incorrectly / is unnecessary? also possible that it
         // should be subtracting gyro not adding
-        robotPolar.theta -= Gyro.getAngle()
-        val vel =  MathClass.polarToCartesian(robotPolar)
-        robotVelocities = doubleArrayOf(vel.x, vel.y)
+        robotPolar.setTheta(robotPolar.getTheta() - Gyro.getAngle())
+        robotVelocities = doubleArrayOf(robotPolar.x, robotPolar.y)
 
         // return new double[] { totalX, totalY }
         return doubleArrayOf(robotVelocities[0], robotVelocities[1])

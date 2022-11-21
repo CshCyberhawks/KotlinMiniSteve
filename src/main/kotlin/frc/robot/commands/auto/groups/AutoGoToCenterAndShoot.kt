@@ -9,7 +9,6 @@ import frc.robot.commands.auto.commands.AutoGoToPosition
 import frc.robot.commands.auto.commands.AutoShootCommand
 import frc.robot.commands.auto.commands.AutoGoToPositionAndAngle
 import frc.robot.util.FieldPosition
-import frc.robot.util.Vector2
 
 
 class AutoGoToCenterAndShoot(shootPosition: Int, move: Boolean) : SequentialCommandGroup() {

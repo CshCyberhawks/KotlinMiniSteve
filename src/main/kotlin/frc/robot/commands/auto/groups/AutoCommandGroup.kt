@@ -8,7 +8,6 @@ import frc.robot.commands.auto.commands.AutoGoToPosition
 import frc.robot.commands.auto.commands.AutoShootCommand
 import frc.robot.util.Coordinate
 import frc.robot.util.Gyro
-import frc.robot.util.Vector2
 
 /*
 Autonomous Configs:

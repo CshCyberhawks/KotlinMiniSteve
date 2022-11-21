@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import frc.robot.Robot
 import frc.robot.commands.sequences.IntakeSequence
+import frc.robot.util.Coordinate
 import frc.robot.util.FieldPosition
 import frc.robot.util.MathClass
-import frc.robot.util.Vector2
 
 
 class AutoBall : CommandBase {
@@ -30,10 +30,9 @@ class AutoBall : CommandBase {
         // then it will wait 1 second before moving the robot back to its starting
         // position
         val desiredPosition = Robot.swerveAuto.ballPositions[ballNumber]
-        desiredAngle =  MathClass.cartesianToPolar(Vector2(
+        desiredAngle =  Coordinate(
             desiredPosition.x - Robot.swo.getPosition().positionCoord.x,
-            desiredPosition.y - Robot.swo.getPosition().positionCoord.y)
-        ).theta
+            desiredPosition.y - Robot.swo.getPosition().positionCoord.y).getTheta()
         // Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
         // SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
         autoMove = AutoGoToPositionAndAngle(ballNumber, MathClass.wrapAroundAngles(desiredAngle + 180), 0.0)

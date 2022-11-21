@@ -7,7 +7,6 @@ import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveAuto
 import frc.robot.util.Coordinate
 import frc.robot.util.MathClass
-import frc.robot.util.Vector2
 
 class LimeLightAuto : CommandBase() {
     private val swerveAuto: SwerveAuto = Robot.swerveAuto

@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
 import frc.robot.util.Coordinate
 import frc.robot.util.MathClass
-import frc.robot.util.Vector2
 
 class AutoGoToPosition : CommandBase {
     private var desiredPosition: Coordinate = Coordinate(0.0, 0.0)

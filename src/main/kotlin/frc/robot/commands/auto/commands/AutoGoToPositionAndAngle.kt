@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
 import frc.robot.util.Coordinate
-import frc.robot.util.Vector2
 import frc.robot.util.FieldPosition
 
 

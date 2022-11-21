@@ -143,7 +143,7 @@ class SwerveAuto {
 
     // twists and translates
     fun move() {
-        var translation: Vector2 = Vector2(0.0, 0.0)
+        var translation: Coordinate = Coordinate(0.0, 0.0)
         var twist: Double = 0.0
 
         if (!isAtDesiredPosition()) {
@@ -157,7 +157,7 @@ class SwerveAuto {
         Robot.swerveSystem.drive(translation.x, translation.y, twist, 0.0, DriveState.AUTO, true)
     }
 
-    fun calculateTranslation(): Vector2 {
+    fun calculateTranslation(): Coordinate {
         val timeNow = WPIUtilJNI.now() * 1.0e-6
         val trapTime: Double = if (prevTime == 0.0) 0.0 else timeNow - prevTime
         val trapXProfile = TrapezoidProfile(trapConstraints, trapXDesiredState, trapXCurrentState)
@@ -189,7 +189,7 @@ class SwerveAuto {
         trapXCurrentState = trapXOutput
         trapYCurrentState = trapYOutput
         prevTime = timeNow
-        return Vector2(xVel / 4.0, yVel / 4.0)
+        return Coordinate(xVel / 4.0, yVel / 4.0)
     }
 
     fun calculateTwist(): Double {
@@ -248,7 +248,7 @@ class SwerveAuto {
     }
 
     fun translate() {
-        val driveInputs: Vector2 = calculateTranslation()
+        val driveInputs = calculateTranslation()
         Robot.swerveSystem.drive(driveInputs.x, driveInputs.y, 0.0, 0.0, DriveState.AUTO, true)
     }
 

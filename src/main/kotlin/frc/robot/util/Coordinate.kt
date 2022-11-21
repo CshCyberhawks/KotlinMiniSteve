@@ -34,4 +34,13 @@ class Coordinate(var x: Double = 0.0, var y: Double = 0.0) {
     operator fun plus(other: Coordinate): Coordinate {
         return Coordinate(x + other.x, y + other.y)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Coordinate
+
+        return x == other.x && y == other.y
+    }
 }

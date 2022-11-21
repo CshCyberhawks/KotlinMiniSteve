@@ -38,8 +38,6 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     var xPID: PIDController = PIDController(10.0, 0.0, 1.0)
     var yPID: PIDController = PIDController(10.0, 0.0, 1.0)
 
-    var predictedVelocity: Vector2 = Vector2(0.0, 0.0)
-
     var wheelArr: Array<SwerveWheel> = arrayOf(backLeft, backRight, frontLeft, frontRight)
 
     var isTwisting = false
