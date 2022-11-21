@@ -14,8 +14,10 @@ import frc.robot.util.Vector2
 class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase() {
 
     private var lastUpdateTime = 1.0
-    private var robotVelocities = doubleArrayOf(0.0, 0.0)
+    private var robotVelocities = doubleArrayOf(0.0, 0.0, 0.0)
 
+    private var lastAngle = 0.0;
+    private var totalAngleChange = 0.0;
 
     private var fieldPosXTab: NetworkTableEntry = Robot.odometryShuffleboardTab.add("fieldPosX", 0.0).entry
     private var fieldPosYTab: NetworkTableEntry = Robot.odometryShuffleboardTab.add("fieldPosY", 0.0).entry
@@ -79,6 +81,10 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         // should be subtracting gyro not adding
         robotPolar[0] -= Gyro.getAngle()
         robotVelocities = Robot.swerveSystem.polarToCartesian(robotPolar[0], robotPolar[1])
+
+        SmartDashboard.putNumber("Total Angle Change: ", totalAngleChange)
+
+        lastAngle = Gyro.getAngle();
 
         // return new double[] { totalX, totalY }
         return doubleArrayOf(robotVelocities[0], robotVelocities[1])
