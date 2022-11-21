@@ -58,46 +58,24 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         Gyro.setOffset()
     }
 
-    fun polarToCartesian(theta: Double, r: Double): DoubleArray {
-        // math to turn polar coordinate into cartesian
-        val x = r * cos(Math.toRadians(theta))
-        val y = r * sin(Math.toRadians(theta))
-        return doubleArrayOf(x, y)
+    fun fieldOriented(input: Coordinate, gyroAngle: Double): Coordinate {
+        input.setTheta(input.getTheta() + gyroAngle)
+        return input
     }
 
-    fun cartesianToPolar(x: Double, y: Double): DoubleArray {
-        // math to turn cartesian into polar
-        val r = sqrt(Math.pow(x, 2.0) + y.pow(2.0))
-        val theta = Math.toDegrees(atan2(y, x))
-        return doubleArrayOf(theta, r)
-    }
-
-    fun fieldOriented(input: Vector2, gyroAngle: Double): Vector2 {
-        // turns the translation input into polar
-        val polar = MathClass.cartesianToPolar(input)
-        // subtracts the gyro angle from the polar angle of the translation of the robot
-        // makes it field oriented
-        polar.theta += gyroAngle
-        // returns the new field oriented translation but converted to cartesian
-        return MathClass.polarToCartesian(polar)
-    }
-
-    fun calculateDrive(x1: Double, y1: Double, theta2: Double, r2: Double, twistMult: Double, fieldOrientedEnabled: Boolean): DoubleArray {
+    fun calculateDrive(x1: Double, y1: Double, theta2: Double, r2: Double, twistMult: Double, fieldOrientedEnabled: Boolean): Coordinate {
         // X is 0 and Y is 1
         // Gets the cartesian coordinate of the robot's joystick translation inputs
 //        SmartDashboard.putBoolean("Field Oriented", fieldOrientedEnabled)
-        val driveCoordinate = if (fieldOrientedEnabled) fieldOriented(Vector2(x1, y1), Gyro.getAngle()) else Vector2(x1, y1)
+        val driveCoordinate = if (fieldOrientedEnabled) fieldOriented(Coordinate(x1, y1), Gyro.getAngle()) else Coordinate(x1, y1)
         // Turns the twist constant + joystick twist input into a cartesian coordinates
-        val twistCoordinate = polarToCartesian(theta2, r2 * twistMult)
+        val twistCoordinate = Coordinate.fromPolar(theta2, r2 * twistMult)
 
         // Args are theta, r
         // Vector math adds the translation and twisting cartesian coordinates before
         // turning them into polar and returning
         // can average below instead of add - need to look into it
-        return cartesianToPolar(
-            driveCoordinate.x + twistCoordinate[0],
-            driveCoordinate.y + twistCoordinate[1]
-        )
+        return driveCoordinate + twistCoordinate
     }
 
     fun drive(inputX: Double, inputY: Double, inputTwist: Double, throttleChange: Double, mode: DriveState, fieldOrientedEnabled: Boolean) {
@@ -178,14 +156,14 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
             inputX, inputY, Constants.twistAngleMap[Wheels.BackLeft]!!,
             inputTwist, Constants.twistSpeedMult, fieldOrientedEnabled
         )
-        val frontRightSpeed = frontRightVector[1]
-        val frontLeftSpeed = frontLeftVector[1]
-        val backRightSpeed = backRightVector[1]
-        val backLeftSpeed = backLeftVector[1]
-        val frontRightAngle = frontRightVector[0]
-        val frontLeftAngle = frontLeftVector[0]
-        val backRightAngle = backRightVector[0]
-        val backLeftAngle = backLeftVector[0]
+        val frontRightSpeed = frontRightVector.getHyp()
+        val frontLeftSpeed = frontLeftVector.getHyp()
+        val backRightSpeed = backRightVector.getHyp()
+        val backLeftSpeed = backLeftVector.getHyp()
+        val frontRightAngle = frontRightVector.getTheta()
+        val frontLeftAngle = frontLeftVector.getTheta()
+        val backRightAngle = backRightVector.getTheta()
+        val backLeftAngle = backLeftVector.getTheta()
         var wheelSpeeds: DoubleArray = doubleArrayOf(frontRightSpeed, frontLeftSpeed, backRightSpeed, backLeftSpeed)
         wheelSpeeds = MathClass.normalizeSpeeds(wheelSpeeds, 1.0, -1.0)
 
