@@ -44,7 +44,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
     var xPID: PIDController = PIDController(.1, 0.0, 1.0)
     var yPID: PIDController = PIDController(.1, 0.0, 1.0)
-    var twistPID: PIDController = PIDController(.7, 0.0, 0.005)
+    var twistPID: PIDController = PIDController(.7, 0.0, 0.01)
 
     var predictedVelocity: Vector2 = Vector2(0.0, 0.0)
 
@@ -210,16 +210,18 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
                 twistPID.calculate(
                         Gyro.getAngle(),
                         pidPredictTwist
-                ) /* / (Constants.maxTwistSpeed * throttle) */
+                ) / (Constants.maxTwistSpeed)
 
         SmartDashboard.putNumber("drive PIDX", pidInputX)
         SmartDashboard.putNumber("drive PIDY", pidInputY)
         SmartDashboard.putNumber("twist PID", pidInputTwist)
 
-        // inputX += pidInputX
-        // inputY += pidInputY
+        inputX += pidInputX
+        inputY += pidInputY
         if (!twistPID.atSetpoint()) {
-            inputTwist += pidInputTwist
+            inputTwist = pidInputTwist
+        } else {
+            inputTwist = 0.0
         }
         isTwisting = inputTwist != 0.0
 
