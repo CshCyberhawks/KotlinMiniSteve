@@ -23,7 +23,7 @@ object Constants {
     //max angular turn speed (degrees/sec)
     const val maxSpeedSWOS: Double = 15.64;
     //TODO: replace this with actual val
-    const val maxTwistSpeed: Double = 360.0;
+    const val maxTwistSpeed: Double = 400.0;
 
     const val quickThrottleChange: Double = 0.01
 
@@ -39,13 +39,22 @@ object Constants {
     //                put("backLeft", -135)
     //            }
     //        }
+    // val twistAngleMap: Map<Wheels, Double> =
+    //         mapOf(
+    //                 Wheels.FrontRight to 45.0,
+    //                 Wheels.FrontLeft to 135.0,
+    //                 Wheels.BackRight to -45.0,
+    //                 Wheels.BackLeft to -135.0
+    //         )
+
     val twistAngleMap: Map<Wheels, Double> =
             mapOf(
-                    Wheels.FrontRight to 45.0,
-                    Wheels.FrontLeft to 135.0,
-                    Wheels.BackRight to -45.0,
-                    Wheels.BackLeft to -135.0
+                    Wheels.FrontRight to -135.0,
+                    Wheels.FrontLeft to -45.0,
+                    Wheels.BackRight to 135.0,
+                    Wheels.BackLeft to 45.0
             )
+
 
     // TalonSRX Motors
     const val frontRightTurnMotor: Int = 1

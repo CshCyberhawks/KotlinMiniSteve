@@ -91,9 +91,9 @@ class IO {
 
         fun turnControl(): Double {
             return if (dualStickDrive) MathClass.calculateDeadzone(
-                joystick2.x,
+                joystick2.x * -1,
                 .1
-            ) else MathClass.calculateDeadzone(joystick.twist, .1)
+            ) else MathClass.calculateDeadzone(joystick.twist * -1, .1)
         }
 
         fun getSWOReset(): Boolean {

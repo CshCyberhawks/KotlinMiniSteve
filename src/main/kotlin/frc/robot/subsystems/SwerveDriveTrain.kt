@@ -44,7 +44,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
     var xPID: PIDController = PIDController(.1, 0.0, 1.0)
     var yPID: PIDController = PIDController(.1, 0.0, 1.0)
-    var twistPID: PIDController = PIDController(100.0, 0.0, 0.0)
+    var twistPID: PIDController = PIDController(.7, 0.0, 0.005)
 
     var predictedVelocity: Vector2 = Vector2(0.0, 0.0)
 
@@ -71,6 +71,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     init {
         Gyro.setOffset()
         twistPID.enableContinuousInput(0.0, 360.0)
+        twistPID.setTolerance(.01, 0.01)
     }
 
     fun polarToCartesian(theta: Double, r: Double): DoubleArray {
@@ -200,19 +201,26 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         // SmartDashboard.putNumber("velo Y", Robot.swo.getVelocities()[1])
 
         var pidInputX =
-                xPID.calculate(Robot.swo.getVelocities()[0], pidPredictX) / (Constants.maxSpeedSWOS / throttle)
+                xPID.calculate(Robot.swo.getVelocities()[0], pidPredictX) /
+                        (Constants.maxSpeedSWOS / throttle)
         var pidInputY =
-                yPID.calculate(Robot.swo.getVelocities()[1], pidPredictY) / (Constants.maxSpeedSWOS / throttle)
+                yPID.calculate(Robot.swo.getVelocities()[1], pidPredictY) /
+                        (Constants.maxSpeedSWOS / throttle)
         var pidInputTwist =
-                twistPID.calculate(Gyro.getAngle(), pidPredictTwist) / (Constants.maxTwistSpeed / throttle)
+                twistPID.calculate(
+                        Gyro.getAngle(),
+                        pidPredictTwist
+                ) /* / (Constants.maxTwistSpeed * throttle) */
 
         SmartDashboard.putNumber("drive PIDX", pidInputX)
         SmartDashboard.putNumber("drive PIDY", pidInputY)
         SmartDashboard.putNumber("twist PID", pidInputTwist)
 
-        inputX += pidInputX
-        inputY += pidInputY
-        inputTwist += pidInputTwist
+        // inputX += pidInputX
+        // inputY += pidInputY
+        if (!twistPID.atSetpoint()) {
+            inputTwist += pidInputTwist
+        }
         isTwisting = inputTwist != 0.0
 
         // SmartDashboard.putNumber("drive inputX ", inputX)
