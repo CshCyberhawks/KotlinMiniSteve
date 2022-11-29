@@ -44,6 +44,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
     var xPID: PIDController = PIDController(.1, 0.0, 1.0)
     var yPID: PIDController = PIDController(.1, 0.0, 1.0)
+    //if the drift is constant - maybe could mess with integral
     var twistPID: PIDController = PIDController(.7, 0.0, 0.01)
 
     var predictedVelocity: Vector2 = Vector2(0.0, 0.0)
@@ -218,11 +219,12 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
         inputX += pidInputX
         inputY += pidInputY
-        if (!twistPID.atSetpoint()) {
-            inputTwist = pidInputTwist
-        } else {
-            inputTwist = 0.0
-        }
+        inputTwist += pidInputTwist
+        // if (!twistPID.atSetpoint()) {
+        //     inputTwist = pidInputTwist
+        // } else {
+        //     inputTwist = 0.0
+        // }
         isTwisting = inputTwist != 0.0
 
         // SmartDashboard.putNumber("drive inputX ", inputX)

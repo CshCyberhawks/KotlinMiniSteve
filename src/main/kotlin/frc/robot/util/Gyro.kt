@@ -2,15 +2,18 @@ package frc.robot.util
 
 import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.math.filter.LinearFilter
+import edu.wpi.first.util.WPIUtilJNI
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
-
 
 class Gyro {
     companion object { // Makes the class static
         private val gyro: AHRS = AHRS(SPI.Port.kMXP)
         var offset: Double = 0.0
         private val filter: LinearFilter = LinearFilter.highPass(0.1, 0.02)
+
+        private var lastAngle: Double = 0.0
+        private var lastUpdateTime: Double = 0.0
 
         private fun wrapAroundAngles(input: Double): Double {
             return if (input < 0) 360 + input else input
@@ -29,6 +32,19 @@ class Gyro {
 
         fun reset() {
             gyro.reset()
+        }
+
+        /**
+         * Returns The rate of rotation reported by the gyro (deg/s)
+         * @return The rate of rotation reported by the gyro (deg/s)
+         */
+        fun getAngularVelocity(): Double {
+            val timeNow = WPIUtilJNI.now() * 1.0e-6
+            val period = if (lastUpdateTime >= 0) timeNow - lastUpdateTime else 0.0
+
+            var angleChange = MathClass.smallestDistanceBetween(getAngle(), lastAngle)            
+            lastUpdateTime = timeNow
+            return angleChange / period
         }
 
         fun setOffset() {
