@@ -44,8 +44,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
     var xPID: PIDController = PIDController(.1, 0.0, 1.0)
     var yPID: PIDController = PIDController(.1, 0.0, 1.0)
-    //if the drift is constant - maybe could mess with integral
-    var twistPID: PIDController = PIDController(.7, 0.0, 0.01)
+    var twistPID: PIDController = PIDController(.1, 0.0, 0.01)
 
     var predictedVelocity: Vector2 = Vector2(0.0, 0.0)
 
@@ -187,11 +186,8 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         // maxSWOS = 4 * 3.91
         var pidPredictX = Robot.swo.getVelocities()[0] + (inputX * Constants.maxSpeedSWOS * period)
         var pidPredictY = Robot.swo.getVelocities()[1] + (inputY * Constants.maxSpeedSWOS * period)
-        var pidPredictTwist =
-                MathClass.wrapAroundAngles(
-                        previousAngle + (inputTwist * Constants.maxTwistSpeed * period)
-                )
-
+        var pidPredictTwist = Gyro.getAngularVelocity() + (inputTwist * Constants.maxSpeedSWOS * period)
+                
         // SmartDashboard.putNumber("predict X", pidPredictX)
         // SmartDashboard.putNumber("predict Y", pidPredictY)
         SmartDashboard.putNumber("predict Twist", pidPredictTwist)
@@ -209,9 +205,9 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
                         (Constants.maxSpeedSWOS / throttle)
         var pidInputTwist =
                 twistPID.calculate(
-                        Gyro.getAngle(),
+                        Gyro.getAngularVelocity(),
                         pidPredictTwist
-                ) / (Constants.maxTwistSpeed)
+                ) / (Constants.maxTwistSpeed / throttle)
 
         SmartDashboard.putNumber("drive PIDX", pidInputX)
         SmartDashboard.putNumber("drive PIDY", pidInputY)
