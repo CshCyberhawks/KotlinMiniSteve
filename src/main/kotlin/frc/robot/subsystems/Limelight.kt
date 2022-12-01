@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import frc.robot.util.Vector2
 import frc.robot.Robot
+import frc.robot.util.Vector2
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan

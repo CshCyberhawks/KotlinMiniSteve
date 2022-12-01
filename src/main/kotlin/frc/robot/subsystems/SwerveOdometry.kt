@@ -1,9 +1,9 @@
 package frc.robot.subsystems
 
+import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.util.WPIUtilJNI
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import edu.wpi.first.networktables.NetworkTableEntry
 import frc.robot.Robot
 import frc.robot.util.FieldPosition
 import frc.robot.util.Gyro
@@ -41,13 +41,13 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
     fun changePos(position: FieldPosition, meters: Boolean = true) {
         resetPos()
         if (meters) {
-            position.positionCoord.x = MathClass.metersToSwos(position.positionCoord.x)            
+            position.positionCoord.x = MathClass.metersToSwos(position.positionCoord.x)
             position.positionCoord.y = MathClass.metersToSwos(position.positionCoord.y)
             System.out.println(fieldPosition.positionCoord.x)
         }
         Gyro.offset = MathClass.wrapAroundAngles(position.angle)
         System.out.println(Gyro.offset)
-        fieldPosition = position;
+        fieldPosition = position
     }
 
     fun calculateVelocities(): DoubleArray {
@@ -98,7 +98,7 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
         SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
         SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
-        
+
 
 
         fieldPosXTab.setNumber(fieldPosition.positionCoord.x)

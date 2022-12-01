@@ -34,7 +34,7 @@ class ShootSystem : SubsystemBase() {
 //    private val bottomPIDController: PIDController = PIDController(.01, 0.0, 0.0)
 //    private val maxRPM = 5
     var autoShootRunning = false
-    public var bottomWheelSpeed = 0.0
+    var bottomWheelSpeed = 0.0
     var topWheelSpeed = 0.0
 
     // private var shootSpeedTable: NetworkTableEntry =
@@ -107,11 +107,11 @@ class ShootSystem : SubsystemBase() {
         val power = 0.83
 
         // SmartDashboard.putNumber("Old Encoder", oldEncoder.getVelocity());
-        bottomWheelSpeed = bottomEncoder.rate;
-        topWheelSpeed = topEncoder.rate;
-        isAtSpeedTable.setBoolean(topWheelSpeed >= 18.0);
+        bottomWheelSpeed = bottomEncoder.rate
+        topWheelSpeed = topEncoder.rate
+        isAtSpeedTable.setBoolean(topWheelSpeed >= 18.0)
         // power *= maxRPM; // Convert to RPM
-       // val topPIDOut = topPIDController.calculate(topWheelSpeed, Constants.topShootSetpoint)
+        // val topPIDOut = topPIDController.calculate(topWheelSpeed, Constants.topShootSetpoint)
 
         topMotor.set(MathUtil.clamp(-(power), -1.0, 1.0))
         setBottom()

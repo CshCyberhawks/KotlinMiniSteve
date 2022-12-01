@@ -3,8 +3,8 @@ package frc.robot.commands.auto.commands
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
-import frc.robot.util.Vector2
 import frc.robot.util.FieldPosition
+import frc.robot.util.Vector2
 
 
 class AutoGoToPositionAndAngle : CommandBase {
@@ -21,9 +21,9 @@ class AutoGoToPositionAndAngle : CommandBase {
     }
 
     constructor(fieldPos: FieldPosition, desiredVelocity: Double) : super() {
-            this.desiredPosition = fieldPos.positionCoord;
-            this.desiredAngle = fieldPos.angle;
-            this.desiredVelocity = desiredVelocity;
+        this.desiredPosition = fieldPos.positionCoord
+        this.desiredAngle = fieldPos.angle
+        this.desiredVelocity = desiredVelocity
     }
 
     constructor(ballNumber: Int, desiredAngle: Double, desiredVelocity: Double) : super() {

@@ -1,15 +1,11 @@
 package frc.robot.commands.auto.groups
 
-import edu.wpi.first.wpilibj.DriverStation
-import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import frc.robot.Constants
 import frc.robot.Robot
-import frc.robot.commands.auto.commands.AutoGoToPosition
-import frc.robot.commands.auto.commands.AutoShootCommand
 import frc.robot.commands.auto.commands.AutoGoToPositionAndAngle
+import frc.robot.commands.auto.commands.AutoShootCommand
 import frc.robot.util.FieldPosition
-import frc.robot.util.Vector2
 
 
 class AutoGoToCenterAndShoot(shootPosition: Int, move: Boolean) : SequentialCommandGroup() {

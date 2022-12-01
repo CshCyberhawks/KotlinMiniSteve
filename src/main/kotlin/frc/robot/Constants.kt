@@ -21,9 +21,10 @@ object Constants {
     const val backLeftTwistMult: Int = 1
 
     //max angular turn speed (degrees/sec)
-    const val maxSpeedSWOS: Double = 15.64;
+    const val maxSpeedSWOS: Double = 15.64
+
     //TODO: replace this with actual val
-    const val maxTwistSpeed: Double = 400.0;
+    const val maxTwistSpeed: Double = 400.0
 
     const val quickThrottleChange: Double = 0.01
 
@@ -48,12 +49,12 @@ object Constants {
     //         )
 
     val twistAngleMap: Map<Wheels, Double> =
-            mapOf(
-                    Wheels.FrontRight to -135.0,
-                    Wheels.FrontLeft to -45.0,
-                    Wheels.BackRight to 135.0,
-                    Wheels.BackLeft to 45.0
-            )
+        mapOf(
+            Wheels.FrontRight to -135.0,
+            Wheels.FrontLeft to -45.0,
+            Wheels.BackRight to 135.0,
+            Wheels.BackLeft to 45.0
+        )
 
 
     // TalonSRX Motors
@@ -157,15 +158,15 @@ object Constants {
     // Right (facing with limelight) is +y
     // val redBallPositions: Array<Vector2> = arrayOf(Vector2(), Vector2(2.7, -.19))
     val ballPositionsZero: Array<Vector2> =
-            arrayOf(
-                    Vector2(),
-                    Vector2(),
-                    Vector2(),
-                    Vector2(),
-                    Vector2(2.7, .1),
-                    Vector2(1.1, 2.8),
-                    Vector2(2.3, 6.6)
-            )
+        arrayOf(
+            Vector2(),
+            Vector2(),
+            Vector2(),
+            Vector2(),
+            Vector2(2.7, .1),
+            Vector2(1.1, 2.8),
+            Vector2(2.3, 6.6)
+        )
     val ballPositionsOne: Array<Vector2> = arrayOf(Vector2(), Vector2(), Vector2(), Vector2())
 
     // val redShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
@@ -193,5 +194,5 @@ object Constants {
 
     // Tape faces inside
     val turnEncoderOffsets =
-            doubleArrayOf(302.78317212, 132.53904892800003, 99.31639608000002, 294.08200113600003)
+        doubleArrayOf(302.78317212, 132.53904892800003, 99.31639608000002, 294.08200113600003)
 }

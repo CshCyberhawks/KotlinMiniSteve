@@ -1,7 +1,9 @@
 package frc.robot.util
 
+import edu.wpi.first.math.filter.LinearFilter
 import edu.wpi.first.util.WPIUtilJNI
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.min
 
 class MathClass {
     companion object {
@@ -44,39 +46,27 @@ class MathClass {
             val lowestSpeed = if (minMax[0] < minSpeed) minSpeed else minMax[0]
             for (i in speeds.indices) {
                 if (minMax[1] > maxSpeed && speeds[i] > 0)
-                        speeds[i] = speeds[i] / divSpeed * highestSpeed
+                    speeds[i] = speeds[i] / divSpeed * highestSpeed
                 else if (minMax[0] < minSpeed && speeds[i] < 0)
-                        speeds[i] = speeds[i] / -divSpeed * lowestSpeed
+                    speeds[i] = speeds[i] / -divSpeed * lowestSpeed
             }
             return speeds
         }
 
         fun optimize(desiredAngle: Double, currentAngle: Double): Double {
             return if (abs(desiredAngle - currentAngle) > 90 &&
-                            abs(desiredAngle - currentAngle) < 270
+                abs(desiredAngle - currentAngle) < 270
             )
-                    -1.0
+                -1.0
             else 1.0
         }
 
+        private fun closestToZero(n1: Double, n2: Double): Double {
+            return if (abs(n1) < abs(n2)) { n1 } else { n2 }
+        }
+
         fun smallestDistanceBetween(a1: Double, a2: Double): Double {
-            // a1 = 2
-            // a2 = 358
-
-            //4
-            var angleChangeWrapped = MathClass.wrapAroundAngles(a1 - a2)
-            //-358
-            var angleChange = a1 - a2
-
-            if (Math.abs(angleChangeWrapped) > Math.abs(angleChange)) {
-                return angleChange
-            }
-            else if (Math.abs(angleChangeWrapped) < Math.abs(angleChange)) {
-                return angleChangeWrapped
-            }
-            else {
-                return angleChange
-            }
+            return closestToZero(a1 - a2, 360 - (a1 - a2))
         }
 
         fun getCurrentTime(): Double {

@@ -2,12 +2,9 @@ package frc.robot.commands
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
-import edu.wpi.first.wpilibj2.command.CommandScheduler
 import frc.robot.Constants
 import frc.robot.Robot
-import frc.robot.commands.auto.commands.LimeLightAuto
 import frc.robot.commands.sequences.IntakeSequence
-import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveDriveTrain
 import frc.robot.util.DriveState
 import frc.robot.util.Gyro
@@ -49,10 +46,18 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
             swerveDriveTrain.throttle += Constants.quickThrottleChange
         }
 
-        val angle = if (IO.limelightLockOn()) MathClass.calculateDeadzone(Robot.limelight.getHorizontalOffset(), .5) / 32 else IO.turnControl()
+        val angle = if (IO.limelightLockOn()) MathClass.calculateDeadzone(
+            Robot.limelight.getHorizontalOffset(),
+            .5
+        ) / 32 else IO.turnControl()
 
         swerveDriveTrain.drive(
-            -IO.moveRobotX(), -IO.moveRobotY(), -angle, IO.getJoyThrottle(), DriveState.TELE, !IO.disableFieldOrientation()
+            -IO.moveRobotX(),
+            -IO.moveRobotY(),
+            -angle,
+            IO.getJoyThrottle(),
+            DriveState.TELE,
+            !IO.disableFieldOrientation()
         )
     }
 }

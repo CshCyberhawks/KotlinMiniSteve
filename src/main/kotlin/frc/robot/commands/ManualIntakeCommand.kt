@@ -1,6 +1,5 @@
 package frc.robot.commands
 
-import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
 import frc.robot.commands.sequences.IntakeSequence
@@ -28,13 +27,13 @@ class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase(
             intakeCommandSequence.schedule()
             // SmartDashboard.putBoolean("intakeSequenceBegan", true)
         } else if (!Robot.transportSystem.isRunningSequence)
-                if (IO.removeBall()) {
-                    Robot.isSpitting = true
-                    intakeSystem.intake(-1.0)
-                    Robot.transportSystem.move(-1.0)
-                } else {
-                    Robot.isSpitting = false
-                    intakeSystem.intake(speed)
-                }
+            if (IO.removeBall()) {
+                Robot.isSpitting = true
+                intakeSystem.intake(-1.0)
+                Robot.transportSystem.move(-1.0)
+            } else {
+                Robot.isSpitting = false
+                intakeSystem.intake(speed)
+            }
     }
 }
