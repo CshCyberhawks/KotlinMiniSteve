@@ -44,7 +44,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
     var xPID: PIDController = PIDController(.1, 0.0, 1.0)
     var yPID: PIDController = PIDController(.1, 0.0, 1.0)
-    var twistPID: PIDController = PIDController(.1, 0.0, 0.01)
+    var twistPID: PIDController = PIDController(.3, 0.0, 0.01)
 
     var predictedVelocity: Vector2 = Vector2(0.0, 0.0)
 
@@ -63,7 +63,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
     var previousVeloX = 0.0
     var previousVeloY = 0.0
-    var previousAngle = 0.0
+    var previousAngularVelocity = 0.0
 
     // var maxSwos = 13.9458
     // var maxMeters = 3.777
@@ -153,6 +153,8 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         // SmartDashboard.putNumber("throttle change", throttleChange)
         // SmartDashboard.putNumber("last throttle", lastThrottle)
         fieldOrientedShuffle.setBoolean(fieldOrientedEnabled)
+
+        var angularVelocity: Double = Gyro.getAngularVelocity();
         // SmartDashboard.putNumber("gyro val", gyroAngle)
         if (inputX == 0.0 && inputY == 0.0 && inputTwist == 0.0) {
             backRight.preserveAngle()
@@ -186,13 +188,13 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         // maxSWOS = 4 * 3.91
         var pidPredictX = Robot.swo.getVelocities()[0] + (inputX * Constants.maxSpeedSWOS * period)
         var pidPredictY = Robot.swo.getVelocities()[1] + (inputY * Constants.maxSpeedSWOS * period)
-        var pidPredictTwist = Gyro.getAngularVelocity() + (inputTwist * Constants.maxSpeedSWOS * period)
+        var pidPredictTwist = previousAngularVelocity + (inputTwist * Constants.maxSpeedSWOS * period)
                 
         // SmartDashboard.putNumber("predict X", pidPredictX)
         // SmartDashboard.putNumber("predict Y", pidPredictY)
         SmartDashboard.putNumber("predict Twist", pidPredictTwist)
-        SmartDashboard.putNumber("prev Twist", previousAngle)
-        SmartDashboard.putNumber("current Twist", Gyro.getAngle())
+        SmartDashboard.putNumber("prev Twist", previousAngularVelocity)
+        SmartDashboard.putNumber("current Twist", angularVelocity)
 
         // SmartDashboard.putNumber("velo X", Robot.swo.getVelocities()[0])
         // SmartDashboard.putNumber("velo Y", Robot.swo.getVelocities()[1])
@@ -205,7 +207,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
                         (Constants.maxSpeedSWOS / throttle)
         var pidInputTwist =
                 twistPID.calculate(
-                        Gyro.getAngularVelocity(),
+                        angularVelocity,
                         pidPredictTwist
                 ) / (Constants.maxTwistSpeed / throttle)
 
@@ -290,7 +292,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         lastThrottle = throttleChange
         previousVeloX = Robot.swo.getVelocities()[0]
         previousVeloY = Robot.swo.getVelocities()[1]
-        previousAngle = Gyro.getAngle()
+        previousAngularVelocity = angularVelocity;
     }
 
     // public void resetPredictedOdometry() {

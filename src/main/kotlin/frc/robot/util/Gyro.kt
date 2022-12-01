@@ -41,9 +41,11 @@ class Gyro {
         fun getAngularVelocity(): Double {
             val timeNow = WPIUtilJNI.now() * 1.0e-6
             val period = if (lastUpdateTime >= 0) timeNow - lastUpdateTime else 0.0
-
+            
             var angleChange = MathClass.smallestDistanceBetween(getAngle(), lastAngle)            
+            SmartDashboard.putNumber("angleChange", angleChange);
             lastUpdateTime = timeNow
+            lastAngle = getAngle();
             return angleChange / period
         }
 
