@@ -40,18 +40,22 @@ class MathClass {
 
         fun normalizeSpeeds(
             speeds: DoubleArray,
-            maxSpeed: Double,
-            minSpeed: Double
+            distanceFromZero: Double
         ): DoubleArray {
-            val minMax = getMinMax(speeds)
-            val divSpeed = if (abs(minMax[0]) > minMax[1]) abs(minMax[0]) else minMax[1]
-            val highestSpeed = if (minMax[1] > maxSpeed) maxSpeed else minMax[1]
-            val lowestSpeed = if (minMax[0] < minSpeed) minSpeed else minMax[0]
-            for (i in speeds.indices) {
-                if (minMax[1] > maxSpeed && speeds[i] > 0) speeds[i] =
-                    speeds[i] / divSpeed * highestSpeed else if (minMax[0] < minSpeed && speeds[i] < 0) speeds[i] =
-                    speeds[i] / -divSpeed * lowestSpeed
+            var max = abs(speeds[0])
+
+            for (wheelVector in speeds) {
+                if (abs(wheelVector) > max) {
+                    max = abs(wheelVector)
+                }
             }
+
+            val maxSpeed = if (max > distanceFromZero) max else distanceFromZero
+
+            for (i in speeds.indices) {
+                speeds[i] = speeds[i] / maxSpeed * distanceFromZero
+            }
+
             return speeds
         }
 

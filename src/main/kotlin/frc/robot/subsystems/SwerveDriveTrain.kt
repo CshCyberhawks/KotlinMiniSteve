@@ -187,7 +187,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         val backRightAngle = backRightVector[0]
         val backLeftAngle = backLeftVector[0]
         var wheelSpeeds: DoubleArray = doubleArrayOf(frontRightSpeed, frontLeftSpeed, backRightSpeed, backLeftSpeed)
-        wheelSpeeds = MathClass.normalizeSpeeds(wheelSpeeds, 1.0, -1.0)
+        wheelSpeeds = MathClass.normalizeSpeeds(wheelSpeeds, 1.0)
 
         // SmartDashboard.putNumber("frontRightAngle", frontRightAngle)
         // SmartDashboard.putNumber("frontLeftAngle", frontLeftAngle)
