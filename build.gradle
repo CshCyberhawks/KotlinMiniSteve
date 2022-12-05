@@ -76,7 +76,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 
-	// implementation 'com.github.CshCyberhawks:SwoLib:main-SNAPSHOT'
+	 implementation 'com.github.CshCyberhawks:SwoLib:main-SNAPSHOT'
 }
 
 // Simulation configuration (e.g. environment variables).
