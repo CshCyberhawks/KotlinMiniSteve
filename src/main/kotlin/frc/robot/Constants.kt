@@ -20,6 +20,11 @@ object Constants {
     const val backRightTwistMult: Int = -1
     const val backLeftTwistMult: Int = 1
 
+    //max angular turn speed (degrees/sec)
+    const val maxSpeedSWOS: Double = 15.64;
+    //TODO: replace this with actual val
+    const val maxTwistSpeed: Double = 360.0;
+
     const val quickThrottleChange: Double = 0.01
 
     // twist speed mults for motors
