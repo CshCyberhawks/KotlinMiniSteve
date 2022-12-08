@@ -47,7 +47,7 @@ class SwerveWheel(turnPort: Int, drivePort: Int, private val turnEncoderPort: In
 
 
         driveMotor.setNeutralMode(NeutralMode.Brake)
-        turnPidController.setTolerance(2.0)
+        turnPidController.setTolerance(1.0)
         turnPidController.enableContinuousInput(0.0, 360.0)
         driveMotor.inverted = turnEncoderPort == 1 || turnEncoderPort == 3
     }
