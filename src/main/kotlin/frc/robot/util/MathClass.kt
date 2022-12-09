@@ -71,7 +71,8 @@ object MathClass {
     }
 
     fun smallestDistanceBetween(a1: Double, a2: Double): Double {
-        return closestToZero(a2 - a1, ((a2 - a1) - 360))
+        val offset = if (a2 > a1) { -360 } else { 360 }
+        return closestToZero(a2 - a1, offset + (a2 - a1))
     }
 
     fun getCurrentTime(): Double {
