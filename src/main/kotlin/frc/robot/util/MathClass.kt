@@ -58,12 +58,16 @@ object MathClass {
         else 1.0
     }
 
-    private fun closestToZero(n1: Double, n2: Double): Double {
-        return if (abs(n1) < abs(n2)) {
-            n1
-        } else {
-            n2
+    private fun closestToZero(vararg nums: Double): Double {
+        var closest = nums.first()
+
+        nums.forEach {
+            if (abs(it) < abs(closest)) {
+                closest = it
+            }
         }
+
+        return closest
     }
 
     fun smallestDistanceBetween(a1: Double, a2: Double): Double {
