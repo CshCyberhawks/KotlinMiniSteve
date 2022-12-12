@@ -155,7 +155,7 @@ class SwerveAuto {
         }
 
         if (!isAtDesiredAngle()) {
-            twist = calculateTwist()
+            twist = calculateTwist(desiredAngle)
         }
 
         Robot.swerveSystem.drive(translation.x, translation.y, twist, 0.0, DriveState.AUTO, true)
@@ -259,7 +259,7 @@ class SwerveAuto {
     fun twist() {
         // val twistValue: Double = MathUtil.clamp(Robot.swo.getPosition().angle - desiredAngle,
         // -1.0, 1.0)
-        val twistInput = calculateTwist()
+        val twistInput = calculateTwist(desiredAngle)
         Robot.swerveSystem.drive(0.0, 0.0, twistInput, 0.0, DriveState.AUTO, true)
     }
 

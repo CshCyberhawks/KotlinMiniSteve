@@ -74,7 +74,7 @@ object MathClass {
     //358, 0
     //diff = -2
         val diff = (a2 - a1 + 180) % 360 - 180;
-        return if (diff < -180) diff + 360 else diff
+        return if (diff <= -180) diff + 360 else diff
 
         // val offset = if (a2 > a1) { -360 } else { 360 }
         // return closestToZero(a2 - a1, offset + (a2 - a1))
