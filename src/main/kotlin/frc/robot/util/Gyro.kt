@@ -44,7 +44,7 @@ class Gyro {
             val timeNow = WPIUtilJNI.now() * 1.0e-6
             val period = if (lastUpdateTime >= 0) timeNow - lastUpdateTime else 0.0
 
-            val angleChange = MathClass.smallestDistanceBetween(getAngle(), lastAngle)
+            val angleChange = MathClass.smallestDistanceBetween(lastAngle, getAngle())
             SmartDashboard.putNumber("angleChange", angleChange)
             lastUpdateTime = timeNow
             lastAngle = getAngle()

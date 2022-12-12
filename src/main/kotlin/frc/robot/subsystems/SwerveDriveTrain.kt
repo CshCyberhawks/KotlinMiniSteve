@@ -46,7 +46,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     var yPID: PIDController = PIDController(.1, 0.0, 1.0)
 
     // .3, 0.0, 0.01
-    var twistPID: PIDController = PIDController(0.5, 0.0, 0.0)
+    var twistPID: PIDController = PIDController(2.0, 0.0, 0.1)
 
     var predictedVelocity: Vector2 = Vector2(0.0, 0.0)
 
@@ -188,8 +188,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         // maxSWOS = 4 * 3.91
         val pidPredictX = Robot.swo.getVelocities()[0] + (inputX * Constants.maxSpeedSWOS * period)
         val pidPredictY = Robot.swo.getVelocities()[1] + (inputY * Constants.maxSpeedSWOS * period)
-        val pidPredictTwist = inputTwist * Constants.maxTwistSpeed * period
-
+        val pidPredictTwist = inputTwist * Constants.maxTwistSpeed
         // SmartDashboard.putNumber("predict X", pidPredictX)
         // SmartDashboard.putNumber("predict Y", pidPredictY)
         SmartDashboard.putNumber("predict Twist", pidPredictTwist)
@@ -211,8 +210,8 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
                 pidPredictTwist
             ) / (Constants.maxTwistSpeed * throttle)
 
-        SmartDashboard.putNumber("drive PIDX", pidInputX)
-        SmartDashboard.putNumber("drive PIDY", pidInputY)
+        // SmartDashboard.putNumber("drive PIDX", pidInputX)
+        // SmartDashboard.putNumber("drive PIDY", pidInputY)
         SmartDashboard.putNumber("twist PID", pidInputTwist)
 
         inputX += pidInputX

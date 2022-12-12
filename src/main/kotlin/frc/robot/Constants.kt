@@ -1,5 +1,4 @@
 package frc.robot
-
 import frc.robot.util.FieldPosition
 import frc.robot.util.Vector2
 import frc.robot.util.Wheels
@@ -24,7 +23,7 @@ object Constants {
     const val maxSpeedSWOS: Double = 15.64
 
     //TODO: replace this with actual val
-    const val maxTwistSpeed: Double = 400.0
+    const val maxTwistSpeed: Double = 370.0
 
     const val quickThrottleChange: Double = 0.01
 
