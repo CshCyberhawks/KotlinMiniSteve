@@ -216,7 +216,8 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
         inputX += pidInputX
         inputY += pidInputY
-        inputTwist += pidInputTwist
+        // inputTwist += pidInputTwist
+        inputTwist = Robot.swerveAuto.calculateTwist(Robot.swo.getPosition().angle + (inputTwist * Constants.maxTwistSpeed))
         // if (!twistPID.atSetpoint()) {
         //     inputTwist = pidInputTwist
         // } else {

@@ -196,7 +196,7 @@ class SwerveAuto {
         return Vector2(xVel / 4.0, yVel / 4.0)
     }
 
-    fun calculateTwist(): Double {
+    fun calculateTwist(desiredAngle: Double): Double {
         // SmartDashboard.putNumber("desiredTwistAngle", desiredAngle)
         val currentAngle: Double = Robot.swo.getPosition().angle
 
