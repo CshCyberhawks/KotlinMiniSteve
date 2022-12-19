@@ -184,5 +184,5 @@ object Constants {
 
     // Tape faces inside
     val turnEncoderOffsets =
-            doubleArrayOf(302.78317212, 132.53904892800003, 99.31639608000002, 294.08200113600003)
+            doubleArrayOf(85.51756936800001, 137.197251576, 103.79881749600001, 293.20309497600005)
 }
