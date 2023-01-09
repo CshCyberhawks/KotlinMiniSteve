@@ -95,9 +95,9 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         SmartDashboard.putNumber("veloY", velocities[1])
         SmartDashboard.putNumber("fieldPosX ", fieldPosition.positionCoord.x)
         SmartDashboard.putNumber("fieldPosY ", fieldPosition.positionCoord.y)
-        SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
-        SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
-        SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
+        // SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
+        // SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
+        // SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
 
 
 

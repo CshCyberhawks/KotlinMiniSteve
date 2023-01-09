@@ -118,7 +118,7 @@ class Robot : TimedRobot() {
         // robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run()
-        SmartDashboard.putNumber("cargoStored", transportSystem.cargoAmount.toDouble())
+        // SmartDashboard.putNumber("cargoStored", transportSystem.cargoAmount.toDouble())
     }
 
     /** This function is called once each time the robot enters Disabled mode. */
