@@ -92,7 +92,7 @@ class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommand
 
     init {
         addCommands(
-            AutoBall(FieldPosition(0.0, 5.0, -90.0))
+            AutoBall(FieldPosition(5.0, 0.0, 180.0))
             // AutoGoToPosition(Vector2(-1.0, 3.0), 0.0)
             // AutoGoToPositionAndAngle(FieldPosition(-2.0, 5.0, 0.0), 0.0)
         )

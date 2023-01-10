@@ -29,7 +29,7 @@ class SwerveAuto {
     private var trapXFinished = false
     private var trapYFinsihed = false
 
-    private var angleDeadzone: Double = 5.0
+    private var angleDeadzone: Double = 4.0
 
     // max accel = 1.71m/s^2
     // max velo actual: 4.0m/s
@@ -50,10 +50,10 @@ class SwerveAuto {
         TrapezoidProfile.State(desiredPosition.y, 0.0)
 
     // TODO: prob need to increase derivatives
-    private val xPID = PIDController(0.5, 0.0, 0.05)
-    private val yPID = PIDController(0.5, 0.0, 0.05)
+    private val xPID = PIDController(1.0, 0.0, 2.0)
+    private val yPID = PIDController(1.0, 0.0, 2.0)
 
-    private val twistPID = PIDController(10.0, 0.0, 1.0)
+    private val twistPID = PIDController(6.0, 0.0, .8)
 
     private var prevTime = 0.0
 
@@ -244,7 +244,7 @@ class SwerveAuto {
         val twistVal = twistPID.calculate(currentAngle, desiredAngle) / 360
         SmartDashboard.putNumber("auto twist PID", twistVal)
 
-        return twistVal
+        return twistVal / 3
     }
 
     fun reset() {
