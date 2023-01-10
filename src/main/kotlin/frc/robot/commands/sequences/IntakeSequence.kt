@@ -11,10 +11,10 @@ class IntakeSequence : SequentialCommandGroup {
     // this gets called upon running intake on xbox controller
     var autoIntakeCommand: AutoIntakeCommand = AutoIntakeCommand(Robot.intakeSystem)
     private var autoTransportCommand: AutoTransportCommand =
-            AutoTransportCommand(Robot.transportSystem)
+        AutoTransportCommand(Robot.transportSystem)
     private var limeLightAuto: LimeLightAuto? = null
 
-    constructor() : super() {}
+    constructor() : super()
 
     constructor(limeLightAuto: LimeLightAuto) : super() {
         this.limeLightAuto = limeLightAuto
@@ -36,7 +36,7 @@ class IntakeSequence : SequentialCommandGroup {
 
     override fun isFinished(): Boolean {
 
-        if (this.autoIntakeCommand.isFinished()) {
+        if (this.autoIntakeCommand.isFinished) {
             if (this.limeLightAuto != null) {
                 limeLightAuto!!.cancel()
             }
@@ -46,7 +46,7 @@ class IntakeSequence : SequentialCommandGroup {
                 println("manually canceled sequence")
                 autoIntakeCommand.cancel()
                 autoTransportCommand.cancel()
-                return true;
+                return true
             }
             return IO.getAutoIntakeCancel()
         }

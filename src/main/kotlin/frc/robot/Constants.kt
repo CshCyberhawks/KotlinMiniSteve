@@ -1,5 +1,4 @@
 package frc.robot
-
 import frc.robot.util.FieldPosition
 import frc.robot.util.Vector2
 import frc.robot.util.Wheels
@@ -21,9 +20,10 @@ object Constants {
     const val backLeftTwistMult: Int = 1
 
     //max angular turn speed (degrees/sec)
-    const val maxSpeedSWOS: Double = 15.64;
+    const val maxSpeedSWOS: Double = 15.64
+
     //TODO: replace this with actual val
-    const val maxTwistSpeed: Double = 360.0;
+    const val maxTwistSpeed: Double = 370.0
 
     const val quickThrottleChange: Double = 0.01
 
@@ -39,13 +39,22 @@ object Constants {
     //                put("backLeft", -135)
     //            }
     //        }
+    // val twistAngleMap: Map<Wheels, Double> =
+    //         mapOf(
+    //                 Wheels.FrontRight to 45.0,
+    //                 Wheels.FrontLeft to 135.0,
+    //                 Wheels.BackRight to -45.0,
+    //                 Wheels.BackLeft to -135.0
+    //         )
+
     val twistAngleMap: Map<Wheels, Double> =
-            mapOf(
-                    Wheels.FrontRight to 45.0,
-                    Wheels.FrontLeft to 135.0,
-                    Wheels.BackRight to -45.0,
-                    Wheels.BackLeft to -135.0
-            )
+        mapOf(
+            Wheels.FrontRight to -135.0,
+            Wheels.FrontLeft to -45.0,
+            Wheels.BackRight to 135.0,
+            Wheels.BackLeft to 45.0
+        )
+
 
     // TalonSRX Motors
     const val frontRightTurnMotor: Int = 1
@@ -148,15 +157,15 @@ object Constants {
     // Right (facing with limelight) is +y
     // val redBallPositions: Array<Vector2> = arrayOf(Vector2(), Vector2(2.7, -.19))
     val ballPositionsZero: Array<Vector2> =
-            arrayOf(
-                    Vector2(),
-                    Vector2(),
-                    Vector2(),
-                    Vector2(),
-                    Vector2(2.7, .1),
-                    Vector2(1.1, 2.8),
-                    Vector2(2.3, 6.6)
-            )
+        arrayOf(
+            Vector2(),
+            Vector2(),
+            Vector2(),
+            Vector2(),
+            Vector2(2.7, .1),
+            Vector2(1.1, 2.8),
+            Vector2(2.3, 6.6)
+        )
     val ballPositionsOne: Array<Vector2> = arrayOf(Vector2(), Vector2(), Vector2(), Vector2())
 
     // val redShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
@@ -182,7 +191,7 @@ object Constants {
     const val backRightEncoder = 3
     const val backLeftEncoder = 2
 
-    // Tape faces inside
+    // Wheels face inside
     val turnEncoderOffsets =
-            doubleArrayOf(85.51756936800001, 137.197251576, 103.79881749600001, 293.20309497600005)
+        doubleArrayOf(86.75, 133.15, 99.84, 290.03)
 }

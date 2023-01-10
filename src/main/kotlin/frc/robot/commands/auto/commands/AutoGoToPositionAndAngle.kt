@@ -3,8 +3,8 @@ package frc.robot.commands.auto.commands
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
-import frc.robot.util.Vector2
 import frc.robot.util.FieldPosition
+import frc.robot.util.Vector2
 
 
 class AutoGoToPositionAndAngle : CommandBase {
@@ -21,9 +21,10 @@ class AutoGoToPositionAndAngle : CommandBase {
     }
 
     constructor(fieldPos: FieldPosition, desiredVelocity: Double) : super() {
-            this.desiredPosition = fieldPos.positionCoord;
-            this.desiredAngle = fieldPos.angle;
-            this.desiredVelocity = desiredVelocity;
+        this.desiredPosition = fieldPos.positionCoord
+        this.desiredAngle = fieldPos.angle
+        this.desiredVelocity = desiredVelocity
+        byBallNumber = false
     }
 
     constructor(ballNumber: Int, desiredAngle: Double, desiredVelocity: Double) : super() {
@@ -51,6 +52,9 @@ class AutoGoToPositionAndAngle : CommandBase {
         // (based on
         // robot staring position)
         if (!byBallNumber) {
+            SmartDashboard.putNumber("desiredPos x:", desiredPosition.x)
+            SmartDashboard.putNumber("desiredPos y: ", desiredPosition.y)
+            System.out.println("setting desired pos to: " + desiredPosition.x + "," + desiredPosition.y)
             Robot.swerveAuto.setDesiredPosition(desiredPosition) // , desiredVelocity)
         } else {
             Robot.swerveAuto.setDesiredPositionBall(ballNumber) // , desiredVelocity)

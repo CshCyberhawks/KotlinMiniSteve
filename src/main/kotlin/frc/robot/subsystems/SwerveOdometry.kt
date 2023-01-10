@@ -1,9 +1,9 @@
 package frc.robot.subsystems
 
+import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.util.WPIUtilJNI
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import edu.wpi.first.networktables.NetworkTableEntry
 import frc.robot.Robot
 import frc.robot.util.FieldPosition
 import frc.robot.util.Gyro
@@ -15,9 +15,6 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
 
     private var lastUpdateTime = 1.0
     private var robotVelocities = doubleArrayOf(0.0, 0.0, 0.0)
-
-    private var lastAngle = 0.0;
-    private var totalAngleChange = 0.0;
 
     private var fieldPosXTab: NetworkTableEntry = Robot.odometryShuffleboardTab.add("fieldPosX", 0.0).entry
     private var fieldPosYTab: NetworkTableEntry = Robot.odometryShuffleboardTab.add("fieldPosY", 0.0).entry
@@ -44,13 +41,13 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
     fun changePos(position: FieldPosition, meters: Boolean = true) {
         resetPos()
         if (meters) {
-            position.positionCoord.x = MathClass.metersToSwos(position.positionCoord.x)            
+            position.positionCoord.x = MathClass.metersToSwos(position.positionCoord.x)
             position.positionCoord.y = MathClass.metersToSwos(position.positionCoord.y)
             System.out.println(fieldPosition.positionCoord.x)
         }
         Gyro.offset = MathClass.wrapAroundAngles(position.angle)
         System.out.println(Gyro.offset)
-        fieldPosition = position;
+        fieldPosition = position
     }
 
     fun calculateVelocities(): DoubleArray {
@@ -82,10 +79,6 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         robotPolar[0] -= Gyro.getAngle()
         robotVelocities = Robot.swerveSystem.polarToCartesian(robotPolar[0], robotPolar[1])
 
-        SmartDashboard.putNumber("Total Angle Change: ", totalAngleChange)
-
-        lastAngle = Gyro.getAngle();
-
         // return new double[] { totalX, totalY }
         return doubleArrayOf(robotVelocities[0], robotVelocities[1])
     }
@@ -102,10 +95,10 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         SmartDashboard.putNumber("veloY", velocities[1])
         SmartDashboard.putNumber("fieldPosX ", fieldPosition.positionCoord.x)
         SmartDashboard.putNumber("fieldPosY ", fieldPosition.positionCoord.y)
-        SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
-        SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
-        SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
-        
+        // SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
+        // SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
+        // SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
+
 
 
         fieldPosXTab.setNumber(fieldPosition.positionCoord.x)

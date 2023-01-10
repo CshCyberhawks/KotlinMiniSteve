@@ -7,8 +7,10 @@ import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import frc.robot.util.Vector2
 import frc.robot.Robot
+import frc.robot.util.Vector2
+import frc.robot.util.Polar
+import frc.robot.util.MathClass
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
@@ -86,31 +88,31 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
     }
 
 
-    fun getPosition(addToDistance: Double): Vector2 {
-        val distance: Double = getBallDistance() + addToDistance
-        val angle: Double = Math.toRadians(getHorizontalOffset())
-
-        val x: Double = distance * (cos(angle))
-        val y: Double = -(distance * (sin(angle)))
-
-        SmartDashboard.putNumber("limeLightDistance", distance)
-        SmartDashboard.putNumber("limeLightAngle", angle)
-        SmartDashboard.putNumber("limeLightPosX", x)
-        SmartDashboard.putNumber("limeLightPosY", y)
-
-        return Vector2(x, y)
-    }
+    // fun getPosition(addToDistance: Double): Vector2 {
+    //     val distance: Double = getBallDistance() + addToDistance
+    //     val angle: Double = Math.toRadians(getHorizontalOffset())
+    //
+    //     val x: Double = distance * (cos(angle))
+    //     val y: Double = -(distance * (sin(angle)))
+    //
+    //     SmartDashboard.putNumber("limeLightDistance", distance)
+    //     SmartDashboard.putNumber("limeLightAngle", angle)
+    //     SmartDashboard.putNumber("limeLightPosX", x)
+    //     SmartDashboard.putNumber("limeLightPosY", y)
+    //
+    //     return Vector2(x, y)
+    // }
 
     fun getPosition(): Vector2 {
         val distance: Double = getBallDistance()
         val angle: Double = Math.toRadians(getHorizontalOffset() + Robot.swo.getPosition().angle)
 
-        val x: Double = distance * (cos(angle))
-        val y: Double = distance * (sin(angle))
+        var ret = MathClass.polarToCartesian(Polar(angle, distance));
+        ret += Robot.swo.getPosition().positionCoord;
 
         SmartDashboard.putNumber("limeLightDistance", distance)
         SmartDashboard.putNumber("limeLightAngle", getHorizontalOffset())
 
-        return Vector2(x, y)
+        return ret
     }
 }
