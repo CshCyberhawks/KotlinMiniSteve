@@ -61,10 +61,26 @@ object MathClass {
     private fun closestToZero(vararg nums: Double): Double {
         var closest = nums.first()
 
-        nums.forEach {
-            if (abs(it) < abs(closest)) {
-                closest = it
+
+        fun normalizeSpeeds(
+            speeds: DoubleArray,
+            distanceFromZero: Double
+        ): DoubleArray {
+            var max = abs(speeds[0])
+
+            for (wheelVector in speeds) {
+                if (abs(wheelVector) > max) {
+                    max = abs(wheelVector)
+                }
             }
+
+            val maxSpeed = if (max > distanceFromZero) max else distanceFromZero
+
+            for (i in speeds.indices) {
+                speeds[i] = speeds[i] / maxSpeed * distanceFromZero
+            }
+
+            return speeds
         }
 
         return closest
