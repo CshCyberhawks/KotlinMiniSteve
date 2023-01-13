@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
 import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveAuto
+import frc.robot.util.Gyro
+import frc.robot.util.Vector2
 
 class LimeLightAuto : CommandBase() {
     private val swerveAuto: SwerveAuto = Robot.swerveAuto
@@ -14,14 +16,18 @@ class LimeLightAuto : CommandBase() {
         if (limelight.hasTarget()) {
             setDesired()
         }
-        Robot.swerveAuto.reset()
+
+        // Robot.swerveAuto.reset()
         Robot.autoMoveRunning = true
     }
 
     fun setDesired() {
         var pos = limelight.getPosition()
         swerveAuto.setDesiredPosition(pos)
-        swerveAuto.setDesiredAngle(limelight.getHorizontalOffset(), false)
+        swerveAuto.setDesiredAngle(limelight.getHorizontalOffset(), true)
+
+        SmartDashboard.putNumber("limeDes x:", pos.x)
+        SmartDashboard.putNumber("limeDes y:", pos.y)
 
         // swerveAuto.setDesiredAngle(angleLime, false)
     }
@@ -40,7 +46,8 @@ class LimeLightAuto : CommandBase() {
     }
 
     override fun isFinished(): Boolean {
-        // SmartDashboard.putBoolean("isLimelightDone", swerveAuto.isFinsihedMoving())
+        SmartDashboard.putBoolean("isLimelightDone", swerveAuto.isFinishedMoving())
+        SmartDashboard.putBoolean("isLimelightRunning", !swerveAuto.isFinishedMoving())
         return swerveAuto.isFinishedMoving()
     }
 }

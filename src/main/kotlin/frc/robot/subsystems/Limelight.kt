@@ -103,12 +103,27 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
     //     return Vector2(x, y)
     // }
 
-    fun getPosition(): Vector2 {
-        val distance: Double = getBallDistance()
-        val angle: Double = Math.toRadians(getHorizontalOffset() + Robot.swo.getPosition().angle)
+
+    fun getPosAndAdd(dist: Double): Vector2 {
+        val distance: Double = getBallDistance() + dist
+        val angle: Double = getHorizontalOffset() + Robot.swo.getPosition().angle
 
         var ret = MathClass.polarToCartesian(Polar(angle, distance));
-        ret += Robot.swo.getPosition().positionCoord;
+        ret += Vector2(MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x));
+
+
+        SmartDashboard.putNumber("limeLightDistance", distance)
+        SmartDashboard.putNumber("limeLightAngle", getHorizontalOffset())
+
+        return ret
+    }
+
+    fun getPosition(): Vector2 {
+        val distance: Double = getBallDistance()
+        val angle: Double = getHorizontalOffset() + Robot.swo.getPosition().angle
+
+        var ret = MathClass.polarToCartesian(Polar(angle, distance));
+        ret += Vector2(MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x));
 
         SmartDashboard.putNumber("limeLightDistance", distance)
         SmartDashboard.putNumber("limeLightAngle", getHorizontalOffset())

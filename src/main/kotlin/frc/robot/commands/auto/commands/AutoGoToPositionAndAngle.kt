@@ -52,9 +52,9 @@ class AutoGoToPositionAndAngle : CommandBase {
         // (based on
         // robot staring position)
         if (!byBallNumber) {
-            SmartDashboard.putNumber("desiredPos x:", desiredPosition.x)
-            SmartDashboard.putNumber("desiredPos y: ", desiredPosition.y)
-            System.out.println("setting desired pos to: " + desiredPosition.x + "," + desiredPosition.y)
+            // SmartDashboard.putNumber("desiredPos x:", desiredPosition.x)
+            // SmartDashboard.putNumber("desiredPos y: ", desiredPosition.y)
+            // System.out.println("setting desired pos to: " + desiredPosition.x + "," + desiredPosition.y)
             Robot.swerveAuto.setDesiredPosition(desiredPosition) // , desiredVelocity)
         } else {
             Robot.swerveAuto.setDesiredPositionBall(ballNumber) // , desiredVelocity)

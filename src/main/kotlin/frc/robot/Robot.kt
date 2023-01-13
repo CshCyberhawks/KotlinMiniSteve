@@ -100,7 +100,6 @@ class Robot : TimedRobot() {
         //
         // driveSystem = new DriveSystem()
         // CameraServer.startAutomaticCapture()
-        swerveAuto = SwerveAuto(0)
     }
 
     /**
@@ -138,6 +137,8 @@ class Robot : TimedRobot() {
 
     /** This autonomous runs the autonomous command selected by your [RobotContainer] class. */
     override fun autonomousInit() {
+
+        swerveAuto = SwerveAuto(0)
         //        swo = SwerveOdometry(Constants.blueStartingPositions[0])
         swerveCommand?.cancel()
         limelight.pipelineInit()
