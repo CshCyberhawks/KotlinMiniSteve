@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+/home/green726/coding/robotics/KotlinMiniSteve/C:/users/mguin/nvim-workspace/java/KotlinMiniSteve/.metadata/.plugins/org.eclipse.jdt.core
-1865797976.index
-1597067313.index
-3842426239.index
