@@ -17,7 +17,7 @@ class LimeLightAuto : CommandBase() {
             setDesired()
         }
 
-        // Robot.swerveAuto.reset()
+        Robot.swerveAuto.reset()
         Robot.autoMoveRunning = true
     }
 
@@ -28,8 +28,6 @@ class LimeLightAuto : CommandBase() {
 
         SmartDashboard.putNumber("limeDes x:", pos.x)
         SmartDashboard.putNumber("limeDes y:", pos.y)
-
-        // swerveAuto.setDesiredAngle(angleLime, false)
     }
 
     override fun execute() {

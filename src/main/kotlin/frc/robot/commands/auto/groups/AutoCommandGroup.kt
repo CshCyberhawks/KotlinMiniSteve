@@ -94,7 +94,7 @@ class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommand
     init {
         addCommands(
             // AutoBall(FieldPosition(5.0, 0.0, 180.0))
-            AutoGoToPositionAndAngle(FieldPosition(1.1, 0.0, 0.0), 0.0),
+            // AutoGoToPositionAndAngle(FieldPosition(.9, 0.0, 0.0), 0.0),
             LimeLightAuto(),
             // AutoGoToPositionAndAngle(FieldPosition(-2.0, 5.0, 0.0), 0.0)
         )

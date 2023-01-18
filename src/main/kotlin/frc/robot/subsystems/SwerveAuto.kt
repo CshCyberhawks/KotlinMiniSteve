@@ -19,8 +19,8 @@ class SwerveAuto {
     var ballPositions: Array<Vector2>
 
     private var byBall = false
-    private val ballDistanceDeadzone = 0.05
-    private val normalDistanceDeadzone = 0.05
+    private val ballDistanceDeadzone = 0.1
+    private val normalDistanceDeadzone = 0.1
 
     private val positionStopRange = 0.1
     private val isAtPosition = false
