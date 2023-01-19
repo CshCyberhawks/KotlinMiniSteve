@@ -208,9 +208,9 @@ class Robot : TimedRobot() {
                 TalonFX(Constants.backRightDriveMotor),
                 TalonFX(Constants.backLeftDriveMotor)
             )
-        orchestra = Orchestra(instruments)
-        loadSong(1)
-        orchestra!!.play()
+        // orchestra = Orchestra(instruments)
+        // loadSong(1)
+        // orchestra!!.play()
     }
 
     /** This function is called periodically during test mode. */

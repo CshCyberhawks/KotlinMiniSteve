@@ -193,5 +193,5 @@ object Constants {
 
     // Wheels face inside
     val turnEncoderOffsets =
-        doubleArrayOf(86.75, 133.15, 99.84, 290.03)
+        doubleArrayOf(95.75, 137.15, 102.21, 9.22)
 }
