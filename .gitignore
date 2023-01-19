@@ -159,4 +159,11 @@ gradle-app.setting
 bin/
 
 # Simulation GUI and other tools window save file
-*-window.json
+simgui*.json
+
+# IDE Config Directories
+.vscode
+.idea
+
+# Java build directories
+build
