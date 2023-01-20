@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Constants
 import frc.robot.Robot
-import frc.robot.commands.sequences.IntakeSequence
 import frc.robot.subsystems.SwerveDriveTrain
 import frc.robot.util.DriveState
 import frc.robot.util.Gyro
@@ -13,8 +12,6 @@ import frc.robot.util.MathClass
 
 
 class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBase() {
-    private var intakeSequence: IntakeSequence? = null
-
     init {
         addRequirements(swerveDriveTrain)
     }

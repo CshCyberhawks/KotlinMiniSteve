@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import frc.robot.Robot
-import frc.robot.commands.sequences.IntakeSequence
 import frc.robot.util.FieldPosition
 import frc.robot.util.MathClass
 import frc.robot.util.Vector2
@@ -18,7 +17,7 @@ class AutoBall : CommandBase {
     // Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
     // SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
     private var startTime = 0.0
-    private var intakeSequence: IntakeSequence = IntakeSequence()
+//    private var intakeSequence: IntakeSequence = IntakeSequence()
     private var desiredAngle: Double = 0.0
     private var autoMove: AutoGoToPositionAndAngle
     // private var autoLimeLight: LimeLightAuto
@@ -56,7 +55,7 @@ class AutoBall : CommandBase {
 
     override fun initialize() {
         CommandScheduler.getInstance().schedule(autoMove)
-        intakeSequence.schedule()
+//        intakeSequence.schedule()
     }
 
     override fun execute() {
@@ -78,8 +77,8 @@ class AutoBall : CommandBase {
     }
 
 
-    override fun isFinished(): Boolean {
-        SmartDashboard.putBoolean("autoBallDone", intakeSequence.autoIntakeCommand.isFinished)
-        return intakeSequence.autoIntakeCommand.isFinished // || MathClass.getCurrentTime() - startTime > 5
-    }
+//    override fun isFinished(): Boolean {
+//        SmartDashboard.putBoolean("autoBallDone", intakeSequence.autoIntakeCommand.isFinished)
+//        return intakeSequence.autoIntakeCommand.isFinished // || MathClass.getCurrentTime() - startTime > 5
+//    }
 }
