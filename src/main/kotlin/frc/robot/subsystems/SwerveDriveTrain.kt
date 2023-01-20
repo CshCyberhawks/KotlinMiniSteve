@@ -14,29 +14,29 @@ import kotlin.math.*
 
 class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     var backLeft: SwerveWheel =
-        SwerveWheel(
-            Constants.backLeftTurnMotor,
-            Constants.backLeftDriveMotor,
-            Constants.backLeftEncoder
-        )
+            SwerveWheel(
+                    Constants.backLeftTurnMotor,
+                    Constants.backLeftDriveMotor,
+                    Constants.backLeftEncoder
+            )
     var backRight: SwerveWheel =
-        SwerveWheel(
-            Constants.backRightTurnMotor,
-            Constants.backRightDriveMotor,
-            Constants.backRightEncoder
-        )
+            SwerveWheel(
+                    Constants.backRightTurnMotor,
+                    Constants.backRightDriveMotor,
+                    Constants.backRightEncoder
+            )
     var frontLeft: SwerveWheel =
-        SwerveWheel(
-            Constants.frontLeftTurnMotor,
-            Constants.frontLeftDriveMotor,
-            Constants.frontLeftEncoder
-        )
+            SwerveWheel(
+                    Constants.frontLeftTurnMotor,
+                    Constants.frontLeftDriveMotor,
+                    Constants.frontLeftEncoder
+            )
     var frontRight: SwerveWheel =
-        SwerveWheel(
-            Constants.frontRightTurnMotor,
-            Constants.frontRightDriveMotor,
-            Constants.frontRightEncoder
-        )
+            SwerveWheel(
+                    Constants.frontRightTurnMotor,
+                    Constants.frontRightDriveMotor,
+                    Constants.frontRightEncoder
+            )
     var gyro: Gyro? = null
     var throttle = 0.35
 
@@ -59,9 +59,9 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     private var lastUpdateTime = -1.0
 
     private var throttleShuffle: NetworkTableEntry =
-        Robot.driveShuffleboardTab.add("throttle", throttle).entry
+            Robot.driveShuffleboardTab.add("throttle", throttle).entry
     private val fieldOrientedShuffle: NetworkTableEntry =
-        Robot.driveShuffleboardTab.add("Field Oriented", true).entry
+            Robot.driveShuffleboardTab.add("Field Oriented", true).entry
 
     var previousVeloX = 0.0
     var previousVeloY = 0.0
@@ -101,19 +101,19 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     }
 
     fun calculateDrive(
-        x1: Double,
-        y1: Double,
-        theta2: Double,
-        r2: Double,
-        twistMult: Double,
-        fieldOrientedEnabled: Boolean
+            x1: Double,
+            y1: Double,
+            theta2: Double,
+            r2: Double,
+            twistMult: Double,
+            fieldOrientedEnabled: Boolean
     ): DoubleArray {
         // X is 0 and Y is 1
         // Gets the cartesian coordinate of the robot's joystick translation inputs
         //        SmartDashboard.putBoolean("Field Oriented", fieldOrientedEnabled)
         val driveCoordinate =
-            if (fieldOrientedEnabled) fieldOriented(Vector2(x1, y1), Gyro.getAngle())
-            else Vector2(x1, y1)
+                if (fieldOrientedEnabled) fieldOriented(Vector2(x1, y1), Gyro.getAngle())
+                else Vector2(x1, y1)
         // Turns the twist constant + joystick twist input into a cartesian coordinates
         val twistCoordinate = polarToCartesian(theta2, r2 * twistMult)
 
@@ -122,18 +122,18 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         // turning them into polar and returning
         // can average below instead of add - need to look into it
         return cartesianToPolar(
-            driveCoordinate.x + twistCoordinate[0],
-            driveCoordinate.y + twistCoordinate[1]
+                driveCoordinate.x + twistCoordinate[0],
+                driveCoordinate.y + twistCoordinate[1]
         )
     }
 
     fun drive(
-        inputX: Double,
-        inputY: Double,
-        inputTwist: Double,
-        throttleChange: Double,
-        mode: DriveState,
-        fieldOrientedEnabled: Boolean
+            inputX: Double,
+            inputY: Double,
+            inputTwist: Double,
+            throttleChange: Double,
+            mode: DriveState,
+            fieldOrientedEnabled: Boolean
     ) {
         if (Robot.autoMoveRunning && mode == DriveState.TELE) return
         var inputX = inputX
@@ -156,13 +156,13 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         // SmartDashboard.putNumber("last throttle", lastThrottle)
         fieldOrientedShuffle.setBoolean(fieldOrientedEnabled)
 
-        
-        desiredAngle += inputTwist * Constants.maxTwistSpeed * period;
+
+        desiredAngle += inputTwist * Constants.maxTwistSpeed * period
 
         while (desiredAngle > 360) {
-            desiredAngle = desiredAngle % 360;
-        } 
-        
+            desiredAngle = desiredAngle % 360
+        }
+
         while (desiredAngle < 0
         ) {
             desiredAngle += 360
@@ -217,9 +217,9 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         // SmartDashboard.putNumber("velo Y", Robot.swo.getVelocities()[1])
 
         // val pidInputX =
-            // xPID.calculate(Robot.swo.getVelocities()[0], pidPredictX) / (Constants.maxSpeedSWOS)
+        // xPID.calculate(Robot.swo.getVelocities()[0], pidPredictX) / (Constants.maxSpeedSWOS)
         // val pidInputY =
-            // yPID.calculate(Robot.swo.getVelocities()[1], pidPredictY) / (Constants.maxSpeedSWOS)
+        // yPID.calculate(Robot.swo.getVelocities()[1], pidPredictY) / (Constants.maxSpeedSWOS)
         // val pidInputTwist =
         //     twistPID.calculate(
         //         angularVelocity,
@@ -246,41 +246,41 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
         // calculates the speed and angle for each motor
         val frontRightVector =
-            calculateDrive(
-                inputX,
-                inputY,
-                Constants.twistAngleMap[Wheels.FrontRight]!!,
-                inputTwist,
-                Constants.twistSpeedMult,
-                fieldOrientedEnabled
-            )
+                calculateDrive(
+                        inputX,
+                        inputY,
+                        Constants.twistAngleMap[Wheels.FrontRight]!!,
+                        inputTwist,
+                        Constants.twistSpeedMult,
+                        fieldOrientedEnabled
+                )
         val frontLeftVector =
-            calculateDrive(
-                inputX,
-                inputY,
-                Constants.twistAngleMap[Wheels.FrontLeft]!!,
-                inputTwist,
-                Constants.twistSpeedMult,
-                fieldOrientedEnabled
-            )
+                calculateDrive(
+                        inputX,
+                        inputY,
+                        Constants.twistAngleMap[Wheels.FrontLeft]!!,
+                        inputTwist,
+                        Constants.twistSpeedMult,
+                        fieldOrientedEnabled
+                )
         val backRightVector =
-            calculateDrive(
-                inputX,
-                inputY,
-                Constants.twistAngleMap[Wheels.BackRight]!!,
-                inputTwist,
-                Constants.twistSpeedMult,
-                fieldOrientedEnabled
-            )
+                calculateDrive(
+                        inputX,
+                        inputY,
+                        Constants.twistAngleMap[Wheels.BackRight]!!,
+                        inputTwist,
+                        Constants.twistSpeedMult,
+                        fieldOrientedEnabled
+                )
         val backLeftVector =
-            calculateDrive(
-                inputX,
-                inputY,
-                Constants.twistAngleMap[Wheels.BackLeft]!!,
-                inputTwist,
-                Constants.twistSpeedMult,
-                fieldOrientedEnabled
-            )
+                calculateDrive(
+                        inputX,
+                        inputY,
+                        Constants.twistAngleMap[Wheels.BackLeft]!!,
+                        inputTwist,
+                        Constants.twistSpeedMult,
+                        fieldOrientedEnabled
+                )
         val frontRightSpeed = frontRightVector[1]
         val frontLeftSpeed = frontLeftVector[1]
         val backRightSpeed = backRightVector[1]
@@ -290,7 +290,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         val backRightAngle = backRightVector[0]
         val backLeftAngle = backLeftVector[0]
         var wheelSpeeds: DoubleArray =
-            doubleArrayOf(frontRightSpeed, frontLeftSpeed, backRightSpeed, backLeftSpeed)
+                doubleArrayOf(frontRightSpeed, frontLeftSpeed, backRightSpeed, backLeftSpeed)
         wheelSpeeds = MathClass.normalizeSpeeds(wheelSpeeds, 1.0, -1.0)
 
         // SmartDashboard.putNumber("frontRightAngle", frontRightAngle)

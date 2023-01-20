@@ -2,8 +2,6 @@ package frc.robot.util
 
 import org.junit.Test
 
-import org.junit.Assert.*
-
 class MathClassTest {
 
     @Test

@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import edu.wpi.first.math.MathUtil
 import edu.wpi.first.math.controller.PIDController
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.robot.Constants
 import frc.robot.util.DriveEncoder
 import frc.robot.util.DriveState

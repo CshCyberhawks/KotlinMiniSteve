@@ -11,7 +11,7 @@ class IntakeSequence : SequentialCommandGroup {
     // this gets called upon running intake on xbox controller
     var autoIntakeCommand: AutoIntakeCommand = AutoIntakeCommand(Robot.intakeSystem)
     private var autoTransportCommand: AutoTransportCommand =
-        AutoTransportCommand(Robot.transportSystem)
+            AutoTransportCommand(Robot.transportSystem)
     private var limeLightAuto: LimeLightAuto? = null
 
     constructor() : super()

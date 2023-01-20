@@ -14,7 +14,7 @@ class IntakeSystem : SubsystemBase() {
     // private final double powerMult = 1
     private var intakeMotor: VictorSPX = VictorSPX(Constants.intakeMotor)
     private var intakeSolenoid: Solenoid = Solenoid(Constants.pcm, PneumaticsModuleType.CTREPCM, 0)
-    val intakeSequenceShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("Can Run IntakeSeq", true).entry
+    val intakeSequenceShuffle = Robot.driveShuffleboardTab.add("Can Run IntakeSeq", true).entry
 
     // private final double powerMult = 1
 

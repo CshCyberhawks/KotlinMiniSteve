@@ -47,17 +47,17 @@ class SwerveCommand(private var swerveDriveTrain: SwerveDriveTrain) : CommandBas
         }
 
         val angle = if (IO.limelightLockOn()) MathClass.calculateDeadzone(
-            -Robot.limelight.getHorizontalOffset(),
-            .5
+                -Robot.limelight.getHorizontalOffset(),
+                .5
         ) / 32 else IO.turnControl()
 
         swerveDriveTrain.drive(
-            -IO.moveRobotX(),
-            -IO.moveRobotY(),
-            -angle,
-            IO.getJoyThrottle(),
-            DriveState.TELE,
-            !IO.disableFieldOrientation()
+                -IO.moveRobotX(),
+                -IO.moveRobotY(),
+                -angle,
+                IO.getJoyThrottle(),
+                DriveState.TELE,
+                !IO.disableFieldOrientation()
         )
     }
 }

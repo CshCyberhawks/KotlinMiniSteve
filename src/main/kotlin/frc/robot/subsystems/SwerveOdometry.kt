@@ -2,7 +2,6 @@ package frc.robot.subsystems
 
 import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.util.WPIUtilJNI
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Robot
 import frc.robot.util.FieldPosition
@@ -98,7 +97,6 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         // SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
         // SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
         // SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
-
 
 
         fieldPosXTab.setNumber(fieldPosition.positionCoord.x)

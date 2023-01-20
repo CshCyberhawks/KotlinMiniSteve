@@ -23,8 +23,8 @@ class AutoShootCommand(private var shootSystem: ShootSystem) : CommandBase() {
         // if (!Robot.getShootBreakBeam().get())
         // transportSystem.setCargoAmount(transportSystem.getCargoAmount() - 1)
         if (abs(currentTopEncoderSpeed) > abs(Constants.topShootSetpoint) && abs(currentBottomEncoderSpeed) > abs(
-                Constants.bottomShootSetpoint
-            )
+                        Constants.bottomShootSetpoint
+                )
         ) {
             transportSystem.move(0.5)
         }

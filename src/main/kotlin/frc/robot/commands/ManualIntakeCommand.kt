@@ -19,7 +19,7 @@ class ManualIntakeCommand(private val intakeSystem: IntakeSystem) : CommandBase(
     override fun execute() {
         val speed = IO.intakeBall()
 
-        intakeSystem.intakeSequenceShuffle.forceSetBoolean(!Robot.transportSystem.isRunningSequence)
+        intakeSystem.intakeSequenceShuffle.setBoolean(!Robot.transportSystem.isRunningSequence)
 
         if (IO.autoIntake()) {
             Robot.isSpitting = false

@@ -31,10 +31,10 @@ class AutoBall : CommandBase {
         // position
         val desiredPosition: Vector2 = Robot.swerveAuto.ballPositions[ballNumber]
         desiredAngle = MathClass.cartesianToPolar(
-            Vector2(
-                desiredPosition.x - Robot.swo.getPosition().positionCoord.x,
-                desiredPosition.y - Robot.swo.getPosition().positionCoord.y
-            )
+                Vector2(
+                        desiredPosition.x - Robot.swo.getPosition().positionCoord.x,
+                        desiredPosition.y - Robot.swo.getPosition().positionCoord.y
+                )
         ).theta
         // Robot.driveShuffleboardTab.add("desiredAngleAuto", desiredAngle)
         // SmartDashboard.putNumber("desiredAngleAuto", desiredAngle)
