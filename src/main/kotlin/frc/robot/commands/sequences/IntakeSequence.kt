@@ -25,7 +25,7 @@ class IntakeSequence : SequentialCommandGroup {
         addCommands(autoIntakeCommand, autoTransportCommand)
     }
 
-    override fun end(interrupted: Boolean) {
+    fun end() {
         println("intakeSequenceEnd")
         Robot.transportSystem.isRunningSequence = false
 

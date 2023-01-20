@@ -39,7 +39,7 @@ class ShootSystem : SubsystemBase() {
 
     // private var shootSpeedTable: NetworkTableEntry =
     //     Robot.driveShuffleboardTab.add("Shoot Speed", topEncoder.rate).entry
-    private var isAtSpeedTable: NetworkTableEntry =
+    private var isAtSpeedTable =
             Robot.driveShuffleboardTab.add("At Desired Speed", false).entry
 
     // bottom wheel encoder -3.7 for perfect shot

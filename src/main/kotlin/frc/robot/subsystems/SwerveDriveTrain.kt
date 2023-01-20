@@ -58,9 +58,9 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
     // odometry
     private var lastUpdateTime = -1.0
 
-    private var throttleShuffle: NetworkTableEntry =
+    private var throttleShuffle =
             Robot.driveShuffleboardTab.add("throttle", throttle).entry
-    private val fieldOrientedShuffle: NetworkTableEntry =
+    private val fieldOrientedShuffle =
             Robot.driveShuffleboardTab.add("Field Oriented", true).entry
 
     var previousVeloX = 0.0
