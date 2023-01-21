@@ -1,4 +1,4 @@
-plugins {
+plugins{
     id "java"
     id "edu.wpi.first.GradleRIO" version "2023.2.1"
     id "org.jetbrains.kotlin.jvm" version "1.6.10"

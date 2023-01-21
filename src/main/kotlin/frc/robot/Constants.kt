@@ -193,6 +193,5 @@ object Constants {
     const val backLeftEncoder = 2
 
     // Wheels face inside
-    val turnEncoderOffsets =
-            doubleArrayOf(86.75, 133.15, 99.84, 290.03)
+    val turnEncoderOffsets = doubleArrayOf(86.75, 133.15, 99.84, 290.03)
 }

@@ -85,21 +85,13 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
         }
     }
 
+    fun getPositionAndAddRobot(distance: Double, angle: Double, robotAngle: Double, robot: Vector2): Vector2 {
+        return MathClass.polarToCartesian(Polar(angle + robotAngle, distance)) + robot
+    }
 
-    // fun getPosition(addToDistance: Double): Vector2 {
-    //     val distance: Double = getBallDistance() + addToDistance
-    //     val angle: Double = Math.toRadians(getHorizontalOffset())
-    //
-    //     val x: Double = distance * (cos(angle))
-    //     val y: Double = -(distance * (sin(angle)))
-    //
-    //     SmartDashboard.putNumber("limeLightDistance", distance)
-    //     SmartDashboard.putNumber("limeLightAngle", angle)
-    //     SmartDashboard.putNumber("limeLightPosX", x)
-    //     SmartDashboard.putNumber("limeLightPosY", y)
-    //
-    //     return Vector2(x, y)
-    // }
+    fun getPosition(distance: Double, angle: Double, robotAngle: Double): Vector2 {
+        return MathClass.polarToCartesian(Polar(angle + robotAngle, distance))
+    }
 
 
     fun getPosAndAdd(dist: Double): Vector2 {
