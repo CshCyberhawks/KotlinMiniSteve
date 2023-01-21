@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Robot
 import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveAuto
-import frc.robot.util.Gyro
-import frc.robot.util.Vector2
 
 class LimeLightAuto : CommandBase() {
     private val swerveAuto: SwerveAuto = Robot.swerveAuto

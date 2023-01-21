@@ -23,7 +23,7 @@ class TransportSystem : SubsystemBase() {
 
     private var lastFrontBB = true
 
-    private var cargoAmountShuffle: NetworkTableEntry = Robot.driveShuffleboardTab.add("cargoAmount", cargoAmount).entry
+    private var cargoAmountShuffle = Robot.driveShuffleboardTab.add("cargoAmount", cargoAmount).entry
 
     init {
         transportMotor.setNeutralMode(NeutralMode.Brake)
@@ -47,7 +47,7 @@ class TransportSystem : SubsystemBase() {
             lastCargoShootTime = MathClass.getCurrentTime()
             cargoAmount--
         }
-        cargoAmountShuffle.setNumber(cargoAmount)
+        cargoAmountShuffle.setInteger(cargoAmount.toLong())
         lastFrontBB = Robot.frontBreakBeam.get()
     }
 

@@ -16,9 +16,9 @@ object IO {
 
     fun getPolarCoords(): DoubleArray {
         return doubleArrayOf(
-            -MathClass.calculateDeadzone(joystick.directionDegrees, controllerDeadzone),
-            MathClass.calculateDeadzone(joystick.magnitude, controllerDeadzone),
-            MathClass.calculateDeadzone(joystick.twist, controllerDeadzone)
+                -MathClass.calculateDeadzone(joystick.directionDegrees, controllerDeadzone),
+                MathClass.calculateDeadzone(joystick.magnitude, controllerDeadzone),
+                MathClass.calculateDeadzone(joystick.twist, controllerDeadzone)
         )
     }
 
@@ -90,8 +90,8 @@ object IO {
 
     fun turnControl(): Double {
         return if (dualStickDrive) MathClass.calculateDeadzone(
-            joystick2.x * -1,
-            .1
+                joystick2.x * -1,
+                .1
         ) else MathClass.calculateDeadzone(joystick.twist * -1, .1)
     }
 

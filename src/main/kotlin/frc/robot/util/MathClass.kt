@@ -52,7 +52,7 @@ object MathClass {
 
     fun optimize(desiredAngle: Double, currentAngle: Double): Double {
         return if (abs(desiredAngle - currentAngle) > 90 &&
-            abs(desiredAngle - currentAngle) < 270
+                abs(desiredAngle - currentAngle) < 270
         )
             -1.0
         else 1.0
@@ -63,8 +63,8 @@ object MathClass {
 
 
         fun normalizeSpeeds(
-            speeds: DoubleArray,
-            distanceFromZero: Double
+                speeds: DoubleArray,
+                distanceFromZero: Double
         ): DoubleArray {
             var max = abs(speeds[0])
 
@@ -87,9 +87,9 @@ object MathClass {
     }
 
     fun smallestDistanceBetween(a1: Double, a2: Double): Double {
-    //358, 0
-    //diff = -2
-        val diff = (a2 - a1 + 180) % 360 - 180;
+        //358, 0
+        //diff = -2
+        val diff = (a2 - a1 + 180) % 360 - 180
         return if (diff <= -180) diff + 360 else diff
 
         // val offset = if (a2 > a1) { -360 } else { 360 }

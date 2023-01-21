@@ -23,9 +23,9 @@ class ShootSystem : SubsystemBase() {
 // bottom wheel encoder -24 max
     private val topMotor: CANSparkMax = CANSparkMax(Constants.topShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
     private val bottomRightMotor: CANSparkMax =
-        CANSparkMax(Constants.rightShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
+            CANSparkMax(Constants.rightShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
     private val bottomLeftMotor: CANSparkMax =
-        CANSparkMax(Constants.leftShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
+            CANSparkMax(Constants.leftShootMotor, CANSparkMaxLowLevel.MotorType.kBrushless)
     private val topEncoder: Encoder = Encoder(2, 3)
     private val bottomEncoder: Encoder = Encoder(0, 1)
 
@@ -39,8 +39,8 @@ class ShootSystem : SubsystemBase() {
 
     // private var shootSpeedTable: NetworkTableEntry =
     //     Robot.driveShuffleboardTab.add("Shoot Speed", topEncoder.rate).entry
-    private var isAtSpeedTable: NetworkTableEntry =
-        Robot.driveShuffleboardTab.add("At Desired Speed", false).entry
+    private var isAtSpeedTable =
+            Robot.driveShuffleboardTab.add("At Desired Speed", false).entry
 
     // bottom wheel encoder -3.7 for perfect shot
     // top wheel encoder 19 for perfect shot

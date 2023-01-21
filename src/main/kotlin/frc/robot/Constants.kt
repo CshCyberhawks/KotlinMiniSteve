@@ -1,4 +1,5 @@
 package frc.robot
+
 import frc.robot.util.FieldPosition
 import frc.robot.util.Vector2
 import frc.robot.util.Wheels
@@ -48,12 +49,12 @@ object Constants {
     //         )
 
     val twistAngleMap: Map<Wheels, Double> =
-        mapOf(
-            Wheels.FrontRight to -135.0,
-            Wheels.FrontLeft to -45.0,
-            Wheels.BackRight to 135.0,
-            Wheels.BackLeft to 45.0
-        )
+            mapOf(
+                    Wheels.FrontRight to -135.0,
+                    Wheels.FrontLeft to -45.0,
+                    Wheels.BackRight to 135.0,
+                    Wheels.BackLeft to 45.0
+            )
 
 
     // TalonSRX Motors
@@ -157,15 +158,15 @@ object Constants {
     // Right (facing with limelight) is +y
     // val redBallPositions: Array<Vector2> = arrayOf(Vector2(), Vector2(2.7, -.19))
     val ballPositionsZero: Array<Vector2> =
-        arrayOf(
-            Vector2(),
-            Vector2(),
-            Vector2(),
-            Vector2(),
-            Vector2(2.7, .1),
-            Vector2(1.1, 2.8),
-            Vector2(2.3, 6.6)
-        )
+            arrayOf(
+                    Vector2(),
+                    Vector2(),
+                    Vector2(),
+                    Vector2(),
+                    Vector2(2.7, .1),
+                    Vector2(1.1, 2.8),
+                    Vector2(2.3, 6.6)
+            )
     val ballPositionsOne: Array<Vector2> = arrayOf(Vector2(), Vector2(), Vector2(), Vector2())
 
     // val redShootingPositions: Array<FieldPosition> = arrayOf(FieldPosition(-0.11, 0.0, 15.0))
@@ -192,6 +193,5 @@ object Constants {
     const val backLeftEncoder = 2
 
     // Wheels face inside
-    val turnEncoderOffsets =
-        doubleArrayOf(95.75, 137.15, 102.21, 9.22)
+    val turnEncoderOffsets = doubleArrayOf(86.75, 133.15, 99.84, 290.03)
 }

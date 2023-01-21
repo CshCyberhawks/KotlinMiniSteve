@@ -3,7 +3,7 @@ package frc.robot
 import com.ctre.phoenix.motorcontrol.can.TalonFX
 import com.ctre.phoenix.music.Orchestra
 import edu.wpi.first.cscore.HttpCamera
-import edu.wpi.first.util.net.PortForwarder
+import edu.wpi.first.net.PortForwarder
 import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
@@ -15,6 +15,7 @@ import frc.robot.commands.auto.groups.AutoCommandGroup
 import frc.robot.subsystems.*
 import frc.robot.util.FieldPosition
 import java.util.Map
+
 //import cshcyberhawks.swolib.math.AngleCalculations
 
 /**
@@ -72,10 +73,10 @@ class Robot : TimedRobot() {
         limelightFeed = HttpCamera("limelight", "http://10.28.75.11:5800")
         // CameraServer.startAutomaticCapture(limelightFeed)
         driveShuffleboardTab
-            .add("LimeLight", limelightFeed)
-            .withPosition(6, 0)
-            .withSize(8, 4)
-            .withProperties(Map.of<String, Any>("Show Crosshair", true, "Show Controls", false))
+                .add("LimeLight", limelightFeed)
+                .withPosition(6, 0)
+                .withSize(8, 4)
+                .withProperties(Map.of<String, Any>("Show Crosshair", true, "Show Controls", false))
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our
         // autonomous chooser on the dashboard.
@@ -201,16 +202,15 @@ class Robot : TimedRobot() {
         CommandScheduler.getInstance().cancelAll()
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll()
-        val instruments =
-            listOf(
-                TalonFX(Constants.frontRightDriveMotor),
-                TalonFX(Constants.frontLeftDriveMotor),
-                TalonFX(Constants.backRightDriveMotor),
-                TalonFX(Constants.backLeftDriveMotor)
-            )
-        // orchestra = Orchestra(instruments)
-        // loadSong(1)
-        // orchestra!!.play()
+        val instruments = listOf(
+                        TalonFX(Constants.frontRightDriveMotor),
+                        TalonFX(Constants.frontLeftDriveMotor),
+                        TalonFX(Constants.backRightDriveMotor),
+                        TalonFX(Constants.backLeftDriveMotor)
+                )
+        orchestra = Orchestra(instruments)
+        loadSong(1)
+        orchestra!!.play()
     }
 
     /** This function is called periodically during test mode. */
@@ -220,7 +220,7 @@ class Robot : TimedRobot() {
         val frontLeftValue = wrapAroundAngles(swerveSystem.frontLeft.turnEncoder.getRaw())
         val backLeftValue = wrapAroundAngles(swerveSystem.backLeft.turnEncoder.getRaw())
         val encoderValues: DoubleArray =
-            doubleArrayOf(frontRightValue, frontLeftValue, backRightValue, backLeftValue)
+                doubleArrayOf(frontRightValue, frontLeftValue, backRightValue, backLeftValue)
 
         SmartDashboard.putString("Encoder Values", encoderValues.joinToString(", "))
 

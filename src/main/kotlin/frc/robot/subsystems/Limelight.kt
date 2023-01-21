@@ -8,15 +8,13 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Robot
-import frc.robot.util.Vector2
-import frc.robot.util.Polar
 import frc.robot.util.MathClass
-import kotlin.math.cos
-import kotlin.math.sin
+import frc.robot.util.Polar
+import frc.robot.util.Vector2
 import kotlin.math.tan
 
 class Limelight(private val cameraHeight: Double, private val ballHeight: Double, private val mountAngle: Double) :
-    SubsystemBase() {
+        SubsystemBase() {
     private val table: NetworkTable = NetworkTableInstance.getDefault().getTable("limelight")
     private val hasTarget: NetworkTableEntry = table.getEntry("tv") // 0 or 1 whether it has a valid target
     private val horizontalOffset: NetworkTableEntry = table.getEntry("tx") // The horizontal offset between the
@@ -100,8 +98,8 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
         val distance: Double = getBallDistance() + dist
         val angle: Double = getHorizontalOffset() + Robot.swo.getPosition().angle
 
-        var ret = MathClass.polarToCartesian(Polar(angle, distance));
-        ret += Vector2(MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x));
+        var ret = MathClass.polarToCartesian(Polar(angle, distance))
+        ret += Vector2(MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x))
 
 
         SmartDashboard.putNumber("limeLightDistance", distance)
@@ -114,8 +112,8 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
         val distance: Double = getBallDistance()  //.639
         val angle: Double = MathClass.wrapAroundAngles(getHorizontalOffset() + Robot.swo.getPosition().angle) // 357
 
-        var ret = MathClass.polarToCartesian(Polar(angle, distance));
-        ret += Vector2(MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y));
+        var ret = MathClass.polarToCartesian(Polar(angle, distance))
+        ret += Vector2(MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y))
 
         SmartDashboard.putNumber("limeLightDistance", distance)
         SmartDashboard.putNumber("limeLightAngle", getHorizontalOffset())
