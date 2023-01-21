@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import frc.robot.commands.*
 import frc.robot.commands.auto.groups.AutoCommandGroup
+import frc.robot.commands.auto.commands.LimeLightAuto
 import frc.robot.subsystems.*
 import frc.robot.util.FieldPosition
 import java.util.Map

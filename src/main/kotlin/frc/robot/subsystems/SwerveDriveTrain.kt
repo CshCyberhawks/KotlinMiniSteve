@@ -201,7 +201,6 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
         // SmartDashboard.putNumber("in Y", inputY)
         SmartDashboard.putNumber("period: ", period)
         SmartDashboard.putNumber("in twist", inputTwist)
-        SmartDashboard.putNumber("desired angle: ", desiredAngle)
 
         // maxSWOS = 4 * 3.91
         val pidPredictX = inputX * Constants.maxSpeedSWOS

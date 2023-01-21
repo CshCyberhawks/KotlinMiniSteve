@@ -7,7 +7,9 @@ import frc.robot.commands.auto.commands.AutoBall
 import frc.robot.commands.auto.commands.AutoGoToPosition
 import frc.robot.commands.auto.commands.AutoShootCommand
 import frc.robot.commands.auto.commands.LimeLightAuto
+import frc.robot.commands.auto.commands.AutoGoToPositionAndAngle
 import frc.robot.util.Gyro
+import frc.robot.util.FieldPosition
 
 /*
 Autonomous Configs:
@@ -16,7 +18,6 @@ Autonomous Configs:
  */
 
 class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommandGroup() {
-
     private var startingPosZero: Map<Int, () -> Unit> =
             mapOf(
                     0 to
@@ -90,10 +91,11 @@ class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommand
 
     init {
         addCommands(
-                // AutoBall(FieldPosition(5.0, 0.0, 180.0))
-                // AutoGoToPositionAndAngle(FieldPosition(.9, 0.0, 0.0), 0.0),
-                LimeLightAuto(),
-                // AutoGoToPositionAndAngle(FieldPosition(-2.0, 5.0, 0.0), 0.0)
+            // AutoBall(FieldPosition(5.0, 0.0, 180.0))
+            // AutoGoToPositionAndAngle(FieldPosition(.9, 0.0, 0.0), 0.0),
+            AutoBall(FieldPosition(1.4, -1.2, 150.0))
+            // LimeLightAuto(),
+            // AutoGoToPositionAndAngle(FieldPosition(-2.0, 5.0, 0.0), 0.0)
         )
 //        if (startingPos == 0) {
 //            startingPosZero[configuration]?.invoke()

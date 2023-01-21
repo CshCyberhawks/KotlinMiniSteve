@@ -2,6 +2,7 @@ package frc.robot.commands.auto.commands
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
+import edu.wpi.first.util.WPIUtilJNI
 import frc.robot.Robot
 import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveAuto
@@ -9,6 +10,8 @@ import frc.robot.subsystems.SwerveAuto
 class LimeLightAuto : CommandBase() {
     private val swerveAuto: SwerveAuto = Robot.swerveAuto
     private val limelight: Limelight = Robot.limelight
+
+    private var lastUpdateTime = 0.0
 
     override fun initialize() {
         if (limelight.hasTarget()) {
@@ -29,10 +32,13 @@ class LimeLightAuto : CommandBase() {
     }
 
     override fun execute() {
-        SmartDashboard.putBoolean("Limelight Has Target", limelight.hasTarget())
-        if (limelight.hasTarget()) {
-            // setDesired()
+        val currentTime = WPIUtilJNI.now() * 1.0e-6
+
+        if (currentTime - lastUpdateTime > .06 && limelight.hasTarget()) {
+            lastUpdateTime = currentTime
+            setDesired()
         }
+        SmartDashboard.putBoolean("Limelight Has Target", limelight.hasTarget())
         swerveAuto.move()
     }
 

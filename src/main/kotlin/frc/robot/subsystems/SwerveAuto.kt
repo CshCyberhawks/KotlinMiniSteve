@@ -18,8 +18,8 @@ class SwerveAuto {
     var ballPositions: Array<Vector2>
 
     private var byBall = false
-    private val ballDistanceDeadzone = 0.1
-    private val normalDistanceDeadzone = 0.1
+    private val ballDistanceDeadzone = 0.2
+    private val normalDistanceDeadzone = 0.2
 
     private val positionStopRange = 0.1
     private val isAtPosition = false
@@ -49,10 +49,10 @@ class SwerveAuto {
             TrapezoidProfile.State(desiredPosition.y, 0.0)
 
     // TODO: prob need to increase derivatives
-    private val xPID = PIDController(1.0, 0.0, 2.0)
-    private val yPID = PIDController(1.0, 0.0, 2.0)
+    private val xPID = PIDController(4.0, 0.0, 2.0)
+    private val yPID = PIDController(4.0, 0.0, 2.0)
 
-    private val twistPID = PIDController(6.0, 0.0, .8)
+    private val twistPID = PIDController(8.0, 0.0, .8)
 
     private var prevTime = 0.0
 
@@ -156,6 +156,7 @@ class SwerveAuto {
         if (!isAtDesiredAngle()) {
             twist = calculateTwist(desiredAngle)
         }
+
 
         Robot.swerveSystem.drive(translation.x, translation.y, twist, 0.0, DriveState.AUTO, true)
     }

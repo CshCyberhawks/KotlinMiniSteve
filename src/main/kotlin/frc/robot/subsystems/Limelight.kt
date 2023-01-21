@@ -113,6 +113,9 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
         val angle: Double = MathClass.wrapAroundAngles(getHorizontalOffset() + Robot.swo.getPosition().angle) // 357
 
         var ret = MathClass.polarToCartesian(Polar(angle, distance))
+        ret.y = -ret.y
+        SmartDashboard.putNumber("limelight cartX", ret.x)
+        SmartDashboard.putNumber("limelight cartY", ret.y)
         ret += Vector2(MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y))
 
         SmartDashboard.putNumber("limeLightDistance", distance)
