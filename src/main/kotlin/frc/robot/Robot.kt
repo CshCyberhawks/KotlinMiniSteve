@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandScheduler
 import frc.robot.commands.*
+import frc.robot.commands.auto.SwerveAutoInfo
+import frc.robot.commands.auto.TransportInfo
 import frc.robot.commands.auto.groups.AutoCommandGroup
 import frc.robot.subsystems.*
 import frc.robot.util.FieldPosition
@@ -26,7 +28,8 @@ import java.util.Map
  */
 class Robot : TimedRobot() {
     companion object {
-        var autoMoveRunning = false
+        val transportInfo = TransportInfo(false)
+        val swerveAutoInfo = SwerveAutoInfo(false, 0)
 
         lateinit var swerveAuto: SwerveAuto
         lateinit var limelightFeed: HttpCamera
@@ -45,8 +48,6 @@ class Robot : TimedRobot() {
         lateinit var topBreakBeam: DigitalInput
         lateinit var shootBreakBeam: DigitalInput
 
-        var isSpitting = false
-
         // public OldSwerveDriveTrain swerveSystem
         // public SwerveDriveTrain swerveSystem
         lateinit var intakeSystem: IntakeSystem
@@ -54,7 +55,6 @@ class Robot : TimedRobot() {
         lateinit var climbSystem: ClimbSystem
 
         var autoCommands: AutoCommandGroup? = null
-        private val startingPosition = 0
 
         private val autoConfiguration = SendableChooser<Int>()
 
@@ -94,10 +94,10 @@ class Robot : TimedRobot() {
         intakeSystem = IntakeSystem()
         transportSystem = TransportSystem()
         climbSystem = ClimbSystem()
-        swerveSystem = SwerveDriveTrain()
+        swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
+        swerveSystem = SwerveDriveTrain(swo, swerveAutoInfo)
         limelight = Limelight(0.711, 0.24, 40.0)
 
-        swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
         //
         // driveSystem = new DriveSystem()
         // CameraServer.startAutomaticCapture()
@@ -146,7 +146,9 @@ class Robot : TimedRobot() {
 
         // m_autonomousCommand = m_robotContainer.getAutonomousCommand()
         transportSystem.cargoAmount = 1
-        autoCommands = AutoCommandGroup(1, 0) // autoConfiguration.getSelected())
+        autoCommands = AutoCommandGroup(swo, shootSystem, transportSystem, swerveAuto, swerveAutoInfo, limelight, 1, 0) //
+        // autoConfiguration
+        // .getSelected())
 
         // schedule the autonomous command (example)
         autoCommands!!.schedule()
@@ -161,13 +163,13 @@ class Robot : TimedRobot() {
     }
 
     override fun teleopInit() {
-        shootSystem.defaultCommand = ShootCommand(shootSystem)
-        intakeSystem.defaultCommand = ManualIntakeCommand(intakeSystem)
+        shootSystem.defaultCommand = ShootCommand(shootSystem, transportSystem)
+        intakeSystem.defaultCommand = ManualIntakeCommand(intakeSystem, transportSystem, transportInfo)
         // TODO: remove this before the competition and leave the leftover cargo stored from auto
         transportSystem.cargoAmount = 0
-        transportSystem.defaultCommand = ManualTransportCommand(transportSystem)
+        transportSystem.defaultCommand = ManualTransportCommand(transportSystem, shootSystem, transportInfo)
         climbSystem.defaultCommand = ClimbCommand(climbSystem)
-        swerveCommand = SwerveCommand(swerveSystem)
+        swerveCommand = SwerveCommand(swerveSystem, swo, limelight)
         swerveCommand!!.schedule()
         limelight.pipelineInit()
 
@@ -203,11 +205,11 @@ class Robot : TimedRobot() {
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll()
         val instruments = listOf(
-                        TalonFX(Constants.frontRightDriveMotor),
-                        TalonFX(Constants.frontLeftDriveMotor),
-                        TalonFX(Constants.backRightDriveMotor),
-                        TalonFX(Constants.backLeftDriveMotor)
-                )
+                TalonFX(Constants.frontRightDriveMotor),
+                TalonFX(Constants.frontLeftDriveMotor),
+                TalonFX(Constants.backRightDriveMotor),
+                TalonFX(Constants.backLeftDriveMotor)
+        )
         orchestra = Orchestra(instruments)
         loadSong(1)
         orchestra!!.play()

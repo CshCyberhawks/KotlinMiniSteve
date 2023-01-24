@@ -2,13 +2,18 @@ package frc.robot.commands.auto.groups
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import frc.robot.Constants
-import frc.robot.Robot
 import frc.robot.commands.auto.commands.AutoGoToPositionAndAngle
 import frc.robot.commands.auto.commands.AutoShootCommand
+import frc.robot.subsystems.ShootSystem
+import frc.robot.subsystems.SwerveAuto
+import frc.robot.subsystems.TransportSystem
 import frc.robot.util.FieldPosition
 
 
-class AutoGoToCenterAndShoot(shootPosition: Int, move: Boolean) : SequentialCommandGroup() {
+class AutoGoToCenterAndShoot(swerveAuto: SwerveAuto, transportSystem: TransportSystem, shootSystem: ShootSystem, shootPosition:
+Int, move:
+Boolean) :
+        SequentialCommandGroup() {
     // new AutoGoToAngle(111),
 // shootPositions[shootPosition], 0),
 // add your autonomous commands below
@@ -18,19 +23,20 @@ class AutoGoToCenterAndShoot(shootPosition: Int, move: Boolean) : SequentialComm
     private var shootPositions: Array<FieldPosition>
 
     init {
-        if (Robot.swerveAuto.startingPos == 0) {
+        if (swerveAuto.startingPos == 0) {
             shootPositions = Constants.shootingPositionsZero
         }
         shootPositions = Constants.shootingPositionsZero
 
         if (move) {
             addCommands( // new AutoGoToAngle(111),
-                    AutoGoToPositionAndAngle(shootPositions[shootPosition], 0.0), // shootPositions[shootPosition], 0),
-                    AutoShootCommand(Robot.shootSystem)
+                    AutoGoToPositionAndAngle(swerveAuto, shootPositions[shootPosition], 0.0), // shootPositions[shootPosition],
+                    // 0),
+                    AutoShootCommand(transportSystem, shootSystem)
             )
         } else {
             addCommands(
-                    AutoShootCommand(Robot.shootSystem)
+                    AutoShootCommand(transportSystem, shootSystem)
             )
         }
     }

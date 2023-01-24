@@ -2,15 +2,12 @@ package frc.robot.commands.auto.commands
 
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Constants
-import frc.robot.Robot
 import frc.robot.subsystems.ShootSystem
 import frc.robot.subsystems.TransportSystem
 import kotlin.math.abs
 
 
-class AutoShootCommand(private var shootSystem: ShootSystem) : CommandBase() {
-    private var transportSystem: TransportSystem = Robot.transportSystem
-
+class AutoShootCommand(private val transportSystem: TransportSystem, var shootSystem: ShootSystem) : CommandBase() {
     init {
         shootSystem.autoShootRunning = true
         addRequirements(shootSystem)

@@ -2,7 +2,7 @@ package frc.robot.commands.auto.commands
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Robot
+import frc.robot.subsystems.SwerveAuto
 import frc.robot.util.MathClass
 import frc.robot.util.Vector2
 
@@ -12,13 +12,16 @@ class AutoGoToPosition : CommandBase {
     private var ballNumber = 0
     private var byBallNumber = false
     private var startTime = 0.0
+    private var swerveAuto: SwerveAuto
 
-    constructor(desiredPosition: Vector2, desiredVelocity: Double) : super() {
+    constructor(swerveAuto: SwerveAuto, desiredPosition: Vector2, desiredVelocity: Double) : super() {
+        this.swerveAuto = swerveAuto
         this.desiredPosition = desiredPosition
         this.desiredVelocity = desiredVelocity
     }
 
-    constructor(ballNumber: Int, desiredVelocity: Double) : super() {
+    constructor(swerveAuto: SwerveAuto, ballNumber: Int, desiredVelocity: Double) : super() {
+        this.swerveAuto = swerveAuto
         this.ballNumber = ballNumber
         this.desiredVelocity = desiredVelocity
         byBallNumber = true
@@ -43,24 +46,24 @@ class AutoGoToPosition : CommandBase {
         // (based on
         // robot staring position)
         if (!byBallNumber) {
-            Robot.swerveAuto.setDesiredPosition(desiredPosition) // , desiredVelocity)
+            swerveAuto.setDesiredPosition(desiredPosition) // , desiredVelocity)
         } else {
-            Robot.swerveAuto.setDesiredPositionBall(ballNumber) // , desiredVelocity)
+            swerveAuto.setDesiredPositionBall(ballNumber) // , desiredVelocity)
         }
     }
 
     override fun execute() {
-        Robot.swerveAuto.translate()
+        swerveAuto.translate()
     }
 
     override fun end(interrupted: Boolean) {
         // commented below code out so that robot will maintain desired autonomous
         // velocities
-        Robot.swerveAuto.kill()
+        swerveAuto.kill()
     }
 
     override fun isFinished(): Boolean {
-        SmartDashboard.putBoolean("posCmdFin", Robot.swerveAuto.isAtDesiredPosition())
-        return Robot.swerveAuto.isAtDesiredPosition() // || MathClass.getCurrentTime() - startTime > 5
+        SmartDashboard.putBoolean("posCmdFin", swerveAuto.isAtDesiredPosition())
+        return swerveAuto.isAtDesiredPosition() // || MathClass.getCurrentTime() - startTime > 5
     }
 }

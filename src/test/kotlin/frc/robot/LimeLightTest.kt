@@ -1,9 +1,8 @@
 package frc.robot.subsystems
 
-import org.junit.Test
-import frc.robot.subsystems.Limelight
-import org.junit.Assert.*
 import frc.robot.util.Vector2
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 class LimeLightTest {
     @Test

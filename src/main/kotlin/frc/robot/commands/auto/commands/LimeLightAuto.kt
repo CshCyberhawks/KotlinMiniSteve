@@ -2,21 +2,21 @@ package frc.robot.commands.auto.commands
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Robot
+import frc.robot.commands.auto.SwerveAutoInfo
 import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveAuto
 
-class LimeLightAuto : CommandBase() {
-    private val swerveAuto: SwerveAuto = Robot.swerveAuto
-    private val limelight: Limelight = Robot.limelight
+class LimeLightAuto(private val swerveAuto: SwerveAuto, private val limelight: Limelight, private val
+swerveAutoInfo: SwerveAutoInfo) :
+        CommandBase() {
 
     override fun initialize() {
         if (limelight.hasTarget()) {
             setDesired()
         }
 
-        Robot.swerveAuto.reset()
-        Robot.autoMoveRunning = true
+        swerveAuto.reset()
+        swerveAutoInfo.autoMoveRunning = true
     }
 
     fun setDesired() {
@@ -38,7 +38,7 @@ class LimeLightAuto : CommandBase() {
 
     override fun end(interrupted: Boolean) {
         swerveAuto.kill()
-        Robot.autoMoveRunning = false
+        swerveAutoInfo.autoMoveRunning = false
     }
 
     override fun isFinished(): Boolean {

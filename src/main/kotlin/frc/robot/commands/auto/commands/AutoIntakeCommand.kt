@@ -1,15 +1,16 @@
 package frc.robot.commands.auto.commands
 
+import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Robot
 import frc.robot.subsystems.IntakeSystem
+import frc.robot.subsystems.TransportSystem
 
-
-class AutoIntakeCommand(private var intakeSystem: IntakeSystem) : CommandBase() {
+class AutoIntakeCommand(private val transportSystem: TransportSystem, private val intakeSystem: IntakeSystem,
+                        private val frontBreakBeam: DigitalInput) : CommandBase() {
     private var storedCargoAtStart = 0
 
     init {
-        storedCargoAtStart = Robot.transportSystem.cargoAmount
+        storedCargoAtStart = transportSystem.cargoAmount
         addRequirements(intakeSystem)
     }
 
@@ -19,11 +20,11 @@ class AutoIntakeCommand(private var intakeSystem: IntakeSystem) : CommandBase() 
 
     override fun end(interrupted: Boolean) {
         println("frontBrokeIntake")
-        Robot.transportSystem.move(0.0)
-        Robot.intakeSystem.kill()
+        transportSystem.move(0.0)
+        intakeSystem.kill()
     }
 
     override fun isFinished(): Boolean {
-        return !Robot.frontBreakBeam.get()
+        return !frontBreakBeam.get()
     }
 }

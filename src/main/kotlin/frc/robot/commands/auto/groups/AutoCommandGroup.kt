@@ -2,11 +2,15 @@ package frc.robot.commands.auto.groups
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import frc.robot.Constants
-import frc.robot.Robot
+import frc.robot.Robot.Companion.limelight
+import frc.robot.Robot.Companion.swerveAutoInfo
+import frc.robot.Robot.Companion.transportSystem
+import frc.robot.commands.auto.SwerveAutoInfo
 import frc.robot.commands.auto.commands.AutoBall
 import frc.robot.commands.auto.commands.AutoGoToPosition
 import frc.robot.commands.auto.commands.AutoShootCommand
 import frc.robot.commands.auto.commands.LimeLightAuto
+import frc.robot.subsystems.*
 import frc.robot.util.Gyro
 
 /*
@@ -15,53 +19,55 @@ Autonomous Configs:
 1 - One ball and shoot
  */
 
-class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommandGroup() {
+class AutoCommandGroup(odometry: SwerveOdometry, shootSystem: ShootSystem, transportSystem: TransportSystem,
+                       swerveAuto: SwerveAuto, swerveAutoInfo: SwerveAutoInfo, limelight: Limelight, configuration: Int,
+                       startingPos: Int) : SequentialCommandGroup() {
 
     private var startingPosZero: Map<Int, () -> Unit> =
             mapOf(
                     0 to
                             {
-                                Robot.swo.resetPos()
+                                odometry.resetPos()
                                 Gyro.setOffset()
                                 addCommands(
-                                        AutoShootCommand(Robot.shootSystem),
-                                        AutoGoToPosition(Constants.taxiPositionsZero[0], 0.0)
+                                        AutoShootCommand(transportSystem, shootSystem),
+                                        AutoGoToPosition(swerveAuto, Constants.taxiPositionsZero[0], 0.0)
                                 )
                             },
                     1 to
                             {
-                                Robot.swo.resetPos()
+                                odometry.resetPos()
                                 Gyro.setOffset()
                                 addCommands(
-                                        AutoGoToCenterAndShoot(0, true),
-                                        AutoBall(4, 0.0),
-                                        AutoGoToCenterAndShoot(0, true),
-                                        AutoGoToPosition(Constants.taxiPositionsZero[0], 0.0)
+                                        AutoGoToCenterAndShoot(swerveAuto, transportSystem, shootSystem, 0, true),
+                                        AutoBall(swerveAuto, 4, 0.0),
+                                        AutoGoToCenterAndShoot(swerveAuto, transportSystem, shootSystem, 0, true),
+                                        AutoGoToPosition(swerveAuto, Constants.taxiPositionsZero[0], 0.0)
                                 )
                             },
                     2 to
                             {
-                                Robot.swo.resetPos()
+                                odometry.resetPos()
                                 Gyro.setOffset()
                                 addCommands(
-                                        AutoBall(4, 0.0),
-                                        AutoGoToCenterAndShoot(0, true),
-                                        AutoBall(6, 50.0),
-                                        AutoGoToCenterAndShoot(0, true),
-                                        AutoGoToPosition(Constants.taxiPositionsZero[0], 0.0)
+                                        AutoBall(swerveAuto, 4, 0.0),
+                                        AutoGoToCenterAndShoot(swerveAuto, transportSystem, shootSystem, 0, true),
+                                        AutoBall(swerveAuto, 6, 50.0),
+                                        AutoGoToCenterAndShoot(swerveAuto, transportSystem, shootSystem, 0, true),
+                                        AutoGoToPosition(swerveAuto, Constants.taxiPositionsZero[0], 0.0)
                                 )
                             },
                     3 to
                             {
-                                Robot.swo.resetPos()
+                                odometry.resetPos()
                                 Gyro.setOffset()
                                 addCommands(
-                                        AutoBall(4, 0.0),
-                                        AutoGoToCenterAndShoot(0, true),
-                                        AutoBall(5, 45.0),
-                                        AutoBall(6, 50.0),
-                                        AutoGoToCenterAndShoot(0, true),
-                                        AutoGoToPosition(Constants.taxiPositionsZero[0], 0.0)
+                                        AutoBall(swerveAuto, 4, 0.0),
+                                        AutoGoToCenterAndShoot(swerveAuto, transportSystem, shootSystem,0, true),
+                                        AutoBall(swerveAuto, 5, 45.0),
+                                        AutoBall(swerveAuto, 6, 50.0),
+                                        AutoGoToCenterAndShoot(swerveAuto, transportSystem, shootSystem,0, true),
+                                        AutoGoToPosition(swerveAuto, Constants.taxiPositionsZero[0], 0.0)
                                 )
                             }
             )
@@ -69,21 +75,21 @@ class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommand
     private var startingPosOne: Map<Int, () -> Unit> =
             mapOf(
                     0 to {
-                        Robot.swo.resetPos()
+                        odometry.resetPos()
                         Gyro.setOffset()
                         addCommands(
-                                AutoGoToCenterAndShoot(1, false),
-                                AutoGoToPosition(Constants.taxiPositionsOne[0], 0.0)
+                                AutoGoToCenterAndShoot(swerveAuto, transportSystem, shootSystem, 1, false),
+                                AutoGoToPosition(swerveAuto, Constants.taxiPositionsOne[0], 0.0)
                         )
                     },
                     1 to
                             {
-                                Robot.swo.resetPos()
+                                odometry.resetPos()
                                 Gyro.setOffset()
                                 addCommands(
-                                        AutoBall(0, 15.0),
-                                        AutoGoToCenterAndShoot(1, true),
-                                        AutoGoToPosition(Constants.taxiPositionsOne[0], 0.0)
+                                        AutoBall(swerveAuto, 0, 15.0),
+                                        AutoGoToCenterAndShoot(swerveAuto, transportSystem, shootSystem, 1, true),
+                                        AutoGoToPosition(swerveAuto, Constants.taxiPositionsOne[0], 0.0)
                                 )
                             },
             )
@@ -92,7 +98,7 @@ class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommand
         addCommands(
                 // AutoBall(FieldPosition(5.0, 0.0, 180.0))
                 // AutoGoToPositionAndAngle(FieldPosition(.9, 0.0, 0.0), 0.0),
-                LimeLightAuto(),
+                LimeLightAuto(swerveAuto, limelight, swerveAutoInfo),
                 // AutoGoToPositionAndAngle(FieldPosition(-2.0, 5.0, 0.0), 0.0)
         )
 //        if (startingPos == 0) {

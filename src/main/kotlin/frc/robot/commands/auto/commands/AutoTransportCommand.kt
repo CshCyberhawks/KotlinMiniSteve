@@ -1,10 +1,11 @@
 package frc.robot.commands.auto.commands
 
+import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Robot
 import frc.robot.subsystems.TransportSystem
 
-class AutoTransportCommand(private var transportSystem: TransportSystem) : CommandBase() {
+class AutoTransportCommand(private var transportSystem: TransportSystem, private val backBreakBeam: DigitalInput) :
+        CommandBase() {
     private var cargoStored = transportSystem.cargoAmount
     private var hitBackBreak = false
 
@@ -23,7 +24,7 @@ class AutoTransportCommand(private var transportSystem: TransportSystem) : Comma
     }
 
     override fun isFinished(): Boolean {
-        val backBeam: Boolean = Robot.backBreakBeam.get()
+        val backBeam: Boolean = backBreakBeam.get()
         hitBackBreak = hitBackBreak || !backBeam
         return if (cargoStored < 1) !backBeam else backBeam && hitBackBreak
     }

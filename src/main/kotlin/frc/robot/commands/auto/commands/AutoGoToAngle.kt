@@ -2,10 +2,9 @@ package frc.robot.commands.auto.commands
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Robot
+import frc.robot.subsystems.SwerveAuto
 
-
-class AutoGoToAngle(private var desiredAngle: Double) : CommandBase() {
+class AutoGoToAngle(private val swerveAuto: SwerveAuto, private var desiredAngle: Double) : CommandBase() {
     // this command will move the robot to the desired position x, y and twist
     // values
     // it does this by first driving full speed in the direction of the desired x
@@ -23,19 +22,19 @@ class AutoGoToAngle(private var desiredAngle: Double) : CommandBase() {
         // meters), y in swos, and twist in degrees
         // (based on
         // robot staring position)
-        Robot.swerveAuto.setDesiredAngle(desiredAngle, false)
+        swerveAuto.setDesiredAngle(desiredAngle, false)
     }
 
     override fun execute() {
-        Robot.swerveAuto.twist()
+        swerveAuto.twist()
     }
 
     override fun end(interrupted: Boolean) {
-        SmartDashboard.putBoolean("auto angle command finished", Robot.swerveAuto.isAtDesiredAngle())
-        Robot.swerveAuto.kill()
+        SmartDashboard.putBoolean("auto angle command finished", swerveAuto.isAtDesiredAngle())
+        swerveAuto.kill()
     }
 
     override fun isFinished(): Boolean {
-        return Robot.swerveAuto.isAtDesiredAngle()
+        return swerveAuto.isAtDesiredAngle()
     }
 }

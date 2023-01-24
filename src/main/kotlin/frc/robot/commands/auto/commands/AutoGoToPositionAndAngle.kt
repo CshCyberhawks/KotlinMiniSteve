@@ -2,7 +2,7 @@ package frc.robot.commands.auto.commands
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Robot
+import frc.robot.subsystems.SwerveAuto
 import frc.robot.util.FieldPosition
 import frc.robot.util.Vector2
 
@@ -13,21 +13,28 @@ class AutoGoToPositionAndAngle : CommandBase {
     private var desiredAngle = 0.0
     private var ballNumber = 0
     private var byBallNumber = false
+    lateinit var swerveAuto: SwerveAuto
 
-    constructor(desiredPosition: Vector2, desiredAngle: Double, desiredVelocity: Double) : super() {
+    constructor(swerveAuto: SwerveAuto, desiredPosition: Vector2, desiredAngle: Double, desiredVelocity:
+    Double) :
+            super
+    () {
+        this.swerveAuto = swerveAuto
         this.desiredPosition = desiredPosition
         this.desiredVelocity = desiredVelocity
         this.desiredAngle = desiredAngle
     }
 
-    constructor(fieldPos: FieldPosition, desiredVelocity: Double) : super() {
+    constructor(swerveAuto: SwerveAuto, fieldPos: FieldPosition, desiredVelocity: Double) : super() {
+        this.swerveAuto = swerveAuto
         this.desiredPosition = fieldPos.positionCoord
         this.desiredAngle = fieldPos.angle
         this.desiredVelocity = desiredVelocity
         byBallNumber = false
     }
 
-    constructor(ballNumber: Int, desiredAngle: Double, desiredVelocity: Double) : super() {
+    constructor(swerveAuto: SwerveAuto, ballNumber: Int, desiredAngle: Double, desiredVelocity: Double) : super() {
+        this.swerveAuto = swerveAuto
         this.ballNumber = ballNumber
         this.desiredVelocity = desiredVelocity
         this.desiredAngle = desiredAngle
@@ -55,25 +62,25 @@ class AutoGoToPositionAndAngle : CommandBase {
             // SmartDashboard.putNumber("desiredPos x:", desiredPosition.x)
             // SmartDashboard.putNumber("desiredPos y: ", desiredPosition.y)
             // System.out.println("setting desired pos to: " + desiredPosition.x + "," + desiredPosition.y)
-            Robot.swerveAuto.setDesiredPosition(desiredPosition) // , desiredVelocity)
+            swerveAuto.setDesiredPosition(desiredPosition) // , desiredVelocity)
         } else {
-            Robot.swerveAuto.setDesiredPositionBall(ballNumber) // , desiredVelocity)
+            swerveAuto.setDesiredPositionBall(ballNumber) // , desiredVelocity)
         }
-        Robot.swerveAuto.setDesiredAngle(desiredAngle, false)
+        swerveAuto.setDesiredAngle(desiredAngle, false)
     }
 
     override fun execute() {
-        Robot.swerveAuto.move()
+        swerveAuto.move()
     }
 
     override fun end(interrupted: Boolean) {
         // commented below code out so that robot will maintain desired autonomous
         // velocities
-        Robot.swerveAuto.kill()
+        swerveAuto.kill()
     }
 
     override fun isFinished(): Boolean {
-        SmartDashboard.putBoolean("moveCmdFin", Robot.swerveAuto.isFinishedMoving())
-        return Robot.swerveAuto.isFinishedMoving() // || MathClass.getCurrentTime() - startTime > 5
+        SmartDashboard.putBoolean("moveCmdFin", swerveAuto.isFinishedMoving())
+        return swerveAuto.isFinishedMoving() // || MathClass.getCurrentTime() - startTime > 5
     }
 }

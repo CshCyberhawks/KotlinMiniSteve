@@ -1,18 +1,21 @@
 package frc.robot.subsystems
 
 import edu.wpi.first.math.controller.PIDController
-import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.util.WPIUtilJNI
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.Robot
+import frc.robot.commands.auto.SwerveAutoInfo
 import frc.robot.util.*
 import java.lang.Double.max
 import java.lang.Double.min
 import kotlin.math.*
 
-class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
+class SwerveDriveTrain(private val swo: SwerveOdometry, private val swerveAutoInfo: SwerveAutoInfo) : SubsystemBase()
+{ // p =
+    // 10
+    // gets oscillation
     var backLeft: SwerveWheel =
             SwerveWheel(
                     Constants.backLeftTurnMotor,
@@ -135,7 +138,7 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
             mode: DriveState,
             fieldOrientedEnabled: Boolean
     ) {
-        if (Robot.autoMoveRunning && mode == DriveState.TELE) return
+        if (swerveAutoInfo.autoMoveRunning && mode == DriveState.TELE) return
         var inputX = inputX
         var inputY = inputY
         var inputTwist = inputTwist
@@ -306,8 +309,8 @@ class SwerveDriveTrain : SubsystemBase() { // p = 10 gets oscillation
 
         lastUpdateTime = timeNow
         lastThrottle = throttleChange
-        previousVeloX = Robot.swo.getVelocities()[0]
-        previousVeloY = Robot.swo.getVelocities()[1]
+        previousVeloX = swo.getVelocities()[0]
+        previousVeloY = swo.getVelocities()[1]
         previousAngularVelocity = angularVelocity
     }
 
