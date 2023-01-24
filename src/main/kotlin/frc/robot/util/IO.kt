@@ -131,6 +131,10 @@ object IO {
         return xbox.leftBumperPressed
     }
 
+    fun autoBalance(): Boolean {
+        return joystick.getRawButtonPressed(8);
+    }
+
     // public static boolean getXboxRightBumper() {
     // return xbox.getRightBumper()
     // }

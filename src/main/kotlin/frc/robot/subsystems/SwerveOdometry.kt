@@ -20,6 +20,8 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
     private var fieldPosXMTab = Robot.odometryShuffleboardTab.add("fieldPosXM", 0.0).entry
     private var fieldPosYMTab = Robot.odometryShuffleboardTab.add("fieldPosYM", 0.0).entry
     private var fieldPosAngleTab = Robot.odometryShuffleboardTab.add("fieldPosAngle", 0.0).entry
+    private var robotRollTab = Robot.odometryShuffleboardTab.add("pitch", 0.0).entry
+    private var robotPitchTab = Robot.odometryShuffleboardTab.add("roll", 0.0).entry
 
     init {
         Gyro.setOffset()
@@ -104,6 +106,8 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         fieldPosXMTab.setDouble(MathClass.swosToMeters(fieldPosition.positionCoord.x))
         fieldPosYMTab.setDouble(MathClass.swosToMeters(fieldPosition.positionCoord.y))
         fieldPosAngleTab.setDouble(fieldPosition.angle)
+        robotRollTab.setDouble(Gyro.getRoll())
+        robotPitchTab.setDouble(Gyro.getPitch())
 
         lastUpdateTime = timeNow
     }

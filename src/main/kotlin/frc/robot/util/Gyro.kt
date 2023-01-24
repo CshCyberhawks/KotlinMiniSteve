@@ -81,6 +81,14 @@ class Gyro {
             // return gyro.getWorldLinearAccelX()
         }
 
+        fun getRoll(): Double {
+            return gyro.roll.toDouble()
+        }
+
+        fun getPitch(): Double {
+            return gyro.pitch.toDouble()
+        }
+
         fun calibrate() {
             gyro.calibrate()
         }
