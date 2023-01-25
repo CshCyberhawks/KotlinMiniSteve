@@ -3,13 +3,16 @@ package frc.robot.subsystems
 import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.NeutralMode
 import com.ctre.phoenix.motorcontrol.can.VictorSPX
+import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import frc.robot.Constants.frontBreakBeam
+import frc.robot.Constants.shootBreakBeam
 import frc.robot.Robot
 import frc.robot.util.MathClass
 
 
-class TransportSystem : SubsystemBase() {
+class TransportSystem(private val frontBreakBeam: DigitalInput, private val shootBreakBeam: DigitalInput) : SubsystemBase() {
     private var transportMotor: VictorSPX = VictorSPX(Constants.traversalMotor)
     private val traversalMult = 2.0
     var cargoAmount: Int = 0
@@ -36,9 +39,9 @@ class TransportSystem : SubsystemBase() {
         val shootDifference = MathClass.getCurrentTime() - lastCargoShootTime
         val pickupDifference = MathClass.getCurrentTime() - lastCargoPickupTime
         // SmartDashboard.putNumber("pickupDiff", pickupDifference)
-        cargoPickedUp = !Robot.frontBreakBeam.get() && pickupDifference > 1
-        cargoShot = !Robot.shootBreakBeam.get() && cargoAmount > 0 && shootDifference > .5
-        if (cargoPickedUp && Robot.frontBreakBeam.get() != lastFrontBB) {
+        cargoPickedUp = !frontBreakBeam.get() && pickupDifference > 1
+        cargoShot = !shootBreakBeam.get() && cargoAmount > 0 && shootDifference > .5
+        if (cargoPickedUp && frontBreakBeam.get() != lastFrontBB) {
             lastCargoPickupTime = MathClass.getCurrentTime()
             cargoAmount++
         }
@@ -47,7 +50,7 @@ class TransportSystem : SubsystemBase() {
             cargoAmount--
         }
         cargoAmountShuffle.setInteger(cargoAmount.toLong())
-        lastFrontBB = Robot.frontBreakBeam.get()
+        lastFrontBB = frontBreakBeam.get()
     }
 
 

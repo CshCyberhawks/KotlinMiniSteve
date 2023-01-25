@@ -94,12 +94,13 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
     }
 
 
-    fun getPosAndAdd(dist: Double): Vector2 {
+    fun getPosAndAdd(odometry: SwerveOdometry, dist: Double): Vector2 {
         val distance: Double = getBallDistance() + dist
-        val angle: Double = getHorizontalOffset() + Robot.swo.getPosition().angle
+        val angle: Double = getHorizontalOffset() + odometry.getPosition().angle
 
         var ret = MathClass.polarToCartesian(Polar(angle, distance))
-        ret += Vector2(MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x))
+        ret += Vector2(MathClass.swosToMeters(odometry.getPosition().positionCoord.x), MathClass.swosToMeters(odometry
+                .getPosition().positionCoord.x))
 
 
         SmartDashboard.putNumber("limeLightDistance", distance)
@@ -108,12 +109,13 @@ class Limelight(private val cameraHeight: Double, private val ballHeight: Double
         return ret
     }
 
-    fun getPosition(): Vector2 {
+    fun getPosition(odometry: SwerveOdometry): Vector2 {
         val distance: Double = getBallDistance()  //.639
-        val angle: Double = MathClass.wrapAroundAngles(getHorizontalOffset() + Robot.swo.getPosition().angle) // 357
+        val angle: Double = MathClass.wrapAroundAngles(getHorizontalOffset() + odometry.getPosition().angle) // 357
 
         var ret = MathClass.polarToCartesian(Polar(angle, distance))
-        ret += Vector2(MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y))
+        ret += Vector2(MathClass.swosToMeters(odometry.getPosition().positionCoord.x), MathClass.swosToMeters(odometry
+                .getPosition().positionCoord.y))
 
         SmartDashboard.putNumber("limeLightDistance", distance)
         SmartDashboard.putNumber("limeLightAngle", getHorizontalOffset())

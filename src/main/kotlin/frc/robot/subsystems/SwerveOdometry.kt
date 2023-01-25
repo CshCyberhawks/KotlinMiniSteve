@@ -9,7 +9,7 @@ import frc.robot.util.MathClass
 import frc.robot.util.Vector2
 
 
-class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase() {
+class SwerveOdometry(private var fieldPosition: FieldPosition, private val swerveSystem: SwerveDriveTrain) : SubsystemBase() {
 
     private var lastUpdateTime = 1.0
     private var robotVelocities = doubleArrayOf(0.0, 0.0, 0.0)
@@ -53,8 +53,8 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         var totalX = 0.0
         var totalY = 0.0
         for (i in 0..3) {
-            var wheelAngle: Double = Robot.swerveSystem.wheelArr[i].getTurnValue()
-            var wheelSpeed: Double = Robot.swerveSystem.wheelArr[i].getCurrentDriveSpeed()
+            var wheelAngle: Double = swerveSystem.wheelArr[i].getTurnValue()
+            var wheelSpeed: Double = swerveSystem.wheelArr[i].getCurrentDriveSpeed()
 
             // if (i == 0 || i == 2) {
             // wheelSpeed = -wheelSpeed
@@ -66,16 +66,16 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
                 wheelSpeed = -wheelSpeed
                 wheelAngle = (wheelAngle + 180) % 360
             }
-            val cartCoords: DoubleArray = Robot.swerveSystem.polarToCartesian(wheelAngle, wheelSpeed)
+            val cartCoords: DoubleArray = swerveSystem.polarToCartesian(wheelAngle, wheelSpeed)
             wheelCoords[i] = Vector2(cartCoords[0], cartCoords[1])
             totalX += cartCoords[0]
             totalY += cartCoords[1]
         }
-        val robotPolar: DoubleArray = Robot.swerveSystem.cartesianToPolar(totalX, totalY)
+        val robotPolar: DoubleArray = swerveSystem.cartesianToPolar(totalX, totalY)
         // maybe below is done incorrectly / is unnecessary? also possible that it
         // should be subtracting gyro not adding
         robotPolar[0] -= Gyro.getAngle()
-        robotVelocities = Robot.swerveSystem.polarToCartesian(robotPolar[0], robotPolar[1])
+        robotVelocities = swerveSystem.polarToCartesian(robotPolar[0], robotPolar[1])
 
         // return new double[] { totalX, totalY }
         return doubleArrayOf(robotVelocities[0], robotVelocities[1])

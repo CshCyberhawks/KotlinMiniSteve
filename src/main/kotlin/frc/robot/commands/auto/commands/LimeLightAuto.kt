@@ -5,9 +5,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.commands.auto.SwerveAutoInfo
 import frc.robot.subsystems.Limelight
 import frc.robot.subsystems.SwerveAuto
+import frc.robot.subsystems.SwerveOdometry
 
 class LimeLightAuto(private val swerveAuto: SwerveAuto, private val limelight: Limelight, private val
-swerveAutoInfo: SwerveAutoInfo) :
+swerveAutoInfo: SwerveAutoInfo, private val odometry: SwerveOdometry) :
         CommandBase() {
 
     override fun initialize() {
@@ -20,7 +21,7 @@ swerveAutoInfo: SwerveAutoInfo) :
     }
 
     fun setDesired() {
-        var pos = limelight.getPosition()
+        var pos = limelight.getPosition(odometry)
         swerveAuto.setDesiredPosition(pos)
         swerveAuto.setDesiredAngle(limelight.getHorizontalOffset(), true)
 

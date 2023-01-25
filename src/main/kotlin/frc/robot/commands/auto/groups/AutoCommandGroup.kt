@@ -2,9 +2,6 @@ package frc.robot.commands.auto.groups
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import frc.robot.Constants
-import frc.robot.Robot.Companion.limelight
-import frc.robot.Robot.Companion.swerveAutoInfo
-import frc.robot.Robot.Companion.transportSystem
 import frc.robot.commands.auto.SwerveAutoInfo
 import frc.robot.commands.auto.commands.AutoBall
 import frc.robot.commands.auto.commands.AutoGoToPosition
@@ -98,7 +95,7 @@ class AutoCommandGroup(odometry: SwerveOdometry, shootSystem: ShootSystem, trans
         addCommands(
                 // AutoBall(FieldPosition(5.0, 0.0, 180.0))
                 // AutoGoToPositionAndAngle(FieldPosition(.9, 0.0, 0.0), 0.0),
-                LimeLightAuto(swerveAuto, limelight, swerveAutoInfo),
+                LimeLightAuto(swerveAuto, limelight, swerveAutoInfo, odometry),
                 // AutoGoToPositionAndAngle(FieldPosition(-2.0, 5.0, 0.0), 0.0)
         )
 //        if (startingPos == 0) {

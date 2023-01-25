@@ -28,39 +28,38 @@ import java.util.Map
  */
 class Robot : TimedRobot() {
     companion object {
-        val transportInfo = TransportInfo(false)
-        val swerveAutoInfo = SwerveAutoInfo(false, 0)
-
-        lateinit var swerveAuto: SwerveAuto
-        lateinit var limelightFeed: HttpCamera
-        lateinit var swerveSystem: SwerveDriveTrain
-        lateinit var swo: SwerveOdometry
-        var swerveCommand: SwerveCommand? = null
-        lateinit var limelight: Limelight
-
-        // public Alliance teamColor
-        // public OldSwerveDriveTrain swerveSystem
-        // public OldSwerveDriveTrain swerveSystem
-        // public SwerveDriveTrain swerveSystem
-        lateinit var shootSystem: ShootSystem
-        lateinit var frontBreakBeam: DigitalInput
-        lateinit var backBreakBeam: DigitalInput
-        lateinit var topBreakBeam: DigitalInput
-        lateinit var shootBreakBeam: DigitalInput
-
-        // public OldSwerveDriveTrain swerveSystem
-        // public SwerveDriveTrain swerveSystem
-        lateinit var intakeSystem: IntakeSystem
-        lateinit var transportSystem: TransportSystem
-        lateinit var climbSystem: ClimbSystem
-
-        var autoCommands: AutoCommandGroup? = null
-
-        private val autoConfiguration = SendableChooser<Int>()
-
         var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
         var odometryShuffleboardTab = Shuffleboard.getTab("OdometryStream")
     }
+    private val transportInfo = TransportInfo(false)
+    private val swerveAutoInfo = SwerveAutoInfo(false, 0)
+
+    private lateinit var swerveAuto: SwerveAuto
+    private lateinit var limelightFeed: HttpCamera
+    private lateinit var swerveSystem: SwerveDriveTrain
+    private lateinit var swo: SwerveOdometry
+    private var swerveCommand: SwerveCommand? = null
+    private lateinit var limelight: Limelight
+
+    // public Alliance teamColor
+    // public OldSwerveDriveTrain swerveSystem
+    // public OldSwerveDriveTrain swerveSystem
+    // public SwerveDriveTrain swerveSystem
+    private lateinit var shootSystem: ShootSystem
+    private lateinit var frontBreakBeam: DigitalInput
+    private lateinit var backBreakBeam: DigitalInput
+    private lateinit var topBreakBeam: DigitalInput
+    private lateinit var shootBreakBeam: DigitalInput
+
+    // public OldSwerveDriveTrain swerveSystem
+    // public SwerveDriveTrain swerveSystem
+    private lateinit var intakeSystem: IntakeSystem
+    private lateinit var transportSystem: TransportSystem
+    private lateinit var climbSystem: ClimbSystem
+
+    private var autoCommands: AutoCommandGroup? = null
+
+    private val autoConfiguration = SendableChooser<Int>()
 
     // public RobotContainer m_robotContainer
 
@@ -92,9 +91,9 @@ class Robot : TimedRobot() {
         shootBreakBeam = DigitalInput(Constants.shootBreakBeam)
         shootSystem = ShootSystem()
         intakeSystem = IntakeSystem()
-        transportSystem = TransportSystem()
+        transportSystem = TransportSystem(frontBreakBeam, shootBreakBeam)
         climbSystem = ClimbSystem()
-        swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0))
+        swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0), swerveSystem)
         swerveSystem = SwerveDriveTrain(swo, swerveAutoInfo)
         limelight = Limelight(0.711, 0.24, 40.0)
 
@@ -139,7 +138,7 @@ class Robot : TimedRobot() {
     /** This autonomous runs the autonomous command selected by your [RobotContainer] class. */
     override fun autonomousInit() {
 
-        swerveAuto = SwerveAuto(0)
+        swerveAuto = SwerveAuto(0, swerveSystem, swo)
         //        swo = SwerveOdometry(Constants.blueStartingPositions[0])
         swerveCommand?.cancel()
         limelight.pipelineInit()

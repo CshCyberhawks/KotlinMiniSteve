@@ -10,7 +10,8 @@ import frc.robot.Constants
 import frc.robot.Robot
 import frc.robot.util.*
 
-class SwerveAuto {
+class SwerveAuto(val startingPos: Int, private val swerveSystem: SwerveDriveTrain, private val odometry:
+SwerveOdometry) {
     private var desiredPosition: Vector2 = Vector2(0.0, 0.0)
     private var desiredAngle = 0.0
 
@@ -35,15 +36,15 @@ class SwerveAuto {
     private val trapConstraints = TrapezoidProfile.Constraints(4.0, 1.5)
     private var trapXCurrentState: TrapezoidProfile.State =
             TrapezoidProfile.State(
-                    Robot.swo.getPosition().positionCoord.x,
-                    Robot.swo.getVelocities()[0]
+                    odometry.getPosition().positionCoord.x,
+                    odometry.getVelocities()[0]
             )
     private var trapXDesiredState: TrapezoidProfile.State =
             TrapezoidProfile.State(desiredPosition.x, 0.0)
     private var trapYCurrentState: TrapezoidProfile.State =
             TrapezoidProfile.State(
-                    Robot.swo.getPosition().positionCoord.y,
-                    Robot.swo.getVelocities()[1]
+                    odometry.getPosition().positionCoord.y,
+                    odometry.getVelocities()[1]
             )
     private var trapYDesiredState: TrapezoidProfile.State =
             TrapezoidProfile.State(desiredPosition.y, 0.0)
@@ -56,20 +57,14 @@ class SwerveAuto {
 
     private var prevTime = 0.0
 
-    val startingPos: Int
-
-    constructor(startingPos: Int) {
+    init {
         if (startingPos == 0) {
             ballPositions = Constants.ballPositionsZero
         } else if (startingPos == 1) {
             // ballPositions = Constants.ballPositionsOne
         }
-        this.startingPos = startingPos
 
         ballPositions = Constants.ballPositionsZero
-    }
-
-    init {
         twistPID.enableContinuousInput(0.0, 360.0)
     }
 
@@ -94,7 +89,7 @@ class SwerveAuto {
     }
 
     fun setDesiredPositionDistance(distance: Double, limeLightAngle: Double) {
-        val pos = Robot.swo.getPosition()
+        val pos = odometry.getPosition()
         val desiredPositionCart =
                 MathClass.polarToCartesian(Polar(pos.angle + limeLightAngle, distance))
         setDesiredPosition(
@@ -122,19 +117,19 @@ class SwerveAuto {
         // MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x))
         val deadzone = if (byBall) ballDistanceDeadzone else normalDistanceDeadzone
         return (MathClass.calculateDeadzone(
-                desiredPosition.x - MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x),
+                desiredPosition.x - MathClass.swosToMeters(odometry.getPosition().positionCoord.x),
                 deadzone
         ) == 0.0 &&
                 MathClass.calculateDeadzone(
                         desiredPosition.y -
-                                MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y),
+                                MathClass.swosToMeters(odometry.getPosition().positionCoord.y),
                         deadzone
                 ) == 0.0)
     }
 
     fun isAtDesiredAngle(): Boolean {
         return MathClass.calculateDeadzone(
-                MathClass.wrapAroundAngles(Robot.swo.getPosition().angle) -
+                MathClass.wrapAroundAngles(odometry.getPosition().angle) -
                         MathClass.wrapAroundAngles(desiredAngle),
                 angleDeadzone
         ) == 0.0
@@ -157,7 +152,7 @@ class SwerveAuto {
             twist = calculateTwist(desiredAngle)
         }
 
-        Robot.swerveSystem.drive(translation.x, translation.y, twist, 0.0, DriveState.AUTO, true)
+        swerveSystem.drive(translation.x, translation.y, twist, 0.0, DriveState.AUTO, true)
     }
 
     fun calculateTranslation(): Vector2 {
@@ -173,12 +168,12 @@ class SwerveAuto {
         // SmartDashboard.putNumber("TrapX", trapXOutput.position)
         val xPIDOutput =
                 xPID.calculate(
-                        MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x),
+                        MathClass.swosToMeters(odometry.getPosition().positionCoord.x),
                         trapXOutput.position
                 )
         val yPIDOutput =
                 yPID.calculate(
-                        MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y),
+                        MathClass.swosToMeters(odometry.getPosition().positionCoord.y),
                         trapYOutput.position
                 )
         SmartDashboard.putNumber("xPID", xPIDOutput)
@@ -197,7 +192,7 @@ class SwerveAuto {
 
     fun calculateTwist(desiredAngle: Double): Double {
         // SmartDashboard.putNumber("desiredTwistAngle", desiredAngle)
-        val currentAngle: Double = Robot.swo.getPosition().angle
+        val currentAngle: Double = odometry.getPosition().angle
 
         // val angleChange =
         //     MathClass.wrapAroundAngles(
@@ -253,20 +248,20 @@ class SwerveAuto {
 
     fun translate() {
         val driveInputs: Vector2 = calculateTranslation()
-        Robot.swerveSystem.drive(driveInputs.x, driveInputs.y, 0.0, 0.0, DriveState.AUTO, true)
+        swerveSystem.drive(driveInputs.x, driveInputs.y, 0.0, 0.0, DriveState.AUTO, true)
     }
 
     fun twist() {
         // val twistValue: Double = MathUtil.clamp(Robot.swo.getPosition().angle - desiredAngle,
         // -1.0, 1.0)
         val twistInput = calculateTwist(desiredAngle)
-        Robot.swerveSystem.drive(0.0, 0.0, twistInput, 0.0, DriveState.AUTO, true)
+        swerveSystem.drive(0.0, 0.0, twistInput, 0.0, DriveState.AUTO, true)
     }
 
     fun kill() {
-        Robot.swerveSystem.backRight.kill()
-        Robot.swerveSystem.backLeft.kill()
-        Robot.swerveSystem.frontRight.kill()
-        Robot.swerveSystem.frontLeft.kill()
+        swerveSystem.backRight.kill()
+        swerveSystem.backLeft.kill()
+        swerveSystem.frontRight.kill()
+        swerveSystem.frontLeft.kill()
     }
 }
