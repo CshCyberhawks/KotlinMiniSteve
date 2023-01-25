@@ -7,15 +7,17 @@ import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.DriverStation.Alliance
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import frc.robot.Robot
 import frc.robot.util.MathClass
 import frc.robot.util.Polar
 import frc.robot.util.Vector2
 import kotlin.math.tan
 
-class Limelight(private val cameraHeight: Double, private val ballHeight: Double, private val mountAngle: Double) :
+class Limelight(private val name: String = "limelight", private val cameraHeight: Double, private val ballHeight:
+Double, private
+val
+mountAngle: Double) :
         SubsystemBase() {
-    private val table: NetworkTable = NetworkTableInstance.getDefault().getTable("limelight")
+    private val table: NetworkTable = NetworkTableInstance.getDefault().getTable(name)
     private val hasTarget: NetworkTableEntry = table.getEntry("tv") // 0 or 1 whether it has a valid target
     private val horizontalOffset: NetworkTableEntry = table.getEntry("tx") // The horizontal offset between the
 

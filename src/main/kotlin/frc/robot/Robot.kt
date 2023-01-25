@@ -31,6 +31,7 @@ class Robot : TimedRobot() {
         var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
         var odometryShuffleboardTab = Shuffleboard.getTab("OdometryStream")
     }
+
     private val transportInfo = TransportInfo(false)
     private val swerveAutoInfo = SwerveAutoInfo(false, 0)
 
@@ -95,7 +96,7 @@ class Robot : TimedRobot() {
         climbSystem = ClimbSystem()
         swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0), swerveSystem)
         swerveSystem = SwerveDriveTrain(swo, swerveAutoInfo)
-        limelight = Limelight(0.711, 0.24, 40.0)
+        limelight = Limelight("limelight", 0.711, 0.24, 40.0)
 
         //
         // driveSystem = new DriveSystem()
