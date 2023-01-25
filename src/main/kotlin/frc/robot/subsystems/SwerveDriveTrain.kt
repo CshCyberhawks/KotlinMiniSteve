@@ -12,7 +12,7 @@ import java.lang.Double.max
 import java.lang.Double.min
 import kotlin.math.*
 
-class SwerveDriveTrain(private val swo: SwerveOdometry, private val swerveAutoInfo: SwerveAutoInfo) : SubsystemBase()
+class SwerveDriveTrain(private val swerveAutoInfo: SwerveAutoInfo) : SubsystemBase()
 { // p =
     // 10
     // gets oscillation
@@ -66,8 +66,8 @@ class SwerveDriveTrain(private val swo: SwerveOdometry, private val swerveAutoIn
     private val fieldOrientedShuffle =
             Robot.driveShuffleboardTab.add("Field Oriented", true).entry
 
-    var previousVeloX = 0.0
-    var previousVeloY = 0.0
+    //var previousVeloX = 0.0
+    //var previousVeloY = 0.0
     var previousAngularVelocity = 0.0
 
     var desiredAngle = 0.0
@@ -309,8 +309,8 @@ class SwerveDriveTrain(private val swo: SwerveOdometry, private val swerveAutoIn
 
         lastUpdateTime = timeNow
         lastThrottle = throttleChange
-        previousVeloX = swo.getVelocities()[0]
-        previousVeloY = swo.getVelocities()[1]
+        //previousVeloX = swo.getVelocities()[0]
+        //previousVeloY = swo.getVelocities()[1]
         previousAngularVelocity = angularVelocity
     }
 

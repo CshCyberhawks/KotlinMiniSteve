@@ -7,6 +7,7 @@ import edu.wpi.first.net.PortForwarder
 import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandScheduler
@@ -16,9 +17,6 @@ import frc.robot.commands.auto.TransportInfo
 import frc.robot.commands.auto.groups.AutoCommandGroup
 import frc.robot.subsystems.*
 import frc.robot.util.FieldPosition
-import java.util.Map
-
-//import cshcyberhawks.swolib.math.AngleCalculations
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -28,8 +26,8 @@ import java.util.Map
  */
 class Robot : TimedRobot() {
     companion object {
-        var driveShuffleboardTab = Shuffleboard.getTab("DriverStream")
-        var odometryShuffleboardTab = Shuffleboard.getTab("OdometryStream")
+        var driveShuffleboardTab: ShuffleboardTab = Shuffleboard.getTab("DriverStream")
+        var odometryShuffleboardTab: ShuffleboardTab = Shuffleboard.getTab("OdometryStream")
     }
 
     private val transportInfo = TransportInfo(false)
@@ -76,7 +74,7 @@ class Robot : TimedRobot() {
                 .add("LimeLight", limelightFeed)
                 .withPosition(6, 0)
                 .withSize(8, 4)
-                .withProperties(Map.of<String, Any>("Show Crosshair", true, "Show Controls", false))
+                .withProperties(mapOf<String, Boolean>("Show Crosshair" to true, "Show Controls" to false))
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our
         // autonomous chooser on the dashboard.
@@ -94,8 +92,8 @@ class Robot : TimedRobot() {
         intakeSystem = IntakeSystem()
         transportSystem = TransportSystem(frontBreakBeam, shootBreakBeam)
         climbSystem = ClimbSystem()
+        swerveSystem = SwerveDriveTrain(swerveAutoInfo)
         swo = SwerveOdometry(FieldPosition(0.0, 0.0, 0.0), swerveSystem)
-        swerveSystem = SwerveDriveTrain(swo, swerveAutoInfo)
         limelight = Limelight("limelight", 0.711, 0.24, 40.0)
 
         //
