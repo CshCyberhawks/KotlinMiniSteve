@@ -36,6 +36,12 @@ class Gyro {
             gyro.reset()
         }
 
+        fun mergePitchRoll(): Vector2 {
+            SmartDashboard.putNumber("pitch:" , getPitch())
+            SmartDashboard.putNumber("roll:" , getRoll())
+            return MathClass.polarToCartesian(Polar(0.0, getPitch())) + MathClass.polarToCartesian(Polar(90.0, getRoll()))
+        }
+
         /**
          * Returns The rate of rotation reported by the gyro (deg/s)
          * @return The rate of rotation reported by the gyro (deg/s)

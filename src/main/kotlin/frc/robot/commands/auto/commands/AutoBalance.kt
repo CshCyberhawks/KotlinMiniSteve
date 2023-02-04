@@ -1,40 +1,40 @@
 package frc.robot.commands.auto.commands
 
 import edu.wpi.first.wpilibj2.command.CommandBase
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.robot.Robot
 import frc.robot.util.Gyro
 import frc.robot.util.IO
-import frc.robot.util.MathClass
 import frc.robot.util.Vector2
+import frc.robot.util.MathClass
+import frc.robot.util.Polar
 
 class AutoBalance : CommandBase {
 
-    var pos: AutoGoToPosition? = null
+    lateinit var pos: AutoGoToPosition
 
     constructor() : super() {}
 
-    override fun initialize() {}
+    override fun initialize() {
+        setPos()
+        pos.schedule()
+    }
+
+    fun setPos() {
+        val pitchRoll: Vector2 = Gyro.mergePitchRoll()
+        val negPitchRoll: Vector2 = MathClass.polarToCartesian(Polar(-MathClass.cartesianToPolar(pitchRoll).theta, 0.1))
+        val robotPosMeters: Vector2 = Vector2(MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.x), MathClass.swosToMeters(Robot.swo.getPosition().positionCoord.y))
+        val position: Vector2 = robotPosMeters + negPitchRoll
+        pos = AutoGoToPosition(position, 0.0)
+        SmartDashboard.putNumber("AutoBalance Position X", position.x)
+        SmartDashboard.putNumber("AutoBalance Position Y", position.y)
+    }
 
     override fun execute() {
-        val deadzonePitch = MathClass.calculateDeadzone(Gyro.getPitch(), 2.0)
-        val deadzoneRoll = MathClass.calculateDeadzone(Gyro.getRoll(), 2.0)
-
-        // if (pos?.isScheduled == false) {
-        //     if (deadzonePitch != 0.0) {
-        //         if (deadzonePitch < 0) {
-        //             pos = AutoGoToPosition(Vector2(1.0, 0.0), 0.0)
-        //         } else {
-        //             pos = AutoGoToPosition(Vector2(-1.0, 0.0), 0.0)
-        //         }
-        //     } else if (deadzoneRoll != 0.0) {
-        //         if (deadzoneRoll < 0) {
-        //             pos = AutoGoToPosition(Vector2(1.0, 0.0), 0.0)
-        //         } else {
-        //             pos = AutoGoToPosition(Vector2(-1.0, 0.0), 0.0)
-        //         }
-        //     }
-        //     pos?.schedule()
-        // }
+        if (pos.isScheduled == false || pos.isFinished()) {
+            setPos()
+            pos.schedule()
+        }
     }
 
     override fun end(interrupted: Boolean) {

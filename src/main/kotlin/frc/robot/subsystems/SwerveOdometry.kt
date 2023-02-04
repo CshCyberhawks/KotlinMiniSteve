@@ -1,14 +1,13 @@
 package frc.robot.subsystems
 
-import edu.wpi.first.networktables.NetworkTableEntry
 import edu.wpi.first.util.WPIUtilJNI
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Robot
 import frc.robot.util.FieldPosition
 import frc.robot.util.Gyro
 import frc.robot.util.MathClass
 import frc.robot.util.Vector2
-
 
 class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase() {
 
@@ -69,7 +68,8 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
                 wheelSpeed = -wheelSpeed
                 wheelAngle = (wheelAngle + 180) % 360
             }
-            val cartCoords: DoubleArray = Robot.swerveSystem.polarToCartesian(wheelAngle, wheelSpeed)
+            val cartCoords: DoubleArray =
+                    Robot.swerveSystem.polarToCartesian(wheelAngle, wheelSpeed)
             wheelCoords[i] = Vector2(cartCoords[0], cartCoords[1])
             totalX += cartCoords[0]
             totalY += cartCoords[1]
@@ -96,11 +96,14 @@ class SwerveOdometry(private var fieldPosition: FieldPosition) : SubsystemBase()
         // SmartDashboard.putNumber("veloY", velocities[1])
         // SmartDashboard.putNumber("fieldPosX ", fieldPosition.positionCoord.x)
         // SmartDashboard.putNumber("fieldPosY ", fieldPosition.positionCoord.y)
-        // SmartDashboard.putNumber("fieldPosX M", MathClass.swosToMeters(fieldPosition.positionCoord.x))
-        // SmartDashboard.putNumber("fieldPosY M", MathClass.swosToMeters(fieldPosition.positionCoord.y))
+        // SmartDashboard.putNumber("fieldPosX M",
+        // MathClass.swosToMeters(fieldPosition.positionCoord.x))
+        // SmartDashboard.putNumber("fieldPosY M",
+        // MathClass.swosToMeters(fieldPosition.positionCoord.y))
         // SmartDashboard.putNumber("fieldPosAngle ", fieldPosition.angle)
 
-
+        SmartDashboard.putNumber("pitch:", Gyro.getPitch())
+        SmartDashboard.putNumber("roll:", Gyro.getRoll())
         fieldPosXTab.setDouble(fieldPosition.positionCoord.x)
         fieldPosYTab.setDouble(fieldPosition.positionCoord.y)
         fieldPosXMTab.setDouble(MathClass.swosToMeters(fieldPosition.positionCoord.x))

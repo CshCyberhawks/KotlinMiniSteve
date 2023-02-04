@@ -8,6 +8,7 @@ import frc.robot.commands.auto.commands.AutoGoToPosition
 import frc.robot.commands.auto.commands.AutoShootCommand
 import frc.robot.commands.auto.commands.LimeLightAuto
 import frc.robot.commands.auto.commands.AutoGoToPositionAndAngle
+import frc.robot.commands.auto.commands.AutoBalance
 import frc.robot.util.Gyro
 import frc.robot.util.FieldPosition
 
@@ -93,7 +94,8 @@ class AutoCommandGroup(configuration: Int, startingPos: Int) : SequentialCommand
         addCommands(
             // AutoBall(FieldPosition(5.0, 0.0, 180.0))
             // AutoGoToPositionAndAngle(FieldPosition(.9, 0.0, 0.0), 0.0),
-            AutoBall(FieldPosition(1.4, -1.2, 150.0))
+            // AutoBall(FieldPosition(1.4, -1.2, 150.0))
+            AutoBalance()
             // LimeLightAuto(),
             // AutoGoToPositionAndAngle(FieldPosition(-2.0, 5.0, 0.0), 0.0)
         )
