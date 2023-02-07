@@ -36,9 +36,9 @@ class Gyro {
             gyro.reset()
         }
 
-        fun mergePitchRoll(): Vector2 {
+        fun mergePitchRoll(deadzone: Double): Vector2 {
 
-            return MathClass.polarToCartesian(Polar(0.0, getPitch())) + MathClass.polarToCartesian(Polar(90.0, getRoll()))
+            return MathClass.polarToCartesian(Polar(0.0, MathClass.calculateDeadzone(getPitch(), deadzone))) + MathClass.polarToCartesian(Polar(90.0, MathClass.calculateDeadzone(getRoll(), deadzone)))
         }
 
         /**
